@@ -1,0 +1,38 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.bcf
+*.run.xml
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.idx
+*.ind
+*.ilg
+*.nav
+*.snm
+*.vrb
+*.xdv
+*.glg
+*.glo
+*.gls
+*.ist
+
+# Output PDFs (optional: comment out if you want to commit PDFs)
+# *.pdf
+
+# Build directories
+build/
+out/
+_build/
+
+# Editor/OS
+.DS_Store
+Thumbs.db
+.vscode/settings.json

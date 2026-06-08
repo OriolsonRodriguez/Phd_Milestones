@@ -1,0 +1,91 @@
+%% ============================================================
+%%  PhD Thesis
+%%  Queensland University of Technology
+%%  Student : Oriolson Rodriguez  (n12608521)
+%% ============================================================
+\documentclass[12pt,a4paper]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[top=25mm,bottom=25mm,left=35mm,right=25mm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage[dvipsnames]{xcolor}
+\usepackage[colorlinks=true,linkcolor=NavyBlue,citecolor=Maroon,urlcolor=MidnightBlue]{hyperref}
+\usepackage{cleveref}
+\usepackage{csquotes}
+
+\usepackage[backend=biber,style=authoryear,sorting=nyt,maxcitenames=2,maxbibnames=99]{biblatex}
+\addbibresource{../references.bib}
+
+% ─────────────────────────────────────────────────────────────
+\begin{document}
+
+\frontmatter
+
+\begin{titlepage}
+  \begin{center}
+    \vspace*{2cm}
+    {\Large Queensland University of Technology}\\[0.5em]
+    {\large Faculty of Science — School of Mathematical Sciences}
+    \vspace{2.5cm}
+
+    {\LARGE\bfseries
+      Computational Modelling of Multilateral Treaties\\
+      and Consensus Dynamics:\\[0.4em]
+      AI, Game Theory, and the Antarctic Treaty System
+    }
+
+    \vspace{2cm}
+    \textbf{Doctor of Philosophy}
+
+    \vspace{1.5cm}
+    \begin{tabular}{rl}
+      \textbf{Candidate:}      & Oriolson Rodriguez \\[4pt]
+      \textbf{Student Number:} & n12608521 \\[4pt]
+      \textbf{Year:}           & \the\year \\
+    \end{tabular}
+    \vfill
+    {\small Submitted in fulfilment of the requirements for the degree of\\
+    Doctor of Philosophy, Queensland University of Technology.}
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\mainmatter
+
+% ── Chapters (add \include{chapters/01-intro} etc. as chapters are written) ──
+
+\chapter{Introduction}
+% \include{chapters/01-intro}
+
+\chapter{Literature Review}
+% \include{chapters/02-litreview}
+
+\chapter{Affinity Dynamics in Multilateral Treaties}
+% \include{chapters/03-affinity}
+
+\chapter{Aversion Dynamics and Consensus Breakdown}
+% \include{chapters/04-aversion}
+
+\chapter{Integrated Simulation Framework}
+% \include{chapters/05-simulation}
+
+\chapter{Discussion and Conclusions}
+% \include{chapters/06-conclusion}
+
+\backmatter
+
+\printbibliography[heading=bibintoc,title={References}]
+
+\end{document}

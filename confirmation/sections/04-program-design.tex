@@ -1,0 +1,140 @@
+%% Section 04 — Program Design / Research Methodology
+\chapter{Program Design}
+\label{ch:program}
+
+\section{Research Questions}
+\label{sec:rqs}
+
+\begin{rqbox}
+  \begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=*, itemsep=6pt]
+    \item How do \textbf{affinity dynamics} — patterns of positive alignment and
+          coalition-building — shape the emergence and stability of consensus
+          within the Antarctic Treaty System?
+    \item How do \textbf{aversion dynamics} — veto behaviour, strategic defection,
+          and antagonistic positioning — threaten or reconfigure treaty equilibria?
+    \item What computational simulation framework can reproduce empirically observed
+          ATS decision outcomes, and what generalisable principles does it reveal
+          for multilateral treaty design?
+  \end{enumerate}
+\end{rqbox}
+
+\section{Theoretical Framework}
+\label{sec:theory}
+
+The project is grounded in three complementary theoretical traditions:
+
+\begin{enumerate}
+  \item \textbf{Non-cooperative game theory} — models individual state incentives and
+        deviation conditions \parencite{Nash1951, Osborne1994}.
+  \item \textbf{Opinion dynamics / consensus models} — captures iterative belief
+        convergence among parties \parencite{DeGroot1974}.
+  \item \textbf{Agent-based simulation} — provides a computational substrate for
+        running counterfactual treaty scenarios \parencite{Epstein1996}.
+\end{enumerate}
+
+\section{Research Design Overview}
+\label{sec:design}
+
+The project is structured into three interconnected papers, each targeting one research
+question and one modelling contribution.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Paper structure and milestones}
+  \label{tab:papers}
+  \begin{tabular}{clll}
+    \toprule
+    \textbf{Paper} & \textbf{Focus} & \textbf{Method} & \textbf{Target venue} \\
+    \midrule
+    1 & Affinity dynamics     & Network analysis, coalitional GT    & TBD \\
+    2 & Aversion dynamics     & Veto-player model, ABM              & TBD \\
+    3 & Simulation framework  & Agent-based model, RL               & TBD \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\section{Paper 1 — Affinity Dynamics in Multilateral Treaties}
+\label{sec:paper1}
+
+% TODO: ~500 words.
+%       - Formal definition of affinity between treaty parties
+%       - Data sources (ATS meeting records, voting data)
+%       - Network construction and community detection
+%       - Expected contribution: first systematic map of affinity coalitions in ATS
+
+\section{Paper 2 — Aversion Dynamics and Consensus Breakdown}
+\label{sec:paper2}
+
+% TODO: ~500 words.
+%       - Formal definition of aversion / veto propensity
+%       - Game-theoretic model of strategic blocking
+%       - Calibration to historical ATS consensus failures
+%       - Expected contribution: predictive model of consensus breakdown conditions
+
+\section{Paper 3 — Integrated Simulation Framework}
+\label{sec:paper3}
+
+% TODO: ~500 words.
+%       - Architecture of the agent-based model (state agents, treaty rules, environment)
+%       - RL-trained agents for adaptive strategy
+%       - Validation against historical ATS outcomes
+%       - Generalisability tests on other treaty systems (climate, fisheries)
+
+\section{Data Sources and Ethics}
+\label{sec:data}
+
+The primary data sources for this project are:
+
+\begin{itemize}
+  \item Antarctic Treaty Consultative Meeting (ATCM) final reports and working papers
+        (publicly available at \url{https://www.ats.aq/}).
+  \item State-level foreign policy position datasets (e.g., UN voting records).
+  \item Published network and voting data from the international relations literature.
+\end{itemize}
+
+All data are publicly available institutional records; no human-subjects research is
+involved and no ethics clearance is required beyond standard QUT research integrity
+protocols.
+
+\section{Timeline}
+\label{sec:timeline}
+
+\begin{longtable}{lll}
+  \caption{Indicative project timeline} \label{tab:timeline} \\
+  \toprule
+  \textbf{Phase} & \textbf{Activity} & \textbf{Target Date} \\
+  \midrule
+  \endfirsthead
+  \toprule
+  \textbf{Phase} & \textbf{Activity} & \textbf{Target Date} \\
+  \midrule
+  \endhead
+  \midrule
+  \multicolumn{3}{r}{\small Continued on next page} \\
+  \endfoot
+  \bottomrule
+  \endlastfoot
+  1  & Literature review \& theoretical framework      & Month 6  \\
+  2  & Paper 1: data collection \& analysis            & Month 12 \\
+  3  & Paper 1: writing \& submission                  & Month 15 \\
+  4  & Paper 2: model development \& calibration       & Month 18 \\
+  5  & Paper 2: writing \& submission                  & Month 21 \\
+  6  & Paper 3: simulation framework development       & Month 27 \\
+  7  & Paper 3: writing \& submission                  & Month 30 \\
+  8  & Thesis integration \& write-up                  & Month 36 \\
+  9  & Thesis submission                               & Month 38 \\
+\end{longtable}
+
+\section{Expected Contributions}
+\label{sec:contributions}
+
+\begin{enumerate}
+  \item A formal computational model of consensus dynamics in the ATS, the first of
+        its kind at this level of institutional specificity.
+  \item A transferable agent-based simulation framework applicable to any
+        consensus-based multilateral treaty.
+  \item New theoretical constructs (affinity/aversion indices) operationalising
+        previously qualitative political science concepts.
+  \item Policy-relevant insights into treaty design features that improve stability
+        under strategic pressure.
+\end{enumerate}

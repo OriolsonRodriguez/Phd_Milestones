@@ -1,0 +1,117 @@
+%% ============================================================
+%%  Stage 2 — Confirmation of Candidature
+%%  Queensland University of Technology
+%%  Student : Oriolson Rodriguez  (n12608521)
+%%  Supervisors : Prof. Michael Bode (principal)
+%%                Prof. Jonathan Rhodes (associate)
+%% ============================================================
+\documentclass[12pt,a4paper]{report}
+
+% ── Encoding & fonts ──────────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ── Page layout ───────────────────────────────────────────────
+\usepackage[
+  top=25mm, bottom=25mm,
+  left=30mm, right=25mm
+]{geometry}
+\setlength{\parskip}{6pt}
+\setlength{\parindent}{0pt}
+
+% ── Line spacing ──────────────────────────────────────────────
+\usepackage{setspace}
+\onehalfspacing
+
+% ── Headers / footers ─────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Stage 2 — Confirmation of Candidature}
+\fancyhead[R]{\small Oriolson Rodriguez}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Mathematics ───────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsthm}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+
+% ── Graphics & tables ─────────────────────────────────────────
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+
+% ── Colours & hyperlinks ──────────────────────────────────────
+\usepackage[dvipsnames]{xcolor}
+\usepackage[
+  colorlinks = true,
+  linkcolor  = NavyBlue,
+  citecolor  = Maroon,
+  urlcolor   = MidnightBlue
+]{hyperref}
+\usepackage{cleveref}
+
+% ── Bibliography (biblatex + biber) ───────────────────────────
+\usepackage[
+  backend   = biber,
+  style     = authoryear,
+  sorting   = nyt,
+  maxcitenames = 2,
+  maxbibnames  = 99,
+  uniquelist   = false
+]{biblatex}
+\addbibresource{../references.bib}
+
+% ── Miscellaneous utilities ───────────────────────────────────
+\usepackage{enumitem}
+\usepackage{csquotes}
+\usepackage{acronym}
+\usepackage{comment}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins,breakable}
+
+% ── Custom box for research questions ─────────────────────────
+\newtcolorbox{rqbox}[1][]{
+  colback  = blue!5!white,
+  colframe = NavyBlue!60!black,
+  fonttitle= \bfseries,
+  title    = {Research Questions},
+  #1
+}
+
+% ─────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── Front matter ──────────────────────────────────────────────
+\pagenumbering{roman}
+\input{sections/01-title-type}
+\newpage
+
+\tableofcontents
+\newpage
+
+\listoffigures
+\listoftables
+\newpage
+
+% ── Main matter ───────────────────────────────────────────────
+\pagenumbering{arabic}
+\input{sections/02-supervisors}
+\input{sections/03-background-litreview}
+\input{sections/04-program-design}
+
+% ── References ────────────────────────────────────────────────
+\input{sections/05-references}
+
+% ── Appendices ────────────────────────────────────────────────
+\appendix
+\input{sections/06-appendices}
+
+\end{document}
