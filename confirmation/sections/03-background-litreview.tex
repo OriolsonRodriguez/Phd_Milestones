@@ -4,25 +4,81 @@
 
 \section{Introduction}
 \label{sec:lr-intro}
+The Antarctic Treaty System (ATS) is a regime negotiated between a set of parties
+called consultative parties \textcite{ATS2023RoP}. This group of countries, together with
+a second group lacking decision-making power (non-consultative parties), meets
+ yearly at the Antarctic Treaty Consultative Meeting (ATCM). Before each meeting,
+culsultative parties may submit Working Papers (WP) and Information Papers (IP) up
+to 45 days before the ATCM starts \textcite{ATS2023RoP}.
+During ATCMs the parties discuss Working Papers and produce outcomes only by consensus.
+These outcomes take the form of Measures, Decisions, or Resolutions \textcite{ATCM1995dec1}.
+The consensus requirement makes the ATS a notable example of international cooperation,
+ but is also its main source of fragility.
+As international relations strain and Antarctic environmental pressures intensify,
+the risk of losing the capacity to act increases. In 2022, for the first time, the
+ATCM parties failed to reach consensus on the final report; even as activity has
+increased, the regime has become less responsive to challenges \textcite{Gardiner2025}.
 
-% TODO: Write 1–2 paragraphs framing the problem space and the contribution gap.
-%       Use \textcite{} and \parencite{} for in-text and parenthetical citations.
 
-\section{The Antarctic Treaty System}
+In a sistem based on consensus is or utmost importance to uderstand why it succeds or fails,
+And which parties drive it or block it, respectively. Existing literature has described the ATS
+by rates and diversity of outputs, and stucturally by describing who co-aouthors with whom 
+\textcite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns}. But there is no study where the
+a reconstruction of a directional party intention was reconstructed from the textual records
+ on each issue over time.
+ Even further, that type of measure has not been used to model the strategic behaviour that 
+ produces or breaks consensus. This thesis objective is to measure that and to build that 
+ model and asks if they contain the strategic intentions made by the consultative parties.
+ It then asks whether these can model historical consensus dynamics.
+
+The approach is a computational pipeline. First, it uses embedding techniques to discover topics, 
+and NLI (Natural Language Inference) techniques for stance extraction. These would allow
+the construction of the preference measure. Second, it applies NLI to extract the opposition 
+or aversion. It then testes the approach by comparing inputs (i.e. working papers) against
+ observes outcomes. Finally, a Multi-Agent reinforcement learning is trained based on the
+  previous outcomes to simulate the negotiation itself. 
+
+\section{The Antarctic Treaty System as a consensus regime}
 \label{sec:ats}
+In the ATS, Consultative Parties (CPs) reach outcomes exclusively by consensus. 
+These discussions take place at the annual ATCM, where outcomes can take any of the following forms,
+ per \textcite[Rule~24]{ATS2023RoP}:
+\begin{itemize}
+\item \textbf{Measures} are adopted texts containing provisions intended to become legally binding;
+ these require approval by the relevant parties' legislative bodies.
+\item \textbf{Decisions} are adopted texts concerning internal organisational matters of the ATCM.
+\item \textbf{Resolutions} are non-binding recommendations or expressions of intent.
+\end{itemize}
 
-The Antarctic Treaty \parencite{AntarcticTreaty1959} entered into force in 1961 and has
-since grown from 12 original signatories to over 50 consultative and non-consultative
-parties, making it one of the longest-running successful examples of multilateral
-environmental governance.
-Central to its operation is a consensus norm: any Consultative Party can block a decision,
-creating strong incentives for negotiation and coalition-building
-\parencite[see also][]{Dodds2010, Joyner1998}.
+There are four types of input:
+\begin{itemize}
+\item \textbf{Working Papers} (\textcite[Rule~48]{ATS2023RoP}): submitted by CPs and Observers, these require
+ discussion at the ATCM and are the main source of outcomes. They are the only input from CPs that can produce
+  an outcome; as such, they are the most likely place for each country to state its intentions.
+\item \textbf{Secretariat Papers} (\textcite[Rule~49]{ATS2023RoP}): prepared and presented by the Secretariat,
+ these produce organisational decisions as output, e.g.\ the budget.
+\item \textbf{Information Papers} (\textcite[Rule~50]{ATS2023RoP}): supporting information for Working Papers
+ or other discussions. They may be presented by CPs, Observers, Non-Consultative Parties (NCPs), and experts.
+\item \textbf{Background Papers} (\textcite[Rule~51]{ATS2023RoP}): submitted by ATCM participants but not 
+introduced during the meeting; they exist solely for the record.
+\end{itemize}
 
-% TODO: Expand with recent scholarship on ATS governance, treaty reform pressures,
-%       and the role of science diplomacy.
+Of all four, Working Papers are the only input uniquely submitted by CPs, requiring discussion and not confined
+ to organisational matters. They are therefore the most likely place for countries to express their strategic 
+ intentions within this closed decision-making environment.
 
-\section{Game-Theoretic Foundations}
+The consensus system makes the ATS a notable example of international cooperation; however, the same mechanism 
+has become a major challenge as the number of CPs grows. \textcite{Gardiner2025} show that the decision-making 
+responsiveness of the ATS is declining; the unprecedented 2022 consensus failure is a clear example.
+
+A notable case of contested consensus occurred in the late 1970s and 1980s, during the negotiations over mineral
+resources in Antarctica. The Convention on the Regulation of Antarctic Mineral Resource Activities (CRAMRA) was
+produced and then abandoned in favour of the Madrid Protocol (1991), which prohibited all mineral resource 
+extraction in Antarctica \parencite{jackson2021antarctica}. This well-documented episode provides a valuable canary
+test: a known case with documented positions against which any quantitative stance measure can be validated.
+
+
+\section{Quantitative and computational study of the ATS}
 \label{sec:gametheory}
 
 The study of strategic interaction among self-interested actors was formalised by
@@ -41,7 +97,7 @@ their positions toward a weighted average of their neighbours' views.
 % TODO: Develop the theoretical basis for Paper 1 (affinity) and Paper 2 (aversion).
 %       Define the formal distinction between positive and negative coalition forces.
 
-\section{Computational Approaches to International Relations}
+\section{Measuring policy preference from political text}
 \label{sec:computational-ir}
 
 Agent-based modelling (ABM) offers a bottom-up methodology for studying emergent
@@ -51,7 +107,7 @@ Applications to political and economic systems have grown substantially
 
 % TODO: Survey existing computational IR literature, identify the gap this project fills.
 
-\section{Artificial Intelligence and Policy}
+\section{Modelling consensus, coalition formation and negotiation}
 \label{sec:ai-policy}
 
 Recent work on AI governance \parencite{Dafoe2020} highlights both the transformative
