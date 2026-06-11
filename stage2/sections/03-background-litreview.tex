@@ -79,33 +79,33 @@ test: a known case with documented positions against which any quantitative stan
 
 
 \section{Quantitative and computational study of the ATS}
-\label{sec:gametheory}
+\label{sec:computational}
 
-The study of strategic interaction among self-interested actors was formalised by
-\textcite{Nash1951} and later extended to evolutionary and repeated-game settings
-\parencite{Axelrod1984, Osborne1994}.
-Consensus dynamics in collective decision-making have been modelled through opinion-pooling
-and DeGroot-style belief updating \parencite{DeGroot1974}, where agents iteratively revise
-their positions toward a weighted average of their neighbours' views.
-
-% TODO: Add coverage of: cooperative game theory (core, Shapley value),
-%       veto-player models in political science, coalition formation literature.
-
-\subsection{Affinity and Aversion Dynamics}
-\label{sec:affinity-aversion}
-
-% TODO: Develop the theoretical basis for Paper 1 (affinity) and Paper 2 (aversion).
-%       Define the formal distinction between positive and negative coalition forces.
+The ATS has been analysed quantitatively in two ways: \textcite{Gardiner2025} does performance accounts that measure the
+regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
+concludes that responsiveness to challenges in the Antarctic region is declining.
+The second methodology is structural (\textcite{Botelho2022,Kumar_ConsistentPatterns}): mapping who collaborates with whom
+through co-authorship networks of ATCM documents.
+Both analyses are very valuable, and in this project both results are going to be used as an external check: the network
+structure as a replication target for the authorship layer, and the outcome series as a prediction target in Chapter 2.
+Neither, however, extracts topics from WPs in an unsupervised manner, nor yields a directional, country- and topic-level,
+time-resolved measure of policy preference.
 
 \section{Measuring policy preference from political text}
 \label{sec:computational-ir}
 
-Agent-based modelling (ABM) offers a bottom-up methodology for studying emergent
-collective behaviour from individual rules \parencite{Epstein1996}.
-Applications to political and economic systems have grown substantially
-\parencite{Farmer2009}, but systematic application to treaty dynamics remains limited.
+Positional measures extracted from political texts are a well-developed field with two paradigms. 
+The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
+without a pre-specified axis, i.e. there is no need for a regulate vs permissive comparison. This is the case of "Wordfish",
+introduced by \textcite{Slapin2008} as an unsupervised positional scaling of party text.
+\textcite{Lauderdale2016} addressed the problem that legislators talk about different 
+things in different debates; they made a per-topic, per-debate scaling.
+On the other hand, \textcite{Vafa2020} produced a probabilistic framework to place ideal points and the language of 
+different actors. The closest dataset to the ATCM corpus was the one used by \textcite{Baturo2017} to derive
+a state-level preference using United Nations (UN) debate speeches. Finally, a recent review by \textcite{Parschan2025}
+condenses all these approaches in one paper.
 
-% TODO: Survey existing computational IR literature, identify the gap this project fills.
+
 
 \section{Modelling consensus, coalition formation and negotiation}
 \label{sec:ai-policy}
