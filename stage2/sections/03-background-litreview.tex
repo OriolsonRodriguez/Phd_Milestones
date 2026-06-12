@@ -104,20 +104,30 @@ On the other hand, \textcite{Vafa2020} produced a probabilistic framework to pla
 different actors. The closest dataset to the ATCM corpus was the one used by \textcite{Baturo2017} to derive
 a state-level preference using United Nations (UN) debate speeches. Finally, a recent review by \textcite{Parschan2025}
 condenses all these approaches in one paper.
+The second paradigm uses embeddings as its main tool. \textcite{Rheault2019} show that word-embedding geometry recovers
+ideological placement using parliamentary data. On the other hand, \textcite{Rodriguez2021} provide a comprehensive analysis of
+what works and what does not when analysing political text using embedding techniques. They find embeddings a useful 
+technique for those purposes but caution that the choice of embeddings strongly affects applied inference, and that the results must
+be validated. Finally, \textcite{Licht2023} and \textcite{Chen2024} extend this approach to cross-lingual and multilingual
+settings.
 
-
+Here, we propose to use both paradigms in the same pipeline but at different stages. This thesis differs from the 
+ideal-point methods in an important way: ideal-point models recover a single stable latent position per actor, whereas the presented
+project requires a topic-conditioned stance on a given axis. The proposal in this thesis allows the parties to hold different positions
+on different topics through time. The topic structure is discovered using the embedding-based approach of \textcite{Grootendorst_BERTopic},
+which couples transformer representations with density clustering and class-based TF-IDF. The stance measure is then estimated with 
+reference to the models of \textcite{Burnham2023} and \textcite{Abercrombie2022}. This thesis proposes to use discriminative transformer-NLI
+models, which take a \textbf{premise} and a \textbf{hypothesis}. These NLI models output
+one of the prescribed classes and \(P(\text{entailment} \mid \text{hypothesis})\), then the class with the highest probability is selected.
+The final results can be validated directly using the CRAMRA canary test
+\parencite{jackson2021antarctica}, or indirectly by checking which countries cluster around \((\text{topic}, \text{stance})\) pairs and comparing this to the
+\textcite{Botelho_CoalitionDynamics} network results.
 
 \section{Modelling consensus, coalition formation and negotiation}
 \label{sec:ai-policy}
-
-Recent work on AI governance \parencite{Dafoe2020} highlights both the transformative
-potential and the risks of deploying machine-learning systems in high-stakes institutional
-contexts.
-This project uses AI methods (reinforcement learning, network analysis) as \emph{tools}
-for modelling treaty dynamics rather than as agents within the modelled system.
-
-% TODO: Add specific ML techniques planned — RL for simulating adaptive state strategies,
-%       graph neural networks for network topology of treaty relationships.
+There two traditional group of models how groups reach concensus. The first is the mosts ellegant but are the synchronization and 
+opinion-dynamics models, like Kuramoto and opinion-changing-rate proposed by \textcite{Botelho2022} which represent agreement as
+an coupled-oscillator convergence 
 
 \section{Summary of Literature Gap}
 \label{sec:gap}
