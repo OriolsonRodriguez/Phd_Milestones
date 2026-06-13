@@ -4,7 +4,12 @@
 
 \section{Introduction}
 \label{sec:lr-intro}
-The Antarctic Treaty System (ATS) is a regime negotiated between a set of parties
+Many international insitutions use consensus or unanimity as the voting system choice. This
+can implicitly caps what this institutions can actually achive. A consensus-based system earns
+broad legitimacy by granting equal veto power to every member. However, this gain in legitimacy
+trades off with slow adaptation, ultimately risking institutional inertia and decline. 
+\parencite{Gray2018; HicksGray2024}. The Antarctic Treaty System (ATS) is one of those
+consensus-driven regimes, negotiated between a set of parties
 called consultative parties \textcite{ATS2023RoP}. This group of countries, together with
 a second group lacking decision-making power (non-consultative parties), meets
  yearly at the Antarctic Treaty Consultative Meeting (ATCM). Before each meeting,
@@ -78,8 +83,10 @@ extraction in Antarctica \parencite{jackson2021antarctica}. This well-documented
 test: a known case with documented positions against which any quantitative stance measure can be validated.
 
 
-\section{Quantitative and computational study of the ATS}
+\section{Quantitative and computational study of International institutions and treaties}
 \label{sec:computational}
+
+
 
 The ATS has been analysed quantitatively in two ways: \textcite{Gardiner2025} does performance accounts that measure the
 regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
@@ -127,12 +134,40 @@ The final results can be validated directly using the CRAMRA canary test
 \label{sec:ai-policy}
 There two traditional group of models how groups reach concensus. The first is the mosts ellegant but are the synchronization and 
 opinion-dynamics models, like Kuramoto and opinion-changing-rate proposed by \textcite{Botelho2022} which represent agreement as
-an coupled-oscillator convergence 
+an coupled-oscillator convergence. These models does not contain strategic preference, no veto and not learning, therefore, it cannot simulate the
+bargaining behaviour that occurs in concensus based systems. 
+The second group of models are strategic and multi-agent. In the case of coallition formatiion there is substantial literature \parencite{Sarkar2022},
+and negotiation simulations has been recently reated as multi-agent reinforcement learning. For example, \textcite{Chang2021} used deep reinforcement
+learning to model multi-issue bargaining, \textcite{Bachrach2020} model team formation using the same approach, 
 
 \section{Summary of Literature Gap}
 \label{sec:gap}
 
-% TODO: Synthesise the gap: no formal computational framework exists that:
-%       (i) models consensus dynamics in the ATS with empirical calibration,
-%       (ii) integrates affinity/aversion forces in a unified agent model, and
-%       (iii) connects to broader treaty design implications.
+
+The literatures reviewed above have matured along a common arc: qualitative and
+historical accounts of consensus institutions, then descriptive measurement of
+their outputs \parencite{Gardiner2025}, then structural mapping of who
+collaborates with whom \parencite{Botelho_CoalitionDynamics,
+Kumar_ConsistentPatterns}, and most recently formal and learning-based models of
+negotiation. Each step left a layer unaddressed. Descriptive accounts measure
+\emph{what} the regime produces but not \emph{who} wanted what; structural
+accounts are undirected and unsigned, so they record collaboration without
+content or direction; the text-as-data tradition recovers positions, but as
+stable latent ideal points rather than topic-conditioned, time-resolved stances
+\parencite{Slapin2008, Lauderdale2016}; and formal models of consensus either
+treat agreement as passive convergence, with no veto and no status quo
+\parencite{DeGroot1974, Hegselmann2002}, or, where they are strategic
+\parencite{Tsebelis2002} and learning-based \parencite{Moghimifar2024,
+Bolleddu2025}, run on synthetic or stated-platform preferences rather than an
+institution's own deliberative record.
+
+The gap is therefore the missing coupling between these layers: no existing work
+extracts a validated, directional, signed measure of national policy preference
+--- country by topic and over time --- from a consensus regime's own textual
+record, and uses it to drive a strategic model in which parties act as the veto
+players the decision rule makes them, validated against the regime's realised
+outcomes. This thesis supplies that coupling for the Antarctic Treaty System:
+Chapter~1 constructs the support layer, Chapter~2 adds the opposition layer and
+tests the combined structure against observed outcomes
+\parencite{Gardiner2025}, and Chapter~3 embeds both in a strategic simulation
+capable of institutional counterfactuals.
