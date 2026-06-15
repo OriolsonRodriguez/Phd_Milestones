@@ -8,7 +8,7 @@ Many international insitutions use consensus or unanimity as the voting system c
 can implicitly caps what this institutions can actually achive. A consensus-based system earns
 broad legitimacy by granting equal veto power to every member. However, this gain in legitimacy
 trades off with slow adaptation, ultimately risking institutional inertia and decline. 
-\parencite{Gray2018; HicksGray2024}. The Antarctic Treaty System (ATS) is one of those
+\parencite{Gray2018}. The Antarctic Treaty System (ATS) is one of those
 consensus-driven regimes, negotiated between a set of parties
 called consultative parties \textcite{ATS2023RoP}. This group of countries, together with
 a second group lacking decision-making power (non-consultative parties), meets
@@ -17,15 +17,12 @@ culsultative parties may submit Working Papers (WP) and Information Papers (IP) 
 to 45 days before the ATCM starts \textcite{ATS2023RoP}.
 During ATCMs the parties discuss Working Papers and produce outcomes only by consensus.
 These outcomes take the form of Measures, Decisions, or Resolutions \textcite{ATCM1995dec1}.
-The consensus requirement makes the ATS a notable example of international cooperation,
- but is also its main source of fragility.
 As international relations strain and Antarctic environmental pressures intensify,
 the risk of losing the capacity to act increases. In 2022, for the first time, the
 ATCM parties failed to reach consensus on the final report; even as activity has
 increased, the regime has become less responsive to challenges \textcite{Gardiner2025}.
 
-
-In a sistem based on consensus is or utmost importance to uderstand why it succeds or fails,
+In a system based on consensus is or utmost importance to uderstand why it succeds or fails,
 And which parties drive it or block it, respectively. Existing literature has described the ATS
 by rates and diversity of outputs, and stucturally by describing who co-aouthors with whom 
 \textcite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns}. But there is no study where the
@@ -86,12 +83,18 @@ test: a known case with documented positions against which any quantitative stan
 \section{Quantitative and computational study of International institutions and treaties}
 \label{sec:computational}
 
-
+In general the quantitative study of international institutions exist long before it was applied to
+Antarctica. Substantial literature maps the design of treaties and organisations into structured
+variables for example: their decision rules, dispute-settlement provisions, and enforcement mechanisms.
+Furthermore, these studies track these variable to to institutional performance and survival
+\parencite{Gray2018}.A more recent trend treats the \emph{text} of international agreements and debates as data.
+They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Both approaches 
+show that preferences and design features of treaty regimes can be measured, not mereley described.
 
 The ATS has been analysed quantitatively in two ways: \textcite{Gardiner2025} does performance accounts that measure the
 regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
 concludes that responsiveness to challenges in the Antarctic region is declining.
-The second methodology is structural (\textcite{Botelho2022,Kumar_ConsistentPatterns}): mapping who collaborates with whom
+The second methodology is structural (\textcite{Botelho_CoalitionDynamics, Kumar_ConsistentPatterns}): mapping who collaborates with whom
 through co-authorship networks of ATCM documents.
 Both analyses are very valuable, and in this project both results are going to be used as an external check: the network
 structure as a replication target for the authorship layer, and the outcome series as a prediction target in Chapter 2.
@@ -103,8 +106,9 @@ time-resolved measure of policy preference.
 
 Positional measures extracted from political texts are a well-developed field with two paradigms. 
 The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
-without a pre-specified axis, i.e. there is no need for a regulate vs permissive comparison. This is the case of "Wordfish",
-introduced by \textcite{Slapin2008} as an unsupervised positional scaling of party text.
+without a pre-specified axis, i.e. there is no need for a regulate vs permissive comparison. These
+methods tipically rely on word counts (i.e. frequencies) as their main underlying principle. This is the 
+case of "Wordfish", introduced by \textcite{Slapin2008} as an unsupervised positional scaling of party text.
 \textcite{Lauderdale2016} addressed the problem that legislators talk about different 
 things in different debates; they made a per-topic, per-debate scaling.
 On the other hand, \textcite{Vafa2020} produced a probabilistic framework to place ideal points and the language of 
