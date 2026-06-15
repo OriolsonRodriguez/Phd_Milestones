@@ -134,15 +134,50 @@ The final results can be validated directly using the CRAMRA canary test
 \parencite{jackson2021antarctica}, or indirectly by checking which countries cluster around \((\text{topic}, \text{stance})\) pairs and comparing this to the
 \textcite{Botelho_CoalitionDynamics} network results.
 
-\section{Modelling consensus, coalition formation and negotiation}
+
+
+
+\section{Modelling consensus, coalition formation and multi-actor decision-making}
 \label{sec:ai-policy}
 There two traditional group of models how groups reach concensus. The first is the mosts ellegant but are the synchronization and 
 opinion-dynamics models, like Kuramoto and opinion-changing-rate proposed by \textcite{Botelho2022} which represent agreement as
-an coupled-oscillator convergence. These models does not contain strategic preference, no veto and not learning, therefore, it cannot simulate the
+an coupled-oscillator convergence. These methods treat concensus as \textit{convergence}. \textcite{DeGroot1974} average agents 
+opinion iteratively using \(x(t+1)=Wx(t)\) until they agree. There is also a bounded-version of this model debeloped by \textcite{Hegselmann2002}.
+Another relevant model worth mentioning within this group is the stubborn agents \parencite{FriedkinJohnsen1990} where each agent does not fully update to match
+their neighbours, they stay, partially achored to their initial opinion. 
+The aforementioned group of models does not contain strategic preference, no veto and no learning, therefore, it cannot simulate the
 bargaining behaviour that occurs in concensus based systems. 
-The second group of models are strategic and multi-agent. In the case of coallition formatiion there is substantial literature \parencite{Sarkar2022},
-and negotiation simulations has been recently reated as multi-agent reinforcement learning. For example, \textcite{Chang2021} used deep reinforcement
-learning to model multi-issue bargaining, \textcite{Bachrach2020} model team formation using the same approach, 
+
+The second group of models uses social choice and game theory to model conseusus as a unanimity rule. \textcite{Tsebelis2002} develop a veto-players
+framework where every party has veto power, therefore, the status quo is only replace by new measures when \(u_i(p) \geq u_i(q)\) for every Party i.
+Consequently, when the number of parties increase and the spread of their position grow, the set of adoptable policies decreases and the systems stability
+increases.  This conclusion is the same reached by \textcite{Gardiner2025} when analysing the ATS qualitatively.
+
+
+\section{Negotiation and coalition formation simulation using reinforcement learning}
+\label{sec:marl}
+
+The strategic view of consensus developed above implies that, in consensus-based systems, the best way to replicate
+behaviour among many heterogeneous Parties, each holding a veto and bargaining over a status quo, is to use repeated strategic
+interaction. In the specific case of the quantitative simulation of the ATS over the years, its size and complexity mean that 
+the closed-form equilibria of analytic game theory are intractable. In these cases, multi-agent reinforcement learning (MARL)
+is the appropriate tool, precisely because it keeps the game-theoretic substance while relaxing this constraint. Formally,
+MARL is defined over stochastic (Markov) games, a generalisation of the repeated and normal-form games of
+Section~\ref{sec:ai-policy}. Similarly, its learning procedures approximate equilibrium behaviour from interaction rather
+than solving for it in closed form \parencite{Littman1994}. In this context, neural networks (NN) enter only as function
+ approximators that allow this learning to scale to large state and action spaces.
+
+Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team formation \parencite{Bachrach2020},
+ bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
+\parencite{Li2023}.  In this field, there are review papers by \textcite{Gronauer2022} on MARL and by 
+\textcite{Sarkar2022} on coalition formation. Most recently, MARL agents based on Large Language Models (LLMs) have been used to 
+model political negotiation directly: for example, \textcite{Moghimifar2024} simulate coalition formation in parliament using text data
+from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
+\textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy
+(a well-known benchmark for this type of simulation). Finally, some other benchmarks for real negotiation data are starting to appear 
+\parencite{Benac2026,Gu2025}. However, none of the works mentioned above link an empirically extracted and validated country-by-topic
+ preference structure to a strategic simulation of a real consensus treaty regime.
+
 
 \section{Summary of Literature Gap}
 \label{sec:gap}
