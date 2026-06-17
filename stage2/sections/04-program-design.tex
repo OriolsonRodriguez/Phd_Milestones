@@ -27,6 +27,33 @@ action. This makes WPs the most likely text to contain Parties' strategic intent
 represent the largest share of all WPs. It is also relevant that most of the available pre-trained embedding and NLI models were trained
 on English-language data. 
 
+The \textbf{approach} is a pipeline with multiple stages. The first set of stages applies BERTopic \parencite{Grootendorst_BERTopic}
+ to the whole corpus, producing a set of topics $K$ with corresponding cluster centroids $\{\boldsymbol{\mu}_k\}_{k \in K}$, where 
+ each $\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ in the $m$-dimensional embedding space. The second set of stages selects, for each 
+ document and topic, the passages relevant to that topic. Each document $d$ is split into passages $P_d = \{p_1, \dots, p_{n_d}\}$,
+ and each passage $p$ is embedded as $\mathbf{e}_p \in \mathbb{R}^{m}$. Relevance acts as a gating mechanism that filters out 
+ irrelevant passages: for each document $d$ and topic $k$, every passage $p \in P_d$ is scored by its cosine similarity to the topic
+centroid as follows,
+\[
+  \rho_{p,k} = \cos(\mathbf{e}_p, \boldsymbol{\mu}_k)
+             = \frac{\mathbf{e}_p \cdot \boldsymbol{\mu}_k}
+                    {\lVert \mathbf{e}_p \rVert \, \lVert \boldsymbol{\mu}_k \rVert}.
+\]
+
+The set of pairs $(document,topic)$ is the top scoring pairs paragraphs above a threshold. 
+
+This may result in several $(document,topic)$ pairs for one document. Then looping over all these pairs, the stance on a 
+named axis, is measured. These are then aggregated into a $Country \times Topics \times Year$ tensorr. 
+ 
+
+\begin{equation}
+S_{c,k,y} = \sum_{d \in D(c,y)} w_{d,c}\, r_{d,k}\, s_{d,k}
+\end{equation}
+
+Where $D(c,y)$ is the set of Working papers co-sponsored by country c in year y, $r_{d,k} \in [0,1]$ is the relevance of document $d$ to topic $k$, 
+$s_{d,k} \in [-1,1]$ is the signed stance of 
+
+
 \section{Research Design Overview}
 \label{sec:design}
 
