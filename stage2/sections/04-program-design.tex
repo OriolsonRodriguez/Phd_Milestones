@@ -1,36 +1,31 @@
 %% Section 04 — Program Design / Research Methodology
-\chapter{Program Design}
+\chapter{Program and Design of the Research Investigation}
 \label{ch:program}
 
 \section{Research Questions}
 \label{sec:rqs}
-
+The thesis addresses the gap mentioned above by answering these reserch questions:
 \begin{rqbox}
   \begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=*, itemsep=6pt]
-    \item How do \textbf{affinity dynamics} — patterns of positive alignment and
-          coalition-building — shape the emergence and stability of consensus
-          within the Antarctic Treaty System?
-    \item How do \textbf{aversion dynamics} — veto behaviour, strategic defection,
-          and antagonistic positioning — threaten or reconfigure treaty equilibria?
-    \item What computational simulation framework can reproduce empirically observed
-          ATS decision outcomes, and what generalisable principles does it reveal
-          for multilateral treaty design?
+    \item Can Parties’ strategic positions be reconstructed from written records into a directional
+           measure across topics and time?
+    \item Does the reconstructed positions recover known history and predict outcomes?
+    \item Can a multi-agent model parameterised by it reproduce consensus and test counterfactual decision rules?
   \end{enumerate}
 \end{rqbox}
 
-\section{Theoretical Framework}
-\label{sec:theory}
+\section{Objectives, Methodology and Research Plan}
+\label{sec:objectives}
 
-The project is grounded in three complementary theoretical traditions:
+\subsection{Objective 1 / Chapter 1: The Support Layer}
+\label{sec:ch1}
 
-\begin{enumerate}
-  \item \textbf{Non-cooperative game theory} — models individual state incentives and
-        deviation conditions \parencite{Nash1951, Osborne1994}.
-  \item \textbf{Opinion dynamics / consensus models} — captures iterative belief
-        convergence among parties \parencite{DeGroot1974}.
-  \item \textbf{Agent-based simulation} — provides a computational substrate for
-        running counterfactual treaty scenarios \parencite{Epstein1996}.
-\end{enumerate}
+The \textbf{Aim} is to produce a defensible, directional measure of Parties' preferences over relevant topics through time, 
+using documents the Parties submit themselves. For the ATCM case, Working Papers (WPs) are the input data because, of
+all submitted documents, these are the only ones submitted by Parties or Observers (non-Secretariat) that require discussion and 
+action. This makes WPs the most likely text to contain Parties' strategic intentions. The analysis uses English-language papers, since these
+represent the largest share of all WPs. It is also relevant that most of the available pre-trained embedding and NLI models were trained
+on English-language data. 
 
 \section{Research Design Overview}
 \label{sec:design}
