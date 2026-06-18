@@ -20,7 +20,7 @@
   ]
 
   % ── main spine ───────────────────────────────────────────────
-  \node[term]                       (start)    {Working Papers\\(English-language corpus)};
+  \node[term]                       (start)    {Text records \\e.g Working Papers\\(English-language corpus)};
   \node[proc, below=16mm of start]  (embed)    {Embed documents (e.g.\ Stella),\ $\mathbf{e}\in\mathbb{R}^{m}$};
   \node[proc, below=of embed]       (bert)     {UMAP reduction $\to$ HDBSCAN clustering $\to$ c\nobreakdash-TF\nobreakdash-IDF representation};
   \node[proc, below=of bert]        (topics)   {Topics $K$, centroids $\{\boldsymbol{\mu}_k\}$, per-document assignment $K(d)$};

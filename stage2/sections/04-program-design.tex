@@ -119,9 +119,98 @@ Figure (\ref{fig:ch1-workflow}) below shows a summarize overview of the steps de
   \label{fig:ch1-workflow}
 \end{figure}
 
-\section{Objective 2 / Chapter 2: The Opposition Layer and External Validation}
+\subsection{Objective 2 / Chapter 2: The Opposition Layer and External Validation}
 \label{sec:ch2}
 
+The \textbf{aim} of this part of the research project is to extract a directional opposition signal. This opposition signal
+has two sides. The first is opposition to the issue itself; it is not the inverse of the support-layer result,
+but rather the \textit{veto signal} against a given proposal. The second side is secundary exploratory result: a measure of a country's
+general propensity to reject proposals within a given ATCM. As with the support layer, this chapter builds a pipeline and, 
+for the specific case of the ATS, the ATCMs' final reports are used as text input. Given the scarcity of text in which countries 
+veto a proposal, the attribution is expected to be harder than for the support layer. 
+Each extracted statement yields a \emph{(country, target, polarity)} triple, with rationale and source quote. Taking the topics $K$
+from Chapter~1 and mapping targets back to them yields an opposition tensor $\mathbf{O}$ with the same $\text{Country} \times \text{Topic} \times \text{Year}$
+structure. At this point, there is a pair $(\mathbf{S}, \mathbf{O})$ of tensors that constitutes a signed preference network.
+These two tensors are the inputs to the third chapter.
+
+\paragraph{External validation.}
+The combined structure (the tensor pair $(\mathbf{S}, \mathbf{O})$) is tested for predictive content against observed outcomes (see \ref{sec:ats}) and the compilation
+by \textcite{Gardiner2025}, for the case of the ATS. This gives Chapter~2 an independent research question, test the results so far, and produces a 
+quantitative description. The novelty in this work is the directional signed signal derived from the institution's own input records and outcomes.
+
+The main risks in this chapter are the sparsity of text that can be directly attributed to an input, and the identification of the country that vetoes any 
+proposal. A further limitation is the influence of external geopolitics, as in the case of the consensus breakdown in 2022 due to the war in Ukraine 
+\parencite{Gardiner2025}. The cause of this type of exogenous influence is unlikely to be reflected in the text data of an institution not
+directly related to such issues.
+
+Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
+\begin{figure}[htbp]
+  \centering
+  \resizebox{\textwidth}{!}{\input{figures/ch2_workflow.tex}}
+  \caption{Chapter~2 opposition layer sketch: from text data to opposition tensor~$O$,
+           forming the signed preference network~$(S,O)$ together with the Chapter~1
+           support tensor~$S$. It is validated against observed ATCM
+           outcomes before feeding Chapter~3.}
+  \label{fig:ch2-workflow}
+\end{figure}
+
+
+\subsubsection{Objective 3 / Chapter 3: The Simulation Layer}
+
+\paragraph{Aim.}
+Simulate the ATCM consensus process with country-agents whose state is
+parameterised by the empirically derived support and opposition layers,
+reproduce historical trajectories, and examine institutional counterfactuals.
+Because the consensus rule makes every Party a veto player
+\parencite{Tsebelis2002}, the natural representation is a strategic bargaining
+game over a status quo rather than an averaging dynamic; this is the substantive
+reason a multi-agent reinforcement-learning formulation is adopted in place of
+the synchronisation models of Section~\ref{sec:formal}.
+
+\paragraph{Environment and agents.}
+We specify a custom negotiation environment in which proposals are presented one
+at a time --- each proposal being a single Working Paper $d$ on topic $k$ in
+year $y$, drawn from the historical record --- and decided by consensus, with
+one learning agent per Consultative Party
+\parencite{Gronauer2022,Schmid2020}. Each agent's state fuses its support vector
+(Chapter~1), its opposition history (Chapter~2), and slow-moving country
+covariates such as consultative status and accession year, used as context
+features rather than as an independent contribution. An agent's action on a
+presented proposal is binary: to object or not, $o_i \in \{0,1\}$. Under the
+consensus rule the proposal is adopted only if no Party objects,
+\begin{equation}
+  \mathbb{1}_{\mathrm{adopt}} = \prod_{j} \big(1 - o_j\big),
+  \label{eq:adopt}
+\end{equation}
+so that a single objection vetoes adoption. The reward to agent $i$ is then
+\begin{equation}
+  R_i = \alpha\, S_{i,k,y}\, \mathbb{1}_{\mathrm{adopt}}
+      - \beta\, O_{i,k,y}\, \mathbb{1}_{\mathrm{adopt}}
+      - \gamma\, o_i,
+  \label{eq:reward}
+\end{equation}
+where the first term rewards adoption of outcomes the Party supports, the second
+penalises adoption of outcomes it opposes, the third charges a diplomatic cost
+for casting an objection, and $\alpha, \beta, \gamma \ge 0$ trade the three off;
+reward is measured relative to the status quo, normalised to zero. Because
+adoption (\ref{eq:adopt}) is the product of all Parties' non-objection, each
+agent holds a genuine veto, and consensus emerges from the strategic trade-off
+between blocking an opposed outcome and bearing the cost of objection --- not
+from imposed convergence.
+
+\paragraph{Validation and counterfactuals.}
+The model is validated by out-of-sample prediction of consensus or failure for
+held-out years and by an ablation that removes the opposition layer to quantify
+its contribution. Counterfactual analysis (RQ3) then examines alternative
+decision rules --- for example qualified majority in place of unanimity, which
+relaxes (\ref{eq:adopt}) --- against the effectiveness metrics of
+\textcite{Gardiner2025}. This chapter grounds its agents in empirically
+extracted, validated positions from the institution's own record, distinguishing
+it from MARL consensus in simulated negotiation environments
+\parencite{Bolleddu2025}, manifesto-grounded language-model agents
+\parencite{Moghimifar2024}, and abstract synchronisation
+\parencite{Botelho_CoalitionDynamics}. It is the highest-risk chapter and is
+framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
 
 
 

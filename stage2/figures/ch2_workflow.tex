@@ -1,0 +1,70 @@
+% Chapter 2 — Opposition Layer (idea sketch, TikZ).
+% Requires in preamble: \usepackage{tikz}, amsmath, cleveref, xcolor[dvipsnames],
+% \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\begin{tikzpicture}[
+    font=\small,
+    node distance = 7mm and 12mm,
+    >={Stealth[length=2.4mm]},
+    every node/.style = {align=center},
+    proc/.style    = {rectangle, rounded corners=1pt, draw=black!60,
+                       fill=NavyBlue!8, text width=54mm, inner sep=4pt},
+    term/.style    = {rectangle, rounded corners=8pt, draw=black!60,
+                      fill=black!8, text width=54mm, inner sep=4pt},
+    note/.style    = {rectangle, rounded corners=1pt, draw=black!30, dashed,
+                      fill=Goldenrod!12, text width=46mm, align=left,
+                      font=\footnotesize, inner sep=4pt},
+    arr/.style     = {->, draw=black!70},
+    merge/.style   = {-, draw=black!70},
+    link/.style    = {-, draw=black!35, dashed}
+  ]
+
+  % ── main spine ───────────────────────────────────────────────
+  \node[term]                       (start)   {ATCM Final Reports (text input)};
+  \node[proc, below=of start]       (extract) {Extract veto statements\\ $\to$ (country, target, polarity) triples\\ + rationale \& source quote};
+  \node[proc, below=of extract]     (map)     {Map targets to Chapter~1 topics $K$};
+
+  % ── parallel split (primary / secondary) ─────────────────────
+  \coordinate (fork) at ($(map.south)+(0,-7mm)$);
+  \node[proc] (primary)   at ($(map.south)+(-32mm,-20mm)$) {\textbf{Primary:} opposition tensor $O$\\ (country $\times$ topic $\times$ year)};
+  \node[proc] (secondary) at ($(map.south)+( 32mm,-20mm)$) {\textbf{Secondary (exploratory):} country propensity to reject proposals per ATCM};
+
+  \node[proc, below=42mm of map]    (net)     {Signed preference network\\ = tensor pair $(S,O)$};
+  \coordinate (join) at ($(net.north)+(0,8mm)$);
+
+  \node[proc, below=14mm of net]    (val)     {Test $(S,O)$ for predictive content against observed ATCM outcomes + \textcite{Gardiner2025}};
+  \node[proc, below=14mm of val]    (toch3)   {$(S,O)\ \to\ $ input to Chapter~3};
+  \node[term, below=of toch3]       (stop)    {End};
+
+  % ── side notes ───────────────────────────────────────────────
+  \node[note, right=of extract] (n1) {Attribution harder than the support layer (sparse text).};
+  \node[note, left=of primary]  (n2) {Veto signal \emph{against} a proposal --- not the inverse of support $S$.};
+  \node[note, right=of net]     (n3) {$S$ from Chapter~1.};
+  \node[note, right=of val]     (n4) {Independent research question; risk: exogenous geopolitics (e.g.\ 2022 Ukraine breakdown) not captured in institutional text.};
+
+  % ── forward edges ────────────────────────────────────────────
+  \draw[arr] (start)   -- (extract);
+  \draw[arr] (extract) -- (map);
+  \draw[merge] (map)   -- (fork);
+  \draw[arr] (fork) -| (primary.north);
+  \draw[arr] (fork) -| (secondary.north);
+  \draw[merge] (primary.south)   |- (join);
+  \draw[merge] (secondary.south) |- (join);
+  \draw[arr] (join)  -- (net);
+  \draw[arr] (net)   -- (val);
+  \draw[arr] (val)   -- (toch3);
+  \draw[arr] (toch3) -- (stop);
+
+  % ── note links ───────────────────────────────────────────────
+  \draw[link] (extract.east) -- (n1.west);
+  \draw[link] (primary.west) -- (n2.east);
+  \draw[link] (net.east)     -- (n3.west);
+  \draw[link] (val.east)     -- (n4.west);
+
+  % ── partition background ─────────────────────────────────────
+  \begin{scope}[on background layer]
+    \node[draw=Maroon!40, fill=Maroon!4, rounded corners,
+          fit=(val), inner sep=6pt,
+          label={[Maroon!70!black, font=\footnotesize\itshape]above:External validation}] {};
+  \end{scope}
+
+\end{tikzpicture}
