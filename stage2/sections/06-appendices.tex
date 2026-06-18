@@ -2,50 +2,72 @@
 \chapter{Supplementary Material}
 \label{app:supplementary}
 
-% TODO: Add any supplementary proofs, extended data tables, or methodology details here.
-% Each appendix is a \section within this file or a separate \chapter if very long.
+\paragraph{Stance classifier (Chapter~1).}
+For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
+against-pole hypotheses. For a pooled passage set $d$ and hypothesis $h$, the
+debiased evidence is the null-premise-corrected log-ratio
+\[
+  \lambda(d,h) = \operatorname{clip}\!\Big(
+     \log P(\text{entail}\mid d,h) - \log P(\text{entail}\mid \varnothing,h),
+     \ \pm 5 \Big),
+\]
+which removes each hypothesis's marginal acceptability (a directed
+pointwise-mutual-information / DCPMI debiasing). The three-pole distribution
+combines entailment of each pole with contradiction of its opposite,
+\[
+  \tilde\pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
+     \lambda_{\mathrm{ent}}(h_k^{+}) + \lambda_{\mathrm{con}}(h_k^{-}) \\[2pt]
+     \lambda_{\mathrm{ent}}(h_k^{0}) \\[2pt]
+     \lambda_{\mathrm{ent}}(h_k^{-}) + \lambda_{\mathrm{con}}(h_k^{+})
+  \end{pmatrix},
+\]
+% DECISION 2: state the 3->5 expansion here, OR define s_{d,k} as the
+% 3-pole expectation over values (+1, 0, -1) and delete the 5-class story.
+which is expanded to the five ordinal classes $\pi_{d,k}$ and reduced to the
+scalar stance by the expected value of Equation~(1).
 
-\section{Notation and Conventions}
-\label{app:notation}
+\section*{Appendix C: Notation}
+\addcontentsline{toc}{section}{Appendix C: Notation}
 
-\begin{table}[htbp]
-  \centering
-  \caption{Notation used throughout the document}
-  \label{tab:notation}
-  \begin{tabular}{cl}
-    \toprule
-    \textbf{Symbol} & \textbf{Meaning} \\
-    \midrule
-    $N$             & Set of treaty parties (agents), $|N| = n$ \\
-    $i, j \in N$    & Individual state actors \\
-    $s_i \in S$     & Strategy of party $i$ \\
-    $u_i$           & Utility function of party $i$ \\
-    $\alpha_{ij}$   & Affinity score between parties $i$ and $j$ \\
-    $\beta_{ij}$    & Aversion score between parties $i$ and $j$ \\
-    $\mathbf{W}$    & DeGroot influence/weight matrix \\
-    $x_i(t)$        & Position/opinion of party $i$ at time $t$ \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\paragraph{Indices and sets.}
+\begin{tabular}{@{}ll@{}}
+$c, i$        & countries (Consultative Parties), $c \in \{1,\dots,C\}$ \\
+$k$           & topic, $k \in K$; $|K|$ is the number of topics \\
+$y$           & year \\
+$d$           & document (Working Paper) \\
+$p$           & passage (chunk) of a document \\
+$\ell$        & ordinal stance class, $\ell \in \{1,\dots,5\}$ \\
+$D(c,y)$      & Working Papers co-sponsored by country $c$ in year $y$ \\
+$K(d)$        & topics assigned to document $d$ \\
+$P_d$         & passages of document $d$, $P_d=\{p_1,\dots,p_{n_d}\}$ \\
+$P_{d,k}$     & passages of $d$ selected as relevant to topic $k$ \\
+$A_d$         & co-sponsors of document $d$ \\
+\end{tabular}
 
-\section{Acronyms}
-\label{app:acronyms}
+\paragraph{Embedding space.}
+\begin{tabular}{@{}ll@{}}
+$m$                  & embedding dimensionality (full Stella space) \\
+$\mathbf{e}_p$       & embedding of passage $p$, $\mathbf{e}_p \in \mathbb{R}^{m}$ \\
+$\boldsymbol{\mu}_k$ & centroid of topic $k$, $\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ \\
+$\rho_{p,k}$         & passage--topic relevance, $\rho_{p,k}=\cos(\mathbf{e}_p,\boldsymbol{\mu}_k)$ \\
+$\tau$               & relevance selection threshold \\
+\end{tabular}
 
-\begin{acronym}
-  \acro{ATS}{Antarctic Treaty System}
-  \acro{ATCM}{Antarctic Treaty Consultative Meeting}
-  \acro{ATP}{Antarctic Treaty Party}
-  \acro{ABM}{Agent-Based Model}
-  \acro{RL}{Reinforcement Learning}
-  \acro{GT}{Game Theory}
-  \acro{IR}{International Relations}
-  \acro{QUT}{Queensland University of Technology}
-\end{acronym}
+\paragraph{Stance and hypotheses.}
+\begin{tabular}{@{}ll@{}}
+$h_k^{+}, h_k^{0}, h_k^{-}$ & for-, neutral-, against-pole hypotheses for topic $k$ \\
+$\lambda(d,h)$  & null-premise-debiased entailment log-ratio (DCPMI) \\
+$\tilde\pi_{d,k}$ & three-pole distribution (Appendix C, stance classifier) \\
+$\pi_{d,k}$     & five-class ordinal distribution, $\pi_{d,k}\in\Delta_5$ \\
+$\Delta_5$      & probability simplex, $\{\pi\in\mathbb{R}^5 : \pi_\ell\ge 0,\ \sum_\ell \pi_\ell = 1\}$ \\
+$v$             & class values, $v=(-1,-\tfrac12,0,\tfrac12,1)$ \\
+$s_{d,k}$       & signed stance of $d$ on topic $k$, $s_{d,k}\in[-1,1]$ \\
+\end{tabular}
 
-\section{Candidate's Publication Record}
-\label{app:publications}
+\paragraph{Aggregation and tensors.}
+\begin{tabular}{@{}ll@{}}
+$w_{d,c}$        & attribution weight: $1$ (full credit) or $1/|A_d|$ (fractional) \\
+$S_{c,k,y}$      & support of country $c$ on topic $k$ in year $y$, Eq.~(\ref{eq:aggregate}) \\
+$S_{\cdot,\cdot,y}$ & year-$y$ stance slice, $S_{\cdot,\cdot,y}\in\mathbb{R}^{C\times|K|}$ \\
+\end{tabular}
 
-% TODO: List any publications, conference papers, or presentations produced during
-%       candidature to date.
-
-\textit{No publications to date; in preparation.}

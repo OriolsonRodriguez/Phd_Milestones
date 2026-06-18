@@ -17,6 +17,21 @@ The thesis addresses the gap mentioned above by answering these reserch question
 \section{Objectives, Methodology and Research Plan}
 \label{sec:objectives}
 
+Figure~\ref{fig:workflow} shows the overall flow of the research project, the output of each stage, and how the objectives relate to one another.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{workflow.png}
+  \caption{Thesis workflow: from text records to a validated
+           consensus simulation. The support layer (Chapter~1) produces a signed
+           position tensor~$S$; the opposition layer (Chapter~2) adds an
+           opposition tensor~$O$ and validates both against ATCM outcomes; the
+           simulation layer (Chapter~3) tests whether the extracted preferences
+           reproduce consensus and its failures.}
+  \label{fig:workflow}
+\end{figure}
+
+
 \subsection{Objective 1 / Chapter 1: The Support Layer}
 \label{sec:ch1}
 
@@ -40,18 +55,58 @@ centroid as follows,
                     {\lVert \mathbf{e}_p \rVert \, \lVert \boldsymbol{\mu}_k \rVert}.
 \]
 
-The set of pairs $(document,topic)$ is the top scoring pairs paragraphs above a threshold. 
-
-This may result in several $(document,topic)$ pairs for one document. Then looping over all these pairs, the stance on a 
-named axis, is measured. These are then aggregated into a $Country \times Topics \times Year$ tensorr. 
- 
+$P_{d,k}$ is the set of top scoring passages above a threshold. Then, the relevant sentences out of each $P_{d,k}$ are extracted using
+and Large Laguage Model ($LLM$). This sentences are concatenaited together and are scored as a set by the classifier. It produces one
+five-class distribution over ordinal classes that range from strong opposition to strong support. Formally, it is as follows
+\begin{equation}
+  \pi_{d,k} = \mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)
+            \in \Delta_5, \qquad
+  \Delta_5 = \Big\{\, \pi \in \mathbb{R}^{5} \;\big|\;
+            \pi_\ell \ge 0,\ \textstyle\sum_{\ell=1}^{5}\pi_\ell = 1 \,\Big\},
+\label{eq:stance-dist}
+\end{equation}
+The signed stance of document $d$ on topic $k$ is the expected value of this distribution under an equal-spacing convention. This is: 
 
 \begin{equation}
-S_{c,k,y} = \sum_{d \in D(c,y)} w_{d,c}\, r_{d,k}\, s_{d,k}
+  s_{d,k} = \sum_{\ell=1}^{5} v_\ell\,\pi_{d,k}(\ell),
+  \qquad v = \big(-1,\,-\tfrac{1}{2},\,0,\,\tfrac{1}{2},\,1\big).
+  \label{eq:stance}
 \end{equation}
 
-Where $D(c,y)$ is the set of Working papers co-sponsored by country c in year y, $r_{d,k} \in [0,1]$ is the relevance of document $d$ to topic $k$, 
-$s_{d,k} \in [-1,1]$ is the signed stance of 
+Since $\pi_{d,k}$ is a probability distribution and every $v_\ell \in [-1,1]$, the stance $s_{d,k} \in [-1,1]$ is a convex
+combination of the class values and therefore well defined on topic $k$'s axis.
+
+Finally, the previous result is aggregated to produce a $country \times topic \times year$ stances over the
+Working Papers weighted by co-sponsorship credit:
+
+\begin{equation}
+  S_{c,k,y} = \sum_{\substack{d \in D(c,y) \\ k \in K(d)}}
+              w_{d,c}\, s_{d,k},
+  \label{eq:aggregate}
+\end{equation}
+
+where $D(c,y)$ is the set of Working Papers co-authored by country $c$ in year $y$, $K(d)$ are the set of topics assigned to document $d$,
+and $w_{d,c}$ the attribution weight of that country in one document. Two attribution conventions are computed: 
+\begin{itemize}
+      \item full credit, $w_{d,c} = 1$, which means every co-sponsor receives the full position and which answers ``who is on this side?''.
+      \item fractional credit, $w_{d,c} = 1/|A_d|$ with $A_d$ the set of co-sponsors of $d$, which answers ``who is driving this?''.
+\end{itemize}
+
+For a fixed year, the slice $S_{\cdot,\cdot,y} \in \mathbb{R}^{C \times |K|}$ is a signed $country \times topic$ matrix, with $C$ countries
+and $|K|$ topics. See Appendix~C for full notation.
+
+To measure directional stance on diplomatic text \eqref{eq:stance-dist} represent a challenge give the hedging and similar prose in disting positioning.
+In other words, permissive and restrictive positions on a regulatory question share same safeguard vocabulary, therefore,
+scoring a single hypothesis collapses toward neutrality. Threfore, stance is recovered as a \emph{contrast} between entail and contradiction positions.
+Specifically, for each topic $k$, structured hypotheses anchor a for-pole $h_k^{+}$, a neutral one $h_k^{0}$, and an against one $h_k^{-}$ on the topic's
+contestable axis. These $(h_k,premise)$ pairs are input into $\mathrm{NLI}$ classifier \parencite{Laurer2024}. The resulting scores for \emph{entailment} 
+and \emph{contradiction} are subtracted. The classifier's results are cross-checked against a generative model used as a secondary instrument \parencite{LeMens2024}.
+
+\paragraph{Validation strategy}
+The construct will be validated using three independent checks, each targeting a different stage of the pipeline. A topic validation check compares
+the discovered topics against the Secretariat's categories and the WP in each category. A historical canary uses the minerals/CRAMRA negotiations of the late 1970s and
+1980s as documented ground truth. The testing asserts if the pipeline recovers the known directional opposition in those papers. Finally, a network comparison
+check reconstructs the co-authorship structure reported by \textcite{Botelho_CoalitionDynamics} from the authorship layer. 
 
 
 \section{Research Design Overview}

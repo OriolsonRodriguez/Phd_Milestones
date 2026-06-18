@@ -1,0 +1,58 @@
+@startuml
+title Chapter 1 — Support Layer: Country x Topic x Year support tensor
+
+|Input|
+start
+:ATCM Working Papers corpus (English);
+:Preprocessing — clean, segment into passages;
+
+|BERTopic stages|
+:Embed documents (Stella, R^m);
+:Dimensionality reduction (UMAP);
+:Cluster (HDBSCAN);
+:Topic representation (c-TF-IDF);
+note right
+  Output: topic set K,
+  centroids mu_k, and
+  per-document topic
+  assignment K(d)
+end note
+
+|Our stages|
+:Relevance gating — embed passages,
+score rho_{p,k} = cos(e_p, mu_k),
+select P_{d,k} above threshold tau;
+note right: selection, not a weight
+
+:Hypothesis bank — per-topic poles
+h_k^+, h_k^0, h_k^- (contestability priors);
+
+:Stance classification (NLI, Laurer 2024)
+-> three-pole distribution -> 5-class pi_{d,k}
+-> expected value s_{d,k}  [Eq. 1/2];
+note right
+  contrast lives in
+  entailment vs contradiction
+  across poles
+end note
+
+:Generative cross-check (quote-grounded,
+Le Mens & Gallego 2024) — construct validity;
+
+:Aggregation — sum over co-sponsored WPs,
+attribution weight w_{d,c}  [Eq. 3];
+
+|Output|
+:Support tensor S (C x |K| x Y);
+note right
+  used as: prediction input (Ch.2)
+  and agent state (Ch.3)
+end note
+
+partition "Validation (planned, no Stage-2 results)" {
+  :Topic-convergence vs Secretariat categories;
+  :CRAMRA minerals canary (same-axis recovery);
+  :Network replication vs Botelho et al.;
+}
+stop
+@enduml
