@@ -1,0 +1,94 @@
+% Chapter 1 — Support Layer algorithm (TikZ).
+% Requires in preamble: \usepackage{tikz}, amsmath, cleveref, xcolor[dvipsnames],
+% \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\begin{tikzpicture}[
+    font=\small,
+    node distance = 5mm and 8mm,
+    >={Stealth[length=2.4mm]},
+    every node/.style = {align=center},
+    proc/.style    = {rectangle, rounded corners=1pt, draw=black!60,
+                       fill=NavyBlue!8, text width=68mm, inner sep=4pt},
+    term/.style    = {rectangle, rounded corners=8pt, draw=black!60,
+                      fill=black!8, text width=46mm, inner sep=4pt},
+    loophdr/.style = {trapezium, trapezium left angle=70,
+                      trapezium right angle=110, draw=black!60,
+                      fill=ForestGreen!12, text width=58mm, inner sep=3pt},
+    decide/.style  = {diamond, aspect=2.2, draw=black!60,
+                      fill=Goldenrod!25, text width=30mm, inner sep=1pt},
+    arr/.style     = {->, draw=black!70},
+    back/.style    = {->, draw=black!55, dashed}
+  ]
+
+  % ── main spine ───────────────────────────────────────────────
+  \node[term]                       (start)    {Working Papers\\(English-language corpus)};
+  \node[proc, below=16mm of start]  (embed)    {Embed documents (e.g.\ Stella),\ $\mathbf{e}\in\mathbb{R}^{m}$};
+  \node[proc, below=of embed]       (bert)     {UMAP reduction $\to$ HDBSCAN clustering $\to$ c\nobreakdash-TF\nobreakdash-IDF representation};
+  \node[proc, below=of bert]        (topics)   {Topics $K$, centroids $\{\boldsymbol{\mu}_k\}$, per-document assignment $K(d)$};
+
+  \node[loophdr, below=of topics]   (docloop)  {for each document $d$ in corpus};
+  \node[proc, below=of docloop]     (pass)     {Split $d$ into passages $P_d=\{p_1,\dots,p_{n_d}\}$;\ embed $\mathbf{e}_p\in\mathbb{R}^{m}$};
+
+  \node[loophdr, below=of pass]     (toploop)  {for each topic $k \in K(d)$};
+  \node[proc, below=of toploop]     (gate)     {Relevance gating:\ $\rho_{p,k}=\cos(\mathbf{e}_p,\boldsymbol{\mu}_k)$};
+  \node[decide, below=of gate]      (thr)      {$\exists\,p:\ \rho_{p,k}\ge\tau$ ?};
+  \node[proc, below=of thr]         (select)   {Select $P_{d,k}$ (top passages above $\tau$); LLM extracts sentences $\mathrm{Extract}(P_{d,k})$};
+  \node[proc, below=of select]      (nli)      {NLI stance contrast over poles $h_k^{+},h_k^{0},h_k^{-}$:\\ $\pi_{d,k}=\mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)$\quad(\cref{eq:stance-dist})};
+  \node[proc, below=of nli]         (stance)   {Signed stance\\ $s_{d,k}=\sum_{\ell=1}^{5} v_\ell\,\pi_{d,k}(\ell)$\quad(\cref{eq:stance})};
+
+  \coordinate (j1) at ($(stance.south)+(0,-7mm)$);
+  \coordinate (j2) at ($(stance.south)+(0,-15mm)$);
+
+  \node[proc, below=29mm of stance] (cross)    {Generative cross-check (quote-grounded, Le~Mens \& Gallego 2024)};
+  \node[proc, below=of cross]       (agg)      {Aggregate over co-sponsored WPs:\\ $S_{c,k,y}=\sum_{d} w_{d,c}\,s_{d,k}$\quad(\cref{eq:aggregate})\\ full credit $w{=}1$ \ /\ fractional $w{=}1/|A_d|$};
+  \node[term, below=of agg]         (out)      {Support tensor\\ $S\in\mathbb{R}^{C\times|K|\times Y}$};
+
+  \node[proc, below=8mm of out]     (val1)     {Topic convergence vs Secretariat categories};
+  \node[proc, below=of val1]        (val2)     {CRAMRA minerals canary (same-axis recovery)};
+  \node[proc, below=of val2]        (val3)     {Network replication vs \textcite{Botelho_CoalitionDynamics}};
+  \node[term, below=of val3]        (stop)     {End};
+
+  % ── forward edges ────────────────────────────────────────────
+  \draw[arr] (start)  -- (embed);
+  \draw[arr] (embed)  -- (bert);
+  \draw[arr] (bert)   -- (topics);
+  \draw[arr] (topics) -- (docloop);
+  \draw[arr] (docloop)-- (pass);
+  \draw[arr] (pass)   -- (toploop);
+  \draw[arr] (toploop)-- (gate);
+  \draw[arr] (gate)   -- (thr);
+  \draw[arr] (thr)    -- node[right, pos=0.35]{yes} (select);
+  \draw[arr] (select) -- (nli);
+  \draw[arr] (nli)    -- (stance);
+  \draw[arr] (stance) -- (j1) -- (j2);
+  \draw[arr] (j2)     -- (cross);
+  \draw[arr] (cross)  -- (agg);
+  \draw[arr] (agg)    -- (out);
+  \draw[arr] (out)    -- (val1);
+  \draw[arr] (val1)   -- (val2);
+  \draw[arr] (val2)   -- (val3);
+  \draw[arr] (val3)   -- (stop);
+
+  % ── "no" (skip topic) branch ────────────────────────────────
+  \draw[arr] (thr.west) -- ++(-2.0,0)
+        node[pos=0.5, above]{no}
+        |- (j1);
+
+  % ── loop back-edges ─────────────────────────────────────────
+  \draw[back] (j1) -- ++(4.2,0)
+        node[pos=0.5, above]{next topic $k$}
+        |- (toploop.east);
+  \draw[back] (j2) -- ++(5.4,0)
+        node[pos=0.5, above]{next document $d$}
+        |- (docloop.east);
+
+  % ── phase backgrounds ───────────────────────────────────────
+  \begin{scope}[on background layer]
+    \node[draw=ForestGreen!50, fill=ForestGreen!4, rounded corners,
+          fit=(embed)(topics), inner sep=6pt,
+          label={[ForestGreen!60!black, font=\footnotesize\itshape]above:Topic discovery — BERTopic (whole corpus, once)}] {};
+    \node[draw=Maroon!40, fill=Maroon!4, rounded corners,
+          fit=(val1)(val3), inner sep=6pt,
+          label={[Maroon!70!black, font=\footnotesize\itshape]above:Validation (planned)}] {};
+  \end{scope}
+
+\end{tikzpicture}

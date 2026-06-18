@@ -36,3 +36,4 @@ _build/
 .DS_Store
 Thumbs.db
 .vscode/settings.json
+stage2/figures/plantuml.jar

@@ -1,0 +1,45 @@
+% Thesis workflow overview (TikZ).
+% Requires in preamble: \usepackage{tikz}, amsmath, xcolor[dvipsnames],
+% \usetikzlibrary{shapes.geometric, arrows.meta, positioning, calc, fit, backgrounds}
+\begin{tikzpicture}[
+    font=\small,
+    node distance = 7mm and 14mm,
+    >={Stealth[length=2.4mm]},
+    every node/.style = {align=center},
+    proc/.style    = {rectangle, rounded corners=1pt, draw=black!60,
+                       fill=NavyBlue!8, text width=72mm, inner sep=5pt},
+    term/.style    = {rectangle, rounded corners=8pt, draw=black!60,
+                      fill=black!8, text width=72mm, inner sep=5pt},
+    note/.style    = {rectangle, rounded corners=1pt, draw=black!30, dashed,
+                      fill=Goldenrod!12, text width=58mm, align=left,
+                      font=\footnotesize, inner sep=4pt},
+    arr/.style     = {->, draw=black!70},
+    link/.style    = {-, draw=black!35, dashed}
+  ]
+
+  % ── main spine ───────────────────────────────────────────────
+  \node[term]                     (input) {\textbf{Inputs}\\ Text records (e.g.\ Working Papers + Final Reports, Secretariat archive, English)};
+  \node[proc, below=of input]     (pre)   {\textbf{Preprocessing}\\ Clean, segment, filter};
+  \node[proc, below=of pre]       (ch1)   {\textbf{Chapter 1 — Support Layer}\\ Topic discovery (BERTopic) + relevance gating + NLI stance contrast + aggregation};
+  \node[proc, below=of ch1]       (ch2)   {\textbf{Chapter 2 — Opposition Layer \& External Validation}\\ Opposition extraction from text + outcome prediction};
+  \node[proc, below=of ch2]       (ch3)   {\textbf{Chapter 3 — Simulation Layer}\\ MARL negotiation environment (veto-player consensus game)};
+  \node[term, below=of ch3]       (out)   {\textbf{Outputs}\\ Reproduced historical consensus, decision-rule counterfactuals};
+
+  % ── side notes ───────────────────────────────────────────────
+  \node[note, right=of ch1] (n1) {Directional, signed measure of national policy support per topic over time. Implemented (preliminary infrastructure).};
+  \node[note, right=of ch2] (n2) {Who opposes which proposals, from summarised debate; combined with $S$ into a signed preference network. Validates both layers by predicting real ATCM outcomes.};
+  \node[note, right=of ch3] (n3) {Agents = Parties holding a veto; state = $S+O$; reward = support $-$ opposition $-$ cost. Tests whether extracted preferences reproduce consensus and its failures. Proof of concept.};
+
+  % ── forward edges ────────────────────────────────────────────
+  \draw[arr] (input) -- (pre);
+  \draw[arr] (pre)   -- (ch1);
+  \draw[arr] (ch1)   -- node[right, font=\footnotesize]{Support tensor $S$} (ch2);
+  \draw[arr] (ch2)   -- node[right, font=\footnotesize, align=left]{Signed preference structure\\ ($S$ + opposition tensor $O$)} (ch3);
+  \draw[arr] (ch3)   -- (out);
+
+  % ── note links ───────────────────────────────────────────────
+  \draw[link] (ch1.east) -- (n1.west);
+  \draw[link] (ch2.east) -- (n2.west);
+  \draw[link] (ch3.east) -- (n3.west);
+
+\end{tikzpicture}

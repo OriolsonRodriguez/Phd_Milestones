@@ -18,10 +18,11 @@ The thesis addresses the gap mentioned above by answering these reserch question
 \label{sec:objectives}
 
 Figure~\ref{fig:workflow} shows the overall flow of the research project, the output of each stage, and how the objectives relate to one another.
+Throughout the following sections each chapter is described in detail.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{workflow.png}
+  \resizebox{\textwidth}{!}{\input{figures/workflow.tex}}
   \caption{Thesis workflow: from text records to a validated
            consensus simulation. The support layer (Chapter~1) produces a signed
            position tensor~$S$; the opposition layer (Chapter~2) adds an
@@ -108,39 +109,28 @@ the discovered topics against the Secretariat's categories and the WP in each ca
 1980s as documented ground truth. The testing asserts if the pipeline recovers the known directional opposition in those papers. Finally, a network comparison
 check reconstructs the co-authorship structure reported by \textcite{Botelho_CoalitionDynamics} from the authorship layer. 
 
-
-\section{Research Design Overview}
-\label{sec:design}
-
-The project is structured into three interconnected papers, each targeting one research
-question and one modelling contribution.
-
-\begin{table}[htbp]
+Figure (\ref{fig:ch1-workflow}) below shows a summarize overview of the steps described above. 
+\begin{figure}[p]
   \centering
-  \caption{Paper structure and milestones}
-  \label{tab:papers}
-  \begin{tabular}{clll}
-    \toprule
-    \textbf{Paper} & \textbf{Focus} & \textbf{Method} & \textbf{Target venue} \\
-    \midrule
-    1 & Affinity dynamics     & Network analysis, coalitional GT    & TBD \\
-    2 & Aversion dynamics     & Veto-player model, ABM              & TBD \\
-    3 & Simulation framework  & Agent-based model, RL               & TBD \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+  \resizebox{!}{0.88\textheight}{\input{figures/ch1_workflow.tex}}
+  \caption{Chapter~1 support-layer pipeline: from text records through BERTopic
+           topic discovery, relevance gating, NLI stance contrast, and
+           aggregation to the country$\times$topic$\times$year support tensor~$S$.}
+  \label{fig:ch1-workflow}
+\end{figure}
 
-\section{Paper 1 — Affinity Dynamics in Multilateral Treaties}
-\label{sec:paper1}
+\section{Objective 2 / Chapter 2: The Opposition Layer and External Validation}
+\label{sec:ch2}
 
-% TODO: ~500 words.
-%       - Formal definition of affinity between treaty parties
-%       - Data sources (ATS meeting records, voting data)
-%       - Network construction and community detection
-%       - Expected contribution: first systematic map of affinity coalitions in ATS
 
-\section{Paper 2 — Aversion Dynamics and Consensus Breakdown}
-\label{sec:paper2}
+
+
+
+
+
+
+\section{Objective 3 / Chapter 3: The Simulation Layer}
+\label{sec:ch3}
 
 % TODO: ~500 words.
 %       - Formal definition of aversion / veto propensity
