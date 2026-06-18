@@ -1,30 +1,16 @@
 %% Section 06 — Appendices
-\chapter{Supplementary Material}
-\label{app:supplementary}
+\chapter{Appendices}
 
-\paragraph{Stance classifier (Chapter~1).}
-For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
-against-pole hypotheses. For a pooled passage set $d$ and hypothesis $h$, the
-debiased evidence is the null-premise-corrected log-ratio
-\[
-  \lambda(d,h) = \operatorname{clip}\!\Big(
-     \log P(\text{entail}\mid d,h) - \log P(\text{entail}\mid \varnothing,h),
-     \ \pm 5 \Big),
-\]
-which removes each hypothesis's marginal acceptability (a directed
-pointwise-mutual-information / DCPMI debiasing). The three-pole distribution
-combines entailment of each pole with contradiction of its opposite,
-\[
-  \tilde\pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
-     \lambda_{\mathrm{ent}}(h_k^{+}) + \lambda_{\mathrm{con}}(h_k^{-}) \\[2pt]
-     \lambda_{\mathrm{ent}}(h_k^{0}) \\[2pt]
-     \lambda_{\mathrm{ent}}(h_k^{-}) + \lambda_{\mathrm{con}}(h_k^{+})
-  \end{pmatrix},
-\]
-% DECISION 2: state the 3->5 expansion here, OR define s_{d,k} as the
-% 3-pole expectation over values (+1, 0, -1) and delete the 5-class story.
-which is expanded to the five ordinal classes $\pi_{d,k}$ and reduced to the
-scalar stance by the expected value of Equation~(1).
+\section*{Appendix A: Research Integrity Online}
+\addcontentsline{toc}{section}{Appendix A: Research Integrity Online}
+
+[Insert RIO completion certificate --- mandatory for Stage 2 approval.]
+
+\section*{Appendix B: Coursework}
+\addcontentsline{toc}{section}{Appendix B: Coursework}
+
+[Insert Advanced Information Research Skills (AIRS / IFN006) status and any other
+coursework.]
 
 \section*{Appendix C: Notation}
 \addcontentsline{toc}{section}{Appendix C: Notation}
@@ -57,7 +43,7 @@ $\tau$               & relevance selection threshold \\
 \begin{tabular}{@{}ll@{}}
 $h_k^{+}, h_k^{0}, h_k^{-}$ & for-, neutral-, against-pole hypotheses for topic $k$ \\
 $\lambda(d,h)$  & null-premise-debiased entailment log-ratio (DCPMI) \\
-$\tilde\pi_{d,k}$ & three-pole distribution (Appendix C, stance classifier) \\
+$\tilde\pi_{d,k}$ & three-pole distribution (Appendix~C, stance classifier) \\
 $\pi_{d,k}$     & five-class ordinal distribution, $\pi_{d,k}\in\Delta_5$ \\
 $\Delta_5$      & probability simplex, $\{\pi\in\mathbb{R}^5 : \pi_\ell\ge 0,\ \sum_\ell \pi_\ell = 1\}$ \\
 $v$             & class values, $v=(-1,-\tfrac12,0,\tfrac12,1)$ \\
@@ -66,8 +52,43 @@ $s_{d,k}$       & signed stance of $d$ on topic $k$, $s_{d,k}\in[-1,1]$ \\
 
 \paragraph{Aggregation and tensors.}
 \begin{tabular}{@{}ll@{}}
-$w_{d,c}$        & attribution weight: $1$ (full credit) or $1/|A_d|$ (fractional) \\
-$S_{c,k,y}$      & support of country $c$ on topic $k$ in year $y$, Eq.~(\ref{eq:aggregate}) \\
+$w_{d,c}$           & attribution weight: $1$ (full credit) or $1/|A_d|$ (fractional) \\
+$S_{c,k,y}$         & support of country $c$ on topic $k$ in year $y$, Eq.~(\ref{eq:aggregate}) \\
 $S_{\cdot,\cdot,y}$ & year-$y$ stance slice, $S_{\cdot,\cdot,y}\in\mathbb{R}^{C\times|K|}$ \\
+$O_{c,k,y}$         & opposition of country $c$ on topic $k$ in year $y$ \\
 \end{tabular}
 
+A fixed-year slice of $S$ is a signed country-by-topic matrix. Entries lie in
+$[-1,1]$ after aggregation and normalisation: positive values indicate support for
+the permissive pole of the topic's axis, negative values support for the restrictive
+pole, and values near zero either neutrality or absence of position-taking. Sparsity
+is expected; absence of evidence is recorded as missing, not as zero.
+
+\paragraph{Stance classifier (Chapter~1).}
+For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
+against-pole hypotheses. For a pooled passage set $d$ and hypothesis $h$, the
+debiased evidence is the null-premise-corrected log-ratio
+\[
+  \lambda(d,h) = \operatorname{clip}\!\Big(
+     \log P(\text{entail}\mid d,h) - \log P(\text{entail}\mid \varnothing,h),
+     \ \pm 5 \Big),
+\]
+which removes each hypothesis's marginal acceptability (a directed
+pointwise-mutual-information / DCPMI debiasing). The three-pole distribution
+combines entailment of each pole with contradiction of its opposite,
+\[
+  \tilde\pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
+     \lambda_{\mathrm{ent}}(h_k^{+}) + \lambda_{\mathrm{con}}(h_k^{-}) \\[2pt]
+     \lambda_{\mathrm{ent}}(h_k^{0}) \\[2pt]
+     \lambda_{\mathrm{ent}}(h_k^{-}) + \lambda_{\mathrm{con}}(h_k^{+})
+  \end{pmatrix},
+\]
+which is expanded to the five ordinal classes $\pi_{d,k}$ and reduced to the
+scalar stance by the expected value of Equation~(1).
+
+\section*{Appendix D: Acknowledgement of AI Use}
+\addcontentsline{toc}{section}{Appendix D: Acknowledgement of AI Use}
+
+[Per QUT GRC \S4.4: discuss scope with the principal supervisor before use, and
+provide a written acknowledgement of any AI or AI-assisted technology used in
+preparing this document, including the tool, its purpose, and the extent of use.]

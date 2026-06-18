@@ -155,7 +155,8 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 \end{figure}
 
 
-\subsubsection{Objective 3 / Chapter 3: The Simulation Layer}
+\subsection{Objective 3 / Chapter 3: The Simulation Layer}
+\label{sec:ch3}
 
 \paragraph{Aim.}
 Simulate the ATCM consensus process with country-agents whose state is
@@ -215,82 +216,152 @@ framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
 
 
 
+\section{Resources and Funding Required}
+\label{sec:resources}
 
+The project uses openly published data (the Antarctic Treaty Secretariat document
+archive) and open-source or QUT-licensed software. Computation is served by the QUT
+high-performance computing cluster; no additional funding is required beyond existing
+access. [Candidate to confirm SAEF affiliation and any HPC allocation details.]
 
+\section{Individual Contribution to the Research Team}
+\label{sec:contribution}
 
-\section{Objective 3 / Chapter 3: The Simulation Layer}
-\label{sec:ch3}
+I am the sole researcher on this project, with guidance from my supervisory team.
+The Chapter~1 infrastructure developed at the outset of candidature is preliminary
+work that establishes feasibility; it is not presented as thesis results, and all
+reported findings will be produced within candidature. The thesis extends prior group
+work --- the coalition-network analysis of \textcite{Botelho_CoalitionDynamics} and
+the interaction-pattern analysis of Kumar et al.\ (in prep.) --- which it uses as
+external validation targets rather than as inputs.
 
-% TODO: ~500 words.
-%       - Formal definition of aversion / veto propensity
-%       - Game-theoretic model of strategic blocking
-%       - Calibration to historical ATS consensus failures
-%       - Expected contribution: predictive model of consensus breakdown conditions
-
-\section{Paper 3 — Integrated Simulation Framework}
-\label{sec:paper3}
-
-% TODO: ~500 words.
-%       - Architecture of the agent-based model (state agents, treaty rules, environment)
-%       - RL-trained agents for adaptive strategy
-%       - Validation against historical ATS outcomes
-%       - Generalisability tests on other treaty systems (climate, fisheries)
-
-\section{Data Sources and Ethics}
-\label{sec:data}
-
-The primary data sources for this project are:
-
-\begin{itemize}
-  \item Antarctic Treaty Consultative Meeting (ATCM) final reports and working papers
-        (publicly available at \url{https://www.ats.aq/}).
-  \item State-level foreign policy position datasets (e.g., UN voting records).
-  \item Published network and voting data from the international relations literature.
-\end{itemize}
-
-All data are publicly available institutional records; no human-subjects research is
-involved and no ethics clearance is required beyond standard QUT research integrity
-protocols.
-
-\section{Timeline}
+\section{Timeline for Completion}
 \label{sec:timeline}
 
-\begin{longtable}{lll}
-  \caption{Indicative project timeline} \label{tab:timeline} \\
-  \toprule
-  \textbf{Phase} & \textbf{Activity} & \textbf{Target Date} \\
-  \midrule
-  \endfirsthead
-  \toprule
-  \textbf{Phase} & \textbf{Activity} & \textbf{Target Date} \\
-  \midrule
-  \endhead
-  \midrule
-  \multicolumn{3}{r}{\small Continued on next page} \\
-  \endfoot
-  \bottomrule
-  \endlastfoot
-  1  & Literature review \& theoretical framework      & Month 6  \\
-  2  & Paper 1: data collection \& analysis            & Month 12 \\
-  3  & Paper 1: writing \& submission                  & Month 15 \\
-  4  & Paper 2: model development \& calibration       & Month 18 \\
-  5  & Paper 2: writing \& submission                  & Month 21 \\
-  6  & Paper 3: simulation framework development       & Month 27 \\
-  7  & Paper 3: writing \& submission                  & Month 30 \\
-  8  & Thesis integration \& write-up                  & Month 36 \\
-  9  & Thesis submission                               & Month 38 \\
-\end{longtable}
+The candidature is full-time, commenced 31 March 2026, with milestones placed
+against the QUT full-time schedule (Table~\ref{tab:timeline}).
 
-\section{Expected Contributions}
-\label{sec:contributions}
+% ── Timeline page 1: Milestones and chapter objectives ───────────
+\begin{landscape}
+\begin{table}[p]
+\thispagestyle{empty}
+\centering
+\caption{Candidature timeline (April 2026--April 2029).
+  {\color{NavyBlue!60}\rule{0.9em}{0.7em}}~Ch.\,1\enspace
+  {\color{ForestGreen!60}\rule{0.9em}{0.7em}}~Ch.\,2\enspace
+  {\color{BurntOrange!70}\rule{0.9em}{0.7em}}~Ch.\,3\enspace
+  {\color{gray!60}\rule{0.9em}{0.7em}}~Milestones/events.}
+\label{tab:timeline}
+\small
+\setlength\tabcolsep{1.5pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{4.5cm}*{12}{>{\centering\arraybackslash}p{1.55cm}}}
+\toprule
+\textbf{Activity}
+  & \textbf{3} & \textbf{6} & \textbf{9} & \textbf{12}
+  & \textbf{15} & \textbf{18} & \textbf{21} & \textbf{24}
+  & \textbf{27} & \textbf{30} & \textbf{33} & \textbf{36} \\
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr \\
+  & \scriptsize '26 & \scriptsize '26 & \scriptsize '27 & \scriptsize '27
+  & \scriptsize '27 & \scriptsize '27 & \scriptsize '28 & \scriptsize '28
+  & \scriptsize '28 & \scriptsize '28 & \scriptsize '29 & \scriptsize '29 \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Milestones}} \\
+Stage 2
+  & \cellcolor{gray!55} & & & & & & & & & & & \\
+Confirmation
+  & & & & \cellcolor{gray!55} & & & & & & & & \\
+Progress Report
+  & & & & & & & & \cellcolor{gray!55} & & & & \\
+Final Seminar
+  & & & & & & & & & & & \cellcolor{gray!55} & \cellcolor{gray!55} \\
+Thesis Writing \& Submission
+  & & & & & & & & & & \cellcolor{gray!55} & \cellcolor{gray!55} & \cellcolor{gray!55} \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Objective 1 / Chapter 1: The Support Layer}} \\
+Pipeline Development
+  & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30}
+  & & & & & & & & \\
+Analysis \& Validation
+  & & & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30}
+  & & & & & & & \\
+Writeup \& Submission
+  & & & & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30} & \cellcolor{NavyBlue!30}
+  & & & & & & \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Objective 2 / Chapter 2: The Opposition Layer}} \\
+Pipeline Development
+  & & & & & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30}
+  & & & & & \\
+Extraction \& Validation
+  & & & & & & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30}
+  & & & & \\
+Writeup \& Submission
+  & & & & & & & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30} & \cellcolor{ForestGreen!30}
+  & & & \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Objective 3 / Chapter 3: The Simulation Layer}} \\
+Environment Design
+  & & & & & & & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30}
+  & & \\
+Training \& Evaluation
+  & & & & & & & & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30}
+  & \\
+Writeup \& Submission
+  & & & & & & & & & & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} & \cellcolor{BurntOrange!30} \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
 
-\begin{enumerate}
-  \item A formal computational model of consensus dynamics in the ATS, the first of
-        its kind at this level of institutional specificity.
-  \item A transferable agent-based simulation framework applicable to any
-        consensus-based multilateral treaty.
-  \item New theoretical constructs (affinity/aversion indices) operationalising
-        previously qualitative political science concepts.
-  \item Policy-relevant insights into treaty design features that improve stability
-        under strategic pressure.
-\end{enumerate}
+% ── Timeline page 2: Conferences and coursework ──────────────────
+\begin{landscape}
+\begin{table}[p]
+\thispagestyle{empty}
+\centering
+\caption*{\textit{Table~\ref{tab:timeline} (continued) --- Conference Attendance and Coursework.}}
+\small
+\setlength\tabcolsep{1.5pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{4.5cm}*{12}{>{\centering\arraybackslash}p{1.55cm}}}
+\toprule
+\textbf{Activity}
+  & \textbf{3} & \textbf{6} & \textbf{9} & \textbf{12}
+  & \textbf{15} & \textbf{18} & \textbf{21} & \textbf{24}
+  & \textbf{27} & \textbf{30} & \textbf{33} & \textbf{36} \\
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr
+  & \scriptsize Jul & \scriptsize Oct & \scriptsize Jan & \scriptsize Apr \\
+  & \scriptsize '26 & \scriptsize '26 & \scriptsize '27 & \scriptsize '27
+  & \scriptsize '27 & \scriptsize '27 & \scriptsize '28 & \scriptsize '28
+  & \scriptsize '28 & \scriptsize '28 & \scriptsize '29 & \scriptsize '29 \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Conference Attendance}} \\
+QANZIAM 2026
+  & \cellcolor{gray!50} & & & & & & & & & & & \\
+AMEG Symposium 2026
+  & & & \cellcolor{gray!50} & & & & & & & & & \\
+ANZIAM 2027
+  & & & & \cellcolor{gray!50} & & & & & & & & \\
+International Conference
+  & & & & & & \cellcolor{gray!50} & & & & & & \\
+AMEG Symposium 2027
+  & & & & & & & \cellcolor{gray!50} & & & & & \\
+ANZIAM 2028
+  & & & & & & & & \cellcolor{gray!50} & & & & \\
+\midrule
+\rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Coursework}} \\
+RIO (completed)
+  & \cellcolor{gray!50} & & & & & & & & & & & \\
+AIRS / IFN006
+  & \cellcolor{gray!50} & \cellcolor{gray!50} & & & & & & & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+
+Coursework (IFN006 Advanced Information Research Skills) will be completed by
+July 2026 following Stage~2 submission; the Research Integrity Online quiz is
+completed (Appendix~A).
