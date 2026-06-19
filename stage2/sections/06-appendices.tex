@@ -4,13 +4,12 @@
 \section*{Appendix A: Research Integrity Online}
 \addcontentsline{toc}{section}{Appendix A: Research Integrity Online}
 
-[Insert RIO completion certificate --- mandatory for Stage 2 approval.]
+[Insert RIO completion certificate. I am on it, next I will add it to this document before submission]
 
 \section*{Appendix B: Coursework}
 \addcontentsline{toc}{section}{Appendix B: Coursework}
 
-[Insert Advanced Information Research Skills (AIRS / IFN006) status and any other
-coursework.]
+[Insert Advanced Information Research Skills (AIRS / IFN006) is underway, this course will end on july]
 
 \section*{Appendix C: Notation}
 \addcontentsline{toc}{section}{Appendix C: Notation}
@@ -58,23 +57,17 @@ $S_{\cdot,\cdot,y}$ & year-$y$ stance slice, $S_{\cdot,\cdot,y}\in\mathbb{R}^{C\
 $O_{c,k,y}$         & opposition of country $c$ on topic $k$ in year $y$ \\
 \end{tabular}
 
-A fixed-year slice of $S$ is a signed country-by-topic matrix. Entries lie in
-$[-1,1]$ after aggregation and normalisation: positive values indicate support for
-the permissive pole of the topic's axis, negative values support for the restrictive
-pole, and values near zero either neutrality or absence of position-taking. Sparsity
-is expected; absence of evidence is recorded as missing, not as zero.
+For these tensor high sparsity is expected because absence of evidence is recorded as missing, not as zero.
 
 \paragraph{Stance classifier (Chapter~1).}
 For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
-against-pole hypotheses. For a pooled passage set $d$ and hypothesis $h$, the
-debiased evidence is the null-premise-corrected log-ratio
+against-pole hypotheses. For passage set $d$ and hypothesis $h$, the debiased evidence is the null-premise-corrected log-ratio,
 \[
   \lambda(d,h) = \operatorname{clip}\!\Big(
      \log P(\text{entail}\mid d,h) - \log P(\text{entail}\mid \varnothing,h),
      \ \pm 5 \Big),
 \]
-which removes each hypothesis's marginal acceptability (a directed
-pointwise-mutual-information / DCPMI debiasing). The three-pole distribution
+this removes each hypothesis's marginal acceptability. The three-pole distribution
 combines entailment of each pole with contradiction of its opposite,
 \[
   \tilde\pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
@@ -83,12 +76,15 @@ combines entailment of each pole with contradiction of its opposite,
      \lambda_{\mathrm{ent}}(h_k^{-}) + \lambda_{\mathrm{con}}(h_k^{+})
   \end{pmatrix},
 \]
-which is expanded to the five ordinal classes $\pi_{d,k}$ and reduced to the
+this values are expanded to the five ordinal classes $\pi_{d,k}$ and reduced to the
 scalar stance by the expected value of Equation~(1).
 
 \section*{Appendix D: Acknowledgement of AI Use}
 \addcontentsline{toc}{section}{Appendix D: Acknowledgement of AI Use}
-
-[Per QUT GRC \S4.4: discuss scope with the principal supervisor before use, and
-provide a written acknowledgement of any AI or AI-assisted technology used in
-preparing this document, including the tool, its purpose, and the extent of use.]
+I have used Claude Code for boilerplate and scaffolding code in the implementation of the pipelines and scripts.
+All architectural decisions, methodological choices, and algorithm design were specified by me in the input prompts. I also
+reviewed and edited generated code. 
+I have also used Consensus AI and the Claude app to fetch the most relevant scientific papers from the available literature, based on my own
+ideas, keywords, and criteria.
+Finally, I used Claude Code as a writing assistant for this document, to help with grammar and readability. All research design,
+ideas, interpretation of results, and selection of literature are my own.

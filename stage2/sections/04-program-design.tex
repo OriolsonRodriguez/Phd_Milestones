@@ -158,87 +158,63 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 \subsection{Objective 3 / Chapter 3: The Simulation Layer}
 \label{sec:ch3}
 
-\paragraph{Aim.}
-Simulate the ATCM consensus process with country-agents whose state is
-parameterised by the empirically derived support and opposition layers,
-reproduce historical trajectories, and examine institutional counterfactuals.
-Because the consensus rule makes every Party a veto player
-\parencite{Tsebelis2002}, the natural representation is a strategic bargaining
-game over a status quo rather than an averaging dynamic; this is the substantive
-reason a multi-agent reinforcement-learning formulation is adopted in place of
-the synchronisation models of Section~\ref{sec:formal}.
+The \textbf{aim} of this chapter is to simulate consensus processes with country-agents whose state is
+parameterised by the empirically derived support and opposition from previous chapters. Its main measure of success is 
+to be able to reproduce historical trajectories, and examine institutional counterfactuals. In concensus based systems
+every Party is a veto player \parencite{Tsebelis2002} and the representation is a strategic bargaining game over a status quo
+rather than an averaging dynamic.
 
-\paragraph{Environment and agents.}
-We specify a custom negotiation environment in which proposals are presented one
-at a time --- each proposal being a single Working Paper $d$ on topic $k$ in
-year $y$, drawn from the historical record --- and decided by consensus, with
-one learning agent per Consultative Party
-\parencite{Gronauer2022,Schmid2020}. Each agent's state fuses its support vector
-(Chapter~1), its opposition history (Chapter~2), and slow-moving country
-covariates such as consultative status and accession year, used as context
-features rather than as an independent contribution. An agent's action on a
-presented proposal is binary: to object or not, $o_i \in \{0,1\}$. Under the
+The \textbf{approach} to tackle this task is to specify a custom negotiation environment in which proposals are presented one
+at a time. Each proposal is an input text/Working Paper $d$ that is mostly about topic $k$ in year $y$. Then the agents(one per consultative party)
+decide wether object or not a proposal. For each agent's decision-making proces is supported by its support vector (Chapter~1),
+its opposition history (Chapter~2), and metadata such consultative status, official language, GDP, are used as context features rather than
+ as an independent contribution. An agent's action on a presented proposal is binary: to object or not, $o_i \in \{0,1\}$. Under the
 consensus rule the proposal is adopted only if no Party objects,
 \begin{equation}
-  \mathbb{1}_{\mathrm{adopt}} = \prod_{j} \big(1 - o_j\big),
+  1_{\mathrm{adopt}} = \prod_{j} \big(1 - o_j\big),
   \label{eq:adopt}
 \end{equation}
-so that a single objection vetoes adoption. The reward to agent $i$ is then
+threfore, a single objection vetoes adoption. The reward to agent $i$ is then
 \begin{equation}
-  R_i = \alpha\, S_{i,k,y}\, \mathbb{1}_{\mathrm{adopt}}
-      - \beta\, O_{i,k,y}\, \mathbb{1}_{\mathrm{adopt}}
+  R_i = \alpha\, S_{i,k,y}\, 1_{\mathrm{adopt}}
+      - \beta\, O_{i,k,y}\, 1_{\mathrm{adopt}}
       - \gamma\, o_i,
   \label{eq:reward}
 \end{equation}
-where the first term rewards adoption of outcomes the Party supports, the second
-penalises adoption of outcomes it opposes, the third charges a diplomatic cost
-for casting an objection, and $\alpha, \beta, \gamma \ge 0$ trade the three off;
-reward is measured relative to the status quo, normalised to zero. Because
-adoption (\ref{eq:adopt}) is the product of all Parties' non-objection, each
-agent holds a genuine veto, and consensus emerges from the strategic trade-off
-between blocking an opposed outcome and bearing the cost of objection --- not
-from imposed convergence.
+where the first term rewards adoption of outcomes the Party supports. The second penalises adoption of outcomes it opposes. 
+The third substract a diplomatic cost for casting an objection. Finally,  $\alpha, \beta, \gamma \ge 0$ are trade offs.
+$R_i$ is measured relative to the status quo and normalised to zero. For a non-zero $1_{\mathrm{adopt}}$ all Parties need to agree (non-object),
+therefore, every agent holds a genuine veto. Furthermore, consensus emerges from the strategic trade-off between blocking a proposal
+and bearing the cost of objecting.
 
-\paragraph{Validation and counterfactuals.}
-The model is validated by out-of-sample prediction of consensus or failure for
-held-out years and by an ablation that removes the opposition layer to quantify
-its contribution. Counterfactual analysis (RQ3) then examines alternative
-decision rules --- for example qualified majority in place of unanimity, which
-relaxes (\ref{eq:adopt}) --- against the effectiveness metrics of
-\textcite{Gardiner2025}. This chapter grounds its agents in empirically
-extracted, validated positions from the institution's own record, distinguishing
-it from MARL consensus in simulated negotiation environments
-\parencite{Bolleddu2025}, manifesto-grounded language-model agents
-\parencite{Moghimifar2024}, and abstract synchronisation
-\parencite{Botelho_CoalitionDynamics}. It is the highest-risk chapter and is
-framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
-
-
+The model is validated by the predicted consensus or failure and by an ablation that removes different layers to quantify its contribution.
+Then a counterfactual analysis (RQ3) examines alternative decision rules, for example, qualified majority in place of unanimity, which
+relaxes (\ref{eq:adopt}). This counterfactual intends to predict the behaviour of the system given a change in the institutional rules e.g.
+ATCM framework \parencite{ATS2023RoP}. This is compare against the effectiveness metrics of \textcite{Gardiner2025}. 
+This chapter trains its agents with empirically extracted positions from the institution's own record. This methodology makes this 
+the highest-risk chapter and is framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
 
 
 \section{Resources and Funding Required}
 \label{sec:resources}
 
-The project uses openly published data (the Antarctic Treaty Secretariat document
-archive) and open-source or QUT-licensed software. Computation is served by the QUT
-high-performance computing cluster; no additional funding is required beyond existing
-access. [Candidate to confirm SAEF affiliation and any HPC allocation details.]
+The project uses openly published data from the Antarctic Treaty Secretariat document and may use other public
+data by other international institutions. The project uses open-source software and/or QUT-licensed software. 
+Computation is served by the QUT high-performance computing cluster. No additional funding is required.
 
 \section{Individual Contribution to the Research Team}
 \label{sec:contribution}
 
 I am the sole researcher on this project, with guidance from my supervisory team.
 The Chapter~1 infrastructure developed at the outset of candidature is preliminary
-work that establishes feasibility; it is not presented as thesis results, and all
+work that establishes feasibility. This is not presented in this document as thesis results, and all
 reported findings will be produced within candidature. The thesis extends prior group
-work --- the coalition-network analysis of \textcite{Botelho_CoalitionDynamics} and
-the interaction-pattern analysis of Kumar et al.\ (in prep.) --- which it uses as
-external validation targets rather than as inputs.
+work by \textcite{Botelho_CoalitionDynamics}, \textcite{Kumar_ConsistentPatterns} and \textcite{Carter_LimitsAntarctic}.
 
 \section{Timeline for Completion}
 \label{sec:timeline}
 
-The candidature is full-time, commenced 31 March 2026, with milestones placed
+The candidature is full-time and commenced on the 31st of March, 2026. All milestones placed
 against the QUT full-time schedule (Table~\ref{tab:timeline}).
 
 % ── Timeline page 1: Milestones and chapter objectives ───────────
@@ -343,13 +319,13 @@ QANZIAM 2026
   & \cellcolor{gray!50} & & & & & & & & & & & \\
 AMEG Symposium 2026
   & & & \cellcolor{gray!50} & & & & & & & & & \\
-ANZIAM 2027
+QANZIAM 2027
   & & & & \cellcolor{gray!50} & & & & & & & & \\
 International Conference
   & & & & & & \cellcolor{gray!50} & & & & & & \\
 AMEG Symposium 2027
   & & & & & & & \cellcolor{gray!50} & & & & & \\
-ANZIAM 2028
+QANZIAM 2028
   & & & & & & & & \cellcolor{gray!50} & & & & \\
 \midrule
 \rowcolor{gray!12} \multicolumn{13}{l}{\textbf{Coursework}} \\
@@ -362,6 +338,5 @@ AIRS / IFN006
 \end{table}
 \end{landscape}
 
-Coursework (IFN006 Advanced Information Research Skills) will be completed by
-July 2026 following Stage~2 submission; the Research Integrity Online quiz is
-completed (Appendix~A).
+Coursework (IFN006 Advanced Information Research Skills) is currently underway and will be completed by
+July 2026 following Stage~2 submission. The Research Integrity Online quiz is completed (see Appendix~A).
