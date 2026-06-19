@@ -7,8 +7,8 @@
 Many international insitutions use consensus or unanimity as the voting system choice. This
 can implicitly caps what this institutions can actually achive. A consensus-based system earns
 broad legitimacy by granting equal veto power to every member. However, this gain in legitimacy
-trades off with slow adaptation, ultimately risking institutional inertia and decline. 
-\parencite{Gray2018}. The Antarctic Treaty System (ATS) is one of those
+trades off with slow adaptation, ultimately risking institutional inertia and decline, eventually, creating 
+zombie institutions \parencite{Gray2018}. The Antarctic Treaty System (ATS) is one of those
 consensus-driven regimes, negotiated between a set of parties
 called consultative parties \textcite{ATS2023RoP}. This group of countries, together with
 a second group lacking decision-making power (non-consultative parties), meets
@@ -25,20 +25,21 @@ increased, the regime has become less responsive to challenges \textcite{Gardine
 In a system based on consensus is or utmost importance to uderstand why it succeds or fails,
 And which parties drive it or block it, respectively. Existing literature has described the ATS
 by rates and diversity of outputs, and stucturally by describing who co-aouthors with whom 
-\textcite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns}. But there is no study where the
-a reconstruction of a directional party intention was reconstructed from the textual records
- on each issue over time.
- Even further, that type of measure has not been used to model the strategic behaviour that 
- produces or breaks consensus. This thesis objective is to measure that and to build that 
- model and asks if they contain the strategic intentions made by the consultative parties.
- It then asks whether these can model historical consensus dynamics.
+\textcite{Botelho_CoalitionDynamics} and network analysis between parties and how these networks
+are generated \textcite{Kumar_ConsistentPatterns}.
+But there is no study where the is a reconstruction of a directional party intention was reconstructed
+from the textual records on each issue over time.
+Even further, that type of measure has not been used to model the strategic behaviour that 
+produces or breaks consensus. This thesis objective is to measure that and to build that 
+model and asks if they contain the strategic intentions made by the consultative parties.
+It then asks whether these can model historical consensus dynamics.
 
 The approach is a computational pipeline. First, it uses embedding techniques to discover topics, 
 and NLI (Natural Language Inference) techniques for stance extraction. These would allow
 the construction of the preference measure. Second, it applies NLI to extract the opposition 
 or aversion. It then testes the approach by comparing inputs (i.e. working papers) against
- observes outcomes. Finally, a Multi-Agent reinforcement learning is trained based on the
-  previous outcomes to simulate the negotiation itself. 
+observes outcomes. Finally, a Multi-Agent reinforcement learning is trained based on the
+previous outcomes to simulate the negotiation itself. 
 
 \section{The Antarctic Treaty System as a consensus regime}
 \label{sec:ats}
@@ -86,7 +87,7 @@ test: a known case with documented positions against which any quantitative stan
 In general the quantitative study of international institutions exist long before it was applied to
 Antarctica. Substantial literature maps the design of treaties and organisations into structured
 variables for example: their decision rules, dispute-settlement provisions, and enforcement mechanisms.
-Furthermore, these studies track these variable to to institutional performance and survival
+Furthermore, some of these studies track these variable to to institutional performance, survival and possible decline
 \parencite{Gray2018}.A more recent trend treats the \emph{text} of international agreements and debates as data.
 They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Both approaches 
 show that preferences and design features of treaty regimes can be measured, not mereley described.
@@ -94,10 +95,10 @@ show that preferences and design features of treaty regimes can be measured, not
 The ATS has been analysed quantitatively in two ways: \textcite{Gardiner2025} does performance accounts that measure the
 regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
 concludes that responsiveness to challenges in the Antarctic region is declining.
-The second methodology is structural (\textcite{Botelho_CoalitionDynamics, Kumar_ConsistentPatterns}): mapping who collaborates with whom
-through co-authorship networks of ATCM documents.
+The second methodology is structural \parencite{Botelho_CoalitionDynamics} where is mapped who collaborates with whom
+through co-authorship networks of ATCM documents, or how collaboration networks are generated in a similar context \parencite{Kumar_ConsistentPatterns}.
 Both analyses are very valuable, and in this project both results are going to be used as an external check: the network
-structure as a replication target for the authorship layer, and the outcome series as a prediction target in Chapter 2.
+structure as a replication target for the authorship layer, but also the outcome series, by \textcite{Gardiner2025}, as a prediction target in Chapter 2.
 Neither, however, extracts topics from WPs in an unsupervised manner, nor yields a directional, country- and topic-level,
 time-resolved measure of policy preference.
 
@@ -140,7 +141,7 @@ The final results can be validated directly using the CRAMRA canary test
 \section{Modelling consensus, coalition formation and multi-actor decision-making}
 \label{sec:consensus}
 There two traditional group of models how groups reach concensus. The first is the mosts ellegant but are the synchronization and 
-opinion-dynamics models, like Kuramoto and opinion-changing-rate proposed by \textcite{Botelho2022} which represent agreement as
+opinion-dynamics models, like Kuramoto and opinion-changing-rate used by \textcite{Botelho_CoalitionDynamics} which represent agreement as
 an coupled-oscillator convergence. These methods treat concensus as \textit{convergence}. \textcite{DeGroot1974} average agents 
 opinion iteratively using \(x(t+1)=Wx(t)\) until they agree. There is also a bounded-version of this model debeloped by \textcite{Hegselmann2002}.
 Another relevant model worth mentioning within this group is the stubborn agents \parencite{FriedkinJohnsen1990} where each agent does not fully update to match
@@ -151,7 +152,7 @@ bargaining behaviour that occurs in concensus based systems.
 The second group of models uses social choice and game theory to model conseusus as a unanimity rule. \textcite{Tsebelis2002} develop a veto-players
 framework where every party has veto power, therefore, the status quo is only replace by new measures when \(u_i(p) \geq u_i(q)\) for every Party i.
 Consequently, when the number of parties increase and the spread of their position grow, the set of adoptable policies decreases and the systems stability
-increases.  This conclusion is the same reached by \textcite{Gardiner2025} when analysing the ATS qualitatively.
+increases.  This conclusion is the same reached by \textcite{Gardiner2025} when analysing the ATS.
 
 
 \section{Negotiation and coalition formation simulation using reinforcement learning}
@@ -168,14 +169,14 @@ than solving for it in closed form \parencite{Littman1994}. In this context, neu
  approximators that allow this learning to scale to large state and action spaces.
 
 Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team formation \parencite{Bachrach2020},
- bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
+bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
 \parencite{Li2023}.  In this field, there are review papers by \textcite{Gronauer2022} on MARL and by 
 \textcite{Sarkar2022} on coalition formation. Most recently, MARL agents based on Large Language Models (LLMs) have been used to 
 model political negotiation directly: for example, \textcite{Moghimifar2024} simulate coalition formation in parliament using text data
 from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
 \textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy
 (a well-known benchmark for this type of simulation). Finally, some other benchmarks for real negotiation data are starting to appear 
-\parencite{Benac2026,Gu2025}. However, none of the works mentioned above link an empirically extracted and validated country-by-topic
+\parencite{Benac2026}. However, none of the works mentioned above link an empirically extracted and validated country-by-topic
  preference structure to a strategic simulation of a real consensus treaty regime.
 
 
