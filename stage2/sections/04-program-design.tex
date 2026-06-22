@@ -23,12 +23,7 @@ Throughout the following sections each chapter is described in detail.
 \begin{figure}[htbp]
   \centering
   \resizebox{\textwidth}{!}{\input{figures/workflow.tex}}
-  \caption{Thesis workflow: from text records to a validated
-           consensus simulation. The support layer (Chapter~1) produces a signed
-           position tensor~$S$; the opposition layer (Chapter~2) adds an
-           opposition tensor~$O$ and validates both against ATCM outcomes; the
-           simulation layer (Chapter~3) tests whether the extracted preferences
-           reproduce consensus and its failures.}
+  \caption{Thesis workflow: from text records to a validated consensus simulation.}
   \label{fig:workflow}
 \end{figure}
 
@@ -113,9 +108,7 @@ Figure (\ref{fig:ch1-workflow}) below shows a summarize overview of the steps de
 \begin{figure}[p]
   \centering
   \resizebox{!}{0.88\textheight}{\input{figures/ch1_workflow.tex}}
-  \caption{Chapter~1 support-layer pipeline: from text records through BERTopic
-           topic discovery, relevance gating, NLI stance contrast, and
-           aggregation to the country$\times$topic$\times$year support tensor~$S$.}
+  \caption{Chapter~1 support-layer pipeline, from text records to the country$\times$topic$\times$year support tensor~$S$.}
   \label{fig:ch1-workflow}
 \end{figure}
 
@@ -147,10 +140,7 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 \begin{figure}[htbp]
   \centering
   \resizebox{\textwidth}{!}{\input{figures/ch2_workflow.tex}}
-  \caption{Chapter~2 opposition layer sketch: from text data to opposition tensor~$O$,
-           forming the signed preference network~$(S,O)$ together with the Chapter~1
-           support tensor~$S$. It is validated against observed ATCM
-           outcomes before feeding Chapter~3.}
+  \caption{Chapter~2 opposition layer sketch: from text data to opposition tensor~$O$, forming the signed preference network~$(S,O)$.}
   \label{fig:ch2-workflow}
 \end{figure}
 
