@@ -4,12 +4,12 @@
 
 \section{Research Questions}
 \label{sec:rqs}
-The thesis addresses the gap mentioned above by answering these reserch questions:
+The thesis addresses the gap mentioned above by answering these research questions:
 \begin{rqbox}
   \begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=*, itemsep=6pt]
     \item Can Parties’ strategic positions be reconstructed from written records into a directional
            measure across topics and time?
-    \item Does the reconstructed positions recover known history and predict outcomes?
+    \item Do the reconstructed positions recover known history and predict outcomes?
     \item Can a multi-agent model parameterised by it reproduce consensus and test counterfactual decision rules?
   \end{enumerate}
 \end{rqbox}
@@ -52,7 +52,7 @@ centroid as follows,
 \]
 
 $P_{d,k}$ is the set of top scoring passages above a threshold. Then, the relevant sentences out of each $P_{d,k}$ are extracted using
-and Large Laguage Model ($LLM$). This sentences are concatenaited together and are scored as a set by the classifier. It produces one
+a Large Language Model (LLM). These sentences are concatenated and scored as a set by the classifier. It produces one
 five-class distribution over ordinal classes that range from strong opposition to strong support. Formally, it is as follows
 \begin{equation}
   \pi_{d,k} = \mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)
@@ -72,7 +72,7 @@ The signed stance of document $d$ on topic $k$ is the expected value of this dis
 Since $\pi_{d,k}$ is a probability distribution and every $v_\ell \in [-1,1]$, the stance $s_{d,k} \in [-1,1]$ is a convex
 combination of the class values and therefore well defined on topic $k$'s axis.
 
-Finally, the previous result is aggregated to produce a $country \times topic \times year$ stances over the
+Finally, the previous result is aggregated to produce $country \times topic \times year$ stances over the
 Working Papers weighted by co-sponsorship credit:
 
 \begin{equation}
@@ -81,8 +81,8 @@ Working Papers weighted by co-sponsorship credit:
   \label{eq:aggregate}
 \end{equation}
 
-where $D(c,y)$ is the set of Working Papers co-authored by country $c$ in year $y$, $K(d)$ are the set of topics assigned to document $d$,
-and $w_{d,c}$ the attribution weight of that country in one document. Two attribution conventions are computed: 
+where $D(c,y)$ is the set of Working Papers co-authored by country $c$ in year $y$, $K(d)$ is the set of topics assigned to document $d$,
+and $w_{d,c}$ is the attribution weight of that country in one document. Two attribution conventions are computed: 
 \begin{itemize}
       \item full credit, $w_{d,c} = 1$, which means every co-sponsor receives the full position and which answers ``who is on this side?''.
       \item fractional credit, $w_{d,c} = 1/|A_d|$ with $A_d$ the set of co-sponsors of $d$, which answers ``who is driving this?''.
@@ -91,9 +91,8 @@ and $w_{d,c}$ the attribution weight of that country in one document. Two attrib
 For a fixed year, the slice $S_{\cdot,\cdot,y} \in \mathbb{R}^{C \times |K|}$ is a signed $country \times topic$ matrix, with $C$ countries
 and $|K|$ topics. See Appendix~C for full notation.
 
-To measure directional stance on diplomatic text \eqref{eq:stance-dist} represent a challenge give the hedging and similar prose in disting positioning.
-In other words, permissive and restrictive positions on a regulatory question share same safeguard vocabulary, therefore,
-scoring a single hypothesis collapses toward neutrality. Threfore, stance is recovered as a \emph{contrast} between entail and contradiction positions.
+Measuring directional stance on diplomatic text using the distribution in \eqref{eq:stance-dist} is challenging, because hedging and similar prose obscure positioning.
+In other words, permissive and restrictive positions on a regulatory question share the same safeguard vocabulary; scoring a single hypothesis therefore collapses toward neutrality. Therefore, stance is recovered as a \emph{contrast} between entail and contradiction positions.
 Specifically, for each topic $k$, structured hypotheses anchor a for-pole $h_k^{+}$, a neutral one $h_k^{0}$, and an against one $h_k^{-}$ on the topic's
 contestable axis. These $(h_k,premise)$ pairs are input into $\mathrm{NLI}$ classifier \parencite{Laurer2024}. The resulting scores for \emph{entailment} 
 and \emph{contradiction} are subtracted. The classifier's results are cross-checked against a generative model used as a secondary instrument \parencite{LeMens2024}.
@@ -101,10 +100,10 @@ and \emph{contradiction} are subtracted. The classifier's results are cross-chec
 \paragraph{Validation strategy}
 The construct will be validated using three independent checks, each targeting a different stage of the pipeline. A topic validation check compares
 the discovered topics against the Secretariat's categories and the WP in each category. A historical canary uses the minerals/CRAMRA negotiations of the late 1970s and
-1980s as documented ground truth. The testing asserts if the pipeline recovers the known directional opposition in those papers. Finally, a network comparison
+1980s as documented ground truth. The test checks whether the pipeline recovers the known directional opposition in those papers. Finally, a network comparison
 check reconstructs the co-authorship structure reported by \textcite{Botelho_CoalitionDynamics} from the authorship layer. 
 
-Figure (\ref{fig:ch1-workflow}) below shows a summarize overview of the steps described above. 
+Figure~\ref{fig:ch1-workflow} below gives a summarised overview of the steps described above.
 \begin{figure}[p]
   \centering
   \resizebox{!}{0.88\textheight}{\input{figures/ch1_workflow.tex}}
@@ -117,7 +116,7 @@ Figure (\ref{fig:ch1-workflow}) below shows a summarize overview of the steps de
 
 The \textbf{aim} of this part of the research project is to extract a directional opposition signal. This opposition signal
 has two sides. The first is opposition to the issue itself; it is not the inverse of the support-layer result,
-but rather the \textit{veto signal} against a given proposal. The second side is secundary exploratory result: a measure of a country's
+but rather the \textit{veto signal} against a given proposal. The second side is a secondary, exploratory result: a measure of a country's
 general propensity to reject proposals within a given ATCM. As with the support layer, this chapter builds a pipeline and, 
 for the specific case of the ATS, the ATCMs' final reports are used as text input. Given the scarcity of text in which countries 
 veto a proposal, the attribution is expected to be harder than for the support layer. 
@@ -127,9 +126,11 @@ structure. At this point, there is a pair $(\mathbf{S}, \mathbf{O})$ of tensors 
 These two tensors are the inputs to the third chapter.
 
 \paragraph{External validation.}
-The combined structure (the tensor pair $(\mathbf{S}, \mathbf{O})$) is tested for predictive content against observed outcomes (see \ref{sec:ats}) and the compilation
-by \textcite{Gardiner2025}, for the case of the ATS. This gives Chapter~2 an independent research question, test the results so far, and produces a 
+The combined structure (the tensor pair $(\mathbf{S}, \mathbf{O})$) is tested for predictive content against observed outcomes (see Section~\ref{sec:ats}) and the compilation
+by \textcite{Gardiner2025}, for the case of the ATS. This gives Chapter~2 an independent research question, tests the results so far, and produces a 
 quantitative description. The novelty in this work is the directional signed signal derived from the institution's own input records and outcomes.
+Although this thesis focuses on the ATS, the pipeline is institution-agnostic: the same $(\mathbf{S},\mathbf{O})$ construction
+could be applied to other consensus- or veto-based international institutions whose deliberative records are available.
 
 The main risks in this chapter are the sparsity of text that can be directly attributed to an input, and the identification of the country that vetoes any 
 proposal. A further limitation is the influence of external geopolitics, as in the case of the consensus breakdown in 2022 due to the war in Ukraine 
@@ -150,21 +151,21 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 
 The \textbf{aim} of this chapter is to simulate consensus processes with country-agents whose state is
 parameterised by the empirically derived support and opposition from previous chapters. Its main measure of success is 
-to be able to reproduce historical trajectories, and examine institutional counterfactuals. In concensus based systems
+to be able to reproduce historical trajectories, and examine institutional counterfactuals. In consensus-based systems
 every Party is a veto player \parencite{Tsebelis2002} and the representation is a strategic bargaining game over a status quo
 rather than an averaging dynamic.
 
 The \textbf{approach} to tackle this task is to specify a custom negotiation environment in which proposals are presented one
-at a time. Each proposal is an input text/Working Paper $d$ that is mostly about topic $k$ in year $y$. Then the agents(one per consultative party)
-decide wether object or not a proposal. For each agent's decision-making proces is supported by its support vector (Chapter~1),
-its opposition history (Chapter~2), and metadata such consultative status, official language, GDP, are used as context features rather than
+at a time. Each proposal is an input text/Working Paper $d$ that is mostly about topic $k$ in year $y$. Then the agents (one per consultative party)
+decide whether or not to object to a proposal. Each agent's decision-making is supported by its support vector (Chapter~1),
+its opposition history (Chapter~2), and metadata such as consultative status, official language, and GDP, used as context features rather than
  as an independent contribution. An agent's action on a presented proposal is binary: to object or not, $o_i \in \{0,1\}$. Under the
 consensus rule the proposal is adopted only if no Party objects,
 \begin{equation}
   1_{\mathrm{adopt}} = \prod_{j} \big(1 - o_j\big),
   \label{eq:adopt}
 \end{equation}
-threfore, a single objection vetoes adoption. The reward to agent $i$ is then
+therefore, a single objection vetoes adoption. The reward to agent $i$ is then
 \begin{equation}
   R_i = \alpha\, S_{i,k,y}\, 1_{\mathrm{adopt}}
       - \beta\, O_{i,k,y}\, 1_{\mathrm{adopt}}
@@ -172,7 +173,7 @@ threfore, a single objection vetoes adoption. The reward to agent $i$ is then
   \label{eq:reward}
 \end{equation}
 where the first term rewards adoption of outcomes the Party supports. The second penalises adoption of outcomes it opposes. 
-The third substract a diplomatic cost for casting an objection. Finally,  $\alpha, \beta, \gamma \ge 0$ are trade offs.
+The third subtracts a diplomatic cost for casting an objection. Finally, $\alpha, \beta, \gamma \ge 0$ are non-negative trade-off weights.
 $R_i$ is measured relative to the status quo and normalised to zero. For a non-zero $1_{\mathrm{adopt}}$ all Parties need to agree (non-object),
 therefore, every agent holds a genuine veto. Furthermore, consensus emerges from the strategic trade-off between blocking a proposal
 and bearing the cost of objecting.
@@ -180,7 +181,7 @@ and bearing the cost of objecting.
 The model is validated by the predicted consensus or failure and by an ablation that removes different layers to quantify its contribution.
 Then a counterfactual analysis (RQ3) examines alternative decision rules, for example, qualified majority in place of unanimity, which
 relaxes (\ref{eq:adopt}). This counterfactual intends to predict the behaviour of the system given a change in the institutional rules e.g.
-ATCM framework \parencite{ATS2023RoP}. This is compare against the effectiveness metrics of \textcite{Gardiner2025}. 
+ATCM framework \parencite{ATS2023RoP}. This is compared against the effectiveness metrics of \textcite{Gardiner2025}. 
 This chapter trains its agents with empirically extracted positions from the institution's own record. This methodology makes this 
 the highest-risk chapter and is framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
 
@@ -204,7 +205,7 @@ work by \textcite{Botelho_CoalitionDynamics}, \textcite{Kumar_ConsistentPatterns
 \section{Timeline for Completion}
 \label{sec:timeline}
 
-The candidature is full-time and commenced on the 31st of March, 2026. All milestones placed
+The candidature is full-time and commenced on the 31st of March, 2026. All milestones are placed
 against the QUT full-time schedule (Table~\ref{tab:timeline}).
 
 % ── Timeline page 1: Milestones and chapter objectives ───────────
