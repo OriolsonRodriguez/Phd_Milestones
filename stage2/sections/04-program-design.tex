@@ -1,20 +1,20 @@
 %% Section 04 — Program Design / Research Methodology
-\chapter{Program and Design of the Research Investigation}
+\chapter{Program and design of the research project}
 \label{ch:program}
 
-\section{Research Questions}
+\section{Research questions}
 \label{sec:rqs}
 The thesis addresses the gap mentioned above by answering these research questions:
 \begin{rqbox}
   \begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=*, itemsep=6pt]
-    \item Can Parties’ strategic positions be reconstructed from written records into a directional
+    \item Can parties’ strategic positions be reconstructed from written records into a directional
            measure across topics and time?
     \item Do the reconstructed positions recover known history and predict outcomes?
     \item Can a multi-agent model parameterised by it reproduce consensus and test counterfactual decision rules?
   \end{enumerate}
 \end{rqbox}
 
-\section{Objectives, Methodology and Research Plan}
+\section{Objectives, methodology and research plan}
 \label{sec:objectives}
 
 Figure~\ref{fig:workflow} shows the overall flow of the research project, the output of each stage, and how the objectives relate to one another.
@@ -28,13 +28,13 @@ Throughout the following sections each chapter is described in detail.
 \end{figure}
 
 
-\subsection{Objective 1 / Chapter 1: The Support Layer}
+\subsection{Objective 1 / Chapter 1: The Support layer}
 \label{sec:ch1}
 
-The \textbf{Aim} is to produce a defensible, directional measure of Parties' preferences over relevant topics through time, 
-using documents the Parties submit themselves. For the ATCM case, Working Papers (WPs) are the input data because, of
-all submitted documents, these are the only ones submitted by Parties or Observers (non-Secretariat) that require discussion and 
-action. This makes WPs the most likely text to contain Parties' strategic intentions. The analysis uses English-language papers, since these
+The \textbf{aim} is to produce a defensible, directional measure of parties' preferences over relevant topics through time, 
+using documents the parties submit themselves. For the ATCM case, Working Papers (WPs) are the input data because, of
+all submitted documents, these are the only ones submitted by parties or Observers (non-Secretariat) that require discussion and 
+action. This makes WPs the most likely text to contain parties' strategic intentions. The analysis uses English-language papers, since these
 represent the largest share of all WPs. It is also relevant that most of the available pre-trained embedding and NLI models were trained
 on English-language data. 
 
@@ -52,8 +52,8 @@ centroid as follows,
 \]
 
 $P_{d,k}$ is the set of top scoring passages above a threshold. Then, the relevant sentences out of each $P_{d,k}$ are extracted using
-a Large Language Model (LLM). These sentences are concatenated and scored as a set by the classifier. It produces one
-five-class distribution over ordinal classes that range from strong opposition to strong support. Formally, it is as follows
+a Large Language Model (LLM). These sentences are concatenated and scored as a set by the classifier. It produces one three-class
+distribution which is mapped to five ordinal classes that range from strong opposition to strong support. Formally, it is as follows
 \begin{equation}
   \pi_{d,k} = \mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)
             \in \Delta_5, \qquad
@@ -111,7 +111,7 @@ Figure~\ref{fig:ch1-workflow} below gives a summarised overview of the steps des
   \label{fig:ch1-workflow}
 \end{figure}
 
-\subsection{Objective 2 / Chapter 2: The Opposition Layer and External Validation}
+\subsection{Objective 2 / Chapter 2: The Opposition layer and external validation}
 \label{sec:ch2}
 
 The \textbf{aim} of this part of the research project is to extract a directional opposition signal. This opposition signal
@@ -146,7 +146,7 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 \end{figure}
 
 
-\subsection{Objective 3 / Chapter 3: The Simulation Layer}
+\subsection{Objective 3 / Chapter 3: The Simulation layer}
 \label{sec:ch3}
 
 The \textbf{aim} of this chapter is to simulate consensus processes with country-agents whose state is
@@ -174,7 +174,7 @@ therefore, a single objection vetoes adoption. The reward to agent $i$ is then
 \end{equation}
 where the first term rewards adoption of outcomes the Party supports. The second penalises adoption of outcomes it opposes. 
 The third subtracts a diplomatic cost for casting an objection. Finally, $\alpha, \beta, \gamma \ge 0$ are non-negative trade-off weights.
-$R_i$ is measured relative to the status quo and normalised to zero. For a non-zero $1_{\mathrm{adopt}}$ all Parties need to agree (non-object),
+$R_i$ is measured relative to the status quo and normalised to zero. For a non-zero $1_{\mathrm{adopt}}$ all parties need to agree (non-object),
 therefore, every agent holds a genuine veto. Furthermore, consensus emerges from the strategic trade-off between blocking a proposal
 and bearing the cost of objecting.
 
@@ -186,14 +186,14 @@ This chapter trains its agents with empirically extracted positions from the ins
 the highest-risk chapter and is framed as a proof of concept, contingent on Chapters~1 and~2 passing validation.
 
 
-\section{Resources and Funding Required}
+\section{Resources and funding required}
 \label{sec:resources}
 
 The project uses openly published data from the Antarctic Treaty Secretariat document and may use other public
 data by other international institutions. The project uses open-source software and/or QUT-licensed software. 
 Computation is served by the QUT high-performance computing cluster. No additional funding is required.
 
-\section{Individual Contribution to the Research Team}
+\section{Individual contribution to the research team}
 \label{sec:contribution}
 
 I am the sole researcher on this project, with guidance from my supervisory team.
@@ -202,7 +202,7 @@ work that establishes feasibility. This is not presented in this document as the
 reported findings will be produced within candidature. The thesis extends prior group
 work by \textcite{Botelho_CoalitionDynamics}, \textcite{Kumar_ConsistentPatterns} and \textcite{Carter_LimitsAntarctic}.
 
-\section{Timeline for Completion}
+\section{Timeline for completion}
 \label{sec:timeline}
 
 The candidature is full-time and commenced on the 31st of March, 2026. All milestones are placed

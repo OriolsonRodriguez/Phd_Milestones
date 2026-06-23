@@ -4,7 +4,7 @@
 
 \section{Introduction}
 \label{sec:lr-intro}
-Consensus regimes is practice reach agreement far more often than their veto
+Consensus regimes in practice reach agreement far more often than their veto
 structure would suggest. But success is never guaranteed: in bodies such as the United Nations Security Council
 a single veto routinely blocks collective action, and even historically productive regimes can stall. What
 separates a regime that keeps deciding from one that stagnates is not well understood. A model that reproduces
@@ -20,7 +20,7 @@ observed outputs rather than assumed. Recent advances in natural language proces
 each of these upgrades feasible.
 
 The Antarctic Treaty System (ATS) is one of those
-consensus-driven regimes, negotiated between a set of parties
+consensus-driven regimes, negotiated among a set of parties
 called consultative parties \parencite{ATS2023RoP}. This group of countries, together with
 a second group lacking decision-making power (non-consultative parties), meets
  yearly at the Antarctic Treaty Consultative Meeting (ATCM). Before each meeting,
@@ -42,7 +42,7 @@ There are four types of input:
 \begin{itemize}
 \item \textbf{Working Papers} (\parencite[Rule~48]{ATS2023RoP}): submitted by CPs and Observers, these require
  discussion at the ATCM and are the main source of outputs. They are the only input from CPs that can produce an outcome.
-\item \textbf{Secretariat}, \textbf{Information}, and \textbf{Background Papers} (\parencite[Rules~49--51]{ATS2023RoP}):
+\item \textbf{Secretariat}, \textbf{Information}, and \textbf{Background Papers} \parencite[Rules~49--51]{ATS2023RoP}:
  respectively, organisational matters such as the budget; supporting information (also from NCPs and experts); and documents
  submitted for the record only.
 \end{itemize}
@@ -95,11 +95,11 @@ what works and what does not when analysing political text using embedding techn
 technique for those purposes but caution that the choice of embeddings strongly affects applied inference, and that the results must
 be validated.
 
-This thesis uses both paradigms in the same pipeline but at different stages. It differs from the
+This thesis uses the second paradigm in the same pipeline at different stages. It also differs from the
 ideal-point methods in an important way: ideal-point models recover a single stable latent position per actor, whereas this
 project requires a topic-conditioned stance, allowing parties to hold different positions on different topics through time.
 The topic structure is discovered using BERTopic \parencite{Grootendorst_BERTopic} and the stance with discriminative
-transformer-NLI models \parencite{Burnham2023,Abercrombie2022}. The results can be validated directly using the CRAMRA canary
+transformer-NLI models \parencite{Burnham2023,Abercrombie2022}. The results can be stress-tested directly using the CRAMRA canary
 test \parencite{jackson2021antarctica}, or indirectly by checking which countries cluster around \((\text{topic}, \text{stance})\) pairs and comparing this to the
 \textcite{Botelho_CoalitionDynamics} network results.
 
@@ -147,7 +147,7 @@ from party manifestos. \textcite{Bolleddu2025} present a MARL system for consens
 \parencite{Benac2026}. However, these simulations run on synthetic data or abstract benchmarks rather than the deliberative records of a real consensus regime.
 
 
-\section{Summary of Literature Gap}
+\section{Summary of literature gap}
 \label{sec:gap}
 
 The descriptive work shows what the regime outputs but not who produces what. Structural and party-network analyses
