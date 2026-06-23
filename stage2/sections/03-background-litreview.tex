@@ -62,7 +62,7 @@ test: a known case with documented positions against which any quantitative stan
 
 The quantitative study of international institutions long predates its application to
 Antarctica. Substantial literature maps the design of treaties and organisations into structured
-variables---for example, their decision rules, dispute-settlement provisions, and enforcement mechanisms.
+variables, for example, their decision rules, dispute-settlement provisions, and enforcement mechanisms.
 Some studies link these variables to institutional performance, survival, and decline
 \parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data.
 They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Both approaches 
@@ -82,7 +82,7 @@ Neither, however, extracts topics from WPs in an unsupervised manner.
 
 Positional measures extracted from political texts are a well-developed field with two paradigms. 
 The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
-without a pre-specified axis---there is no need to fix, say, a regulatory-versus-permissive comparison in advance. These
+without a pre-specified axis: there is no need to fix, say, a regulatory-versus-permissive comparison in advance. These
 methods typically rely on word counts (i.e. frequencies) as their main underlying principle. Wordfish \parencite{Slapin2008} is an unsupervised positional scaling of party text.
 \textcite{Lauderdale2016} addressed the problem that legislators talk about different 
 things in different debates; they introduced a per-topic, per-debate scaling.
@@ -165,4 +165,14 @@ No prior work extracts a directional preference for each party over time from a 
 regime's own textual records, nor uses such preferences to drive a strategic simulation in which agents have veto
 power. This thesis supplies both halves and joins them: the preferences recovered from the record become the
  parameters of the simulation that reproduces consensus and its failures.
+
+
+\section{Research problem}
+\label{sec:rqs}
+The first goal of this thesis is to reconstruct parties' preferences from the written records 
+into a directional measure (stance) across topics and time. The second goal is to extract
+a directional opposition (veto) signal from the same records, and to test whether the combined 
+preferences recover known history and predict decisions. Finally, this thesis aim to use these preferences
+to parameterise a multi-agent model that simulates consensus and its failures.
+
 

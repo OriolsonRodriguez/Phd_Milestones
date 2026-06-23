@@ -2,18 +2,6 @@
 \chapter{Program and design of the research project}
 \label{ch:program}
 
-\section{Research questions}
-\label{sec:rqs}
-The thesis addresses the gap mentioned above by answering these research questions:
-\begin{rqbox}
-  \begin{enumerate}[label=\textbf{RQ\arabic*.}, leftmargin=*, itemsep=6pt]
-    \item Can parties’ strategic positions be reconstructed from written records into a directional
-           measure across topics and time?
-    \item Do the reconstructed positions recover known history and predict outcomes?
-    \item Can a multi-agent model parameterised by it reproduce consensus and test counterfactual decision rules?
-  \end{enumerate}
-\end{rqbox}
-
 \section{Objectives, methodology and research plan}
 \label{sec:objectives}
 
@@ -179,7 +167,7 @@ therefore, every agent holds a genuine veto. Furthermore, consensus emerges from
 and bearing the cost of objecting.
 
 The model is validated by the predicted consensus or failure and by an ablation that removes different layers to quantify its contribution.
-Then a counterfactual analysis (RQ3) examines alternative decision rules, for example, qualified majority in place of unanimity, which
+Then a counterfactual analysis examines alternative decision rules, for example, qualified majority in place of unanimity, which
 relaxes (\ref{eq:adopt}). This counterfactual intends to predict the behaviour of the system given a change in the institutional rules e.g.
 ATCM framework \parencite{ATS2023RoP}. This is compared against the effectiveness metrics of \textcite{Gardiner2025}. 
 This chapter trains its agents with empirically extracted positions from the institution's own record. This methodology makes this 
@@ -201,6 +189,17 @@ The Chapter~1 infrastructure developed at the outset of candidature is prelimina
 work that establishes feasibility. This is not presented in this document as thesis results, and all
 reported findings will be produced within candidature. The thesis extends prior group
 work by \textcite{Botelho_CoalitionDynamics}, \textcite{Kumar_ConsistentPatterns} and \textcite{Carter_LimitsAntarctic}.
+
+\section{Acknowledging use of Artificial Intelligence (AI) and AI-assisted technologies}
+\label{sec:ai}
+
+I have used Claude Code for boilerplate and scaffolding code in the implementation of the pipelines and scripts.
+All architectural decisions, methodological choices, and algorithm design were specified by me in the input prompts. I also
+reviewed and edited generated code.
+I have also used Consensus AI and the Claude app to fetch the most relevant scientific papers from the available literature, based on my own
+ideas, keywords, and criteria. Afterwards, I read the papers and drew conclusions myself.
+Finally, I used Claude Code as a writing assistant for this document, to help with grammar, readability, clarity and LaTeX document formatting. All research questions,
+project design, ideas, interpretation of results, and selection of literature are my own.
 
 \section{Timeline for completion}
 \label{sec:timeline}
@@ -288,7 +287,7 @@ Writeup \& Submission
 \begin{table}[p]
 \thispagestyle{empty}
 \centering
-\caption*{\textit{Table~\ref{tab:timeline} (continued) --- Conference Attendance and Coursework.}}
+\caption*{\textit{Table~\ref{tab:timeline} (continued): Conference Attendance and Coursework.}}
 \small
 \setlength\tabcolsep{1.5pt}
 \renewcommand{\arraystretch}{1.25}
