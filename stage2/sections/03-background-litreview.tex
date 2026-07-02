@@ -4,28 +4,36 @@
 
 \section{Introduction}
 \label{sec:lr-intro}
-Consensus regimes in practice reach agreement far more often than their veto
-structure would suggest. But success is never guaranteed: in bodies such as the United Nations Security Council
-a single veto routinely blocks collective action, and even historically productive regimes can stall. What
-separates a regime that keeps deciding from one that stagnates is not well understood. A model that reproduces
+Consensus is a collective decision-making process where every party can object to any
+proposal and effectively veto it. It becomes a consensus regime when consensus becomes
+the only means to reach decisions. Consensus is not the same as unanimity: a unanimity
+rule puts a proposal to a vote and records who votes in favour, against or abstain, whereas under
+consensus a decision proceeds whenever no party registers a formal objection \parencite{Rietig2023}. 
+Since in such regimes a single party can halt any
+proposal even when no other party objects, an outside observer might, at first sight,
+expect such regimes to decide very little. This is even more pronounced when there is
+a large and heterogeneous group: the larger the group, the smaller the set of proposals
+that change the status quo \parencite{Tsebelis2002}. In practice, consensus regimes can reach agreement even on contested,
+transnational issues, often by relying on informal practices: trust, dialogue, and leadership. These practices fill the gaps left by
+their formal rules \parencite{Sykorabodie2019}. But success is never guaranteed: in bodies such as the United Nations Security Council
+a single veto routinely blocks collective action, and even historically productive regimes can stall \parencite{Gardiner2025}. 
+Quantitatively, the picture is no different: what separates a consensus regime that keeps reaching decisions from one that can
+no longer reach them is not captured by existing models of consensus dynamics \parencite{Perez2018,Tran2024}. A model that better reproduces
 how consensus is reached or broken is therefore needed, both to explain past behaviour and to anticipate when a
 regime approaches the limits of its capacity to act.
 
 Models of multi-actor decision-making already exist, but they were not built for this task. Classical
 opinion-dynamics and game-theoretic models represent each actor with a single, low-dimensional position and are
-rarely confronted with the actors' own words. Capturing a consensus regime faithfully requires more: a
+rarely use the actual text those actors produce, such as their statements and negotiating documents. Capturing a consensus regime faithfully requires more: a
 higher-dimensional description in which actors hold distinct positions across many issues, preferences read
 directly from the text the actors produce and organised by topic, and measures validated and calibrated against
 observed outputs rather than assumed. Recent advances in natural language processing and machine learning make
 each of these upgrades feasible.
 
 The Antarctic Treaty System (ATS) is one of those
-consensus-driven regimes, negotiated among a set of parties
-called consultative parties \parencite{ATS2023RoP}. This group of countries, together with
-a second group lacking decision-making power (non-consultative parties), meets
- yearly at the Antarctic Treaty Consultative Meeting (ATCM). Before each meeting,
-consultative parties may submit Working Papers (WP) and Information Papers (IP).
-During ATCMs the parties discuss Working Papers and produce outputs only by consensus.
+consensus-driven regimes. At its centre is the Antarctic Treaty (AT), whose
+decision-making parties are called consultative parties \parencite{ATS2023RoP}. These parties meet yearly at the Antarctic
+Treaty Consultative Meeting (ATCM), where outputs are adopted only by consensus.
 As international relations strain and Antarctic environmental pressures intensify,
 the risk of losing the capacity to act increases. In 2022, for the first time, the
 ATCM parties failed to reach consensus on the final report; even as activity has
@@ -33,49 +41,62 @@ increased, the regime has become less responsive to challenges \parencite{Gardin
 
 \section{The Antarctic Treaty System as a consensus regime}
 \label{sec:ats}
-In the ATS, Consultative Parties (CPs) reach decisions exclusively by consensus. These outputs are decided at the
-annual ATCM and take three forms \parencite[Rule~24]{ATS2023RoP}: \textbf{Measures} (adopted texts intended to become
-legally binding, requiring approval by the relevant parties' legislative bodies), \textbf{Decisions} (internal
-organisational matters), and \textbf{Resolutions} (non-binding recommendations or expressions of intent).
+At the ATCM, Consultative Parties (CPs) reach decisions exclusively by consensus; non-consultative parties (NCPs), observers, and experts attend but take no part. These outputs take three forms \parencite[Rule~24]{ATS2023RoP}. \textbf{Measures} set out
+substantive provisions that the parties intend to be legally binding in their domestic law; they
+require each party's government to formally approve them. \textbf{Decisions} settle the ATCM's own
+internal and organisational matters. \textbf{Resolutions} are non-binding: they record
+recommendations or expressions of intent, with no legal force.
 
 There are four types of input:
 \begin{itemize}
-\item \textbf{Working Papers} (\parencite[Rule~48]{ATS2023RoP}): submitted by CPs and Observers, these require
+\item \textbf{Working Papers (WP)} \parencite[Rule~48]{ATS2023RoP}: submitted by CPs and Observers, these require
  discussion at the ATCM and are the main source of outputs. They are the only input from CPs that can produce an outcome.
-\item \textbf{Secretariat}, \textbf{Information}, and \textbf{Background Papers} \parencite[Rules~49--51]{ATS2023RoP}:
- respectively, organisational matters such as the budget; supporting information (also from NCPs and experts); and documents
- submitted for the record only.
+\item \textbf{Secretariat Papers} \parencite[Rule~49]{ATS2023RoP}: organisational matters such as the budget.
+\item \textbf{Information Papers} \parencite[Rule~50]{ATS2023RoP}: supporting information, also from NCPs and experts.
+\item \textbf{Background Papers} \parencite[Rule~51]{ATS2023RoP}: documents submitted for the record only.
 \end{itemize}
 
-The consensus system makes the ATS a notable example of international cooperation; however, the same mechanism
-has become a major challenge as the number of CPs grows \parencite{Gardiner2025}.
+The consensus system makes the ATS a notable example of international cooperation \parencite{jackson2021antarctica}; however, the same mechanism
+has become a major challenge as the number of CPs grows \parencite{Tsebelis2002,Gardiner2025}.
 
 A notable case of contested consensus occurred in the late 1970s and 1980s, during the negotiations over mineral
 resources in Antarctica. The Convention on the Regulation of Antarctic Mineral Resource Activities (CRAMRA) was
-produced and then abandoned in favour of the Madrid Protocol (1991), which prohibited all mineral resource 
-extraction in Antarctica \parencite{jackson2021antarctica}. This well-documented episode provides a valuable canary
-test: a known case with documented positions against which any quantitative stance measure can be validated.
+a framework, agreed in 1988, that would have permitted and regulated mining in Antarctica. It was
+abandoned before entering into force and replaced by the Madrid Protocol (1991), which instead
+prohibited all mineral resource extraction and designated Antarctica a natural reserve devoted to
+peace and science \parencite{jackson2021antarctica}. Although it unfolded in two stages, it forms a single documented episode: one negotiation over
+Antarctic mineral resources in which the parties' positions are recorded and then reversed. That
+documented reversal makes it a valuable canary test, a known case against which any quantitative
+stance measure can be validated.
 
 
 \section{Quantitative and text-based study of institutions and treaties}
 \label{sec:computational}
 
 The quantitative study of international institutions long predates its application to
-Antarctica. Substantial literature maps the design of treaties and organisations into structured
-variables, for example, their decision rules, dispute-settlement provisions, and enforcement mechanisms.
+Antarctica. Substantial literature codes the design of treaties and organisations as structured
+variables: categorical or ordinal attributes such as their decision rules, dispute-settlement provisions, and enforcement mechanisms.
 Some studies link these variables to institutional performance, survival, and decline
-\parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data.
-They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Both approaches 
-show that preferences and design features of treaty regimes can be measured, not merely described.
+\parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data \parencite{Grimmer2013}.
+They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Together, these approaches
+show that the preferences and design features of treaty regimes can be measured usefully, not merely
+described: such measures track institutional outcomes and recover known positions.
 
-The ATS has been analysed quantitatively in two ways: \textcite{Gardiner2025} provides performance accounts that measure the
+The ATS's health has been assessed qualitatively \parencite{Mancilla2022} and quantitatively. Quantitatively, it
+has been analysed in two ways. \textcite{Gardiner2025} provides performance accounts that measure the
 regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
 concludes that responsiveness to challenges in the Antarctic region is declining.
-The second methodology is structural: it maps who collaborates with whom
+A Working Paper may be submitted by a single party or co-sponsored by several. The second
+methodology is structural: it uses this co-sponsorship to map who collaborates with whom,
 through co-authorship networks of ATCM documents \parencite{Botelho_CoalitionDynamics}, and how such networks form \parencite{Kumar_ConsistentPatterns}.
-Both analyses are valuable, and this project uses both as external checks: the network
-structure as a replication target for the authorship layer, but also the outcome series, by \textcite{Gardiner2025}, as a prediction target in Chapter 2.
-Neither, however, extracts topics from WPs in an unsupervised manner.
+This thesis uses both analyses as external checks on its own measures. If the stances this
+thesis reads from the text are correct, parties with similar stances are likely to co-sponsor
+papers together, so the model should reproduce the co-authorship networks of
+\textcite{Botelho_CoalitionDynamics}. The same measures should also help predict the regime's
+output series reported by \textcite{Gardiner2025}, and Chapter 2 tests this.
+Neither analysis, however, considers what the papers are \emph{about}: both count documents or
+map their sponsors without reading the content. As a result, they cannot say which issues divide
+the parties, a limitation taken up in Section~\ref{sec:gap}.
 
 \section{Measuring policy preference from political text}
 \label{sec:computational-ir}
