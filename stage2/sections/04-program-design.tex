@@ -5,6 +5,12 @@
 \section{Objectives, methodology and research plan}
 \label{sec:objectives}
 
+This thesis has three interconnected goals. The first is to reconstruct each party's preferences
+from the regime's written records, as a directional measure across topics and time (Chapter 1).
+The second is to test whether the recovered preferences are credible: they must match known
+historical positions and align with the ATCM decision record (Chapter 2). The third is to use the
+validated preferences to simulate the regime's collective decision-making, so that its outputs,
+including consensus failures, can be anticipated (Chapter 3).
 Figure~\ref{fig:workflow} shows the overall flow of the research project, the output of each stage, and how the objectives relate to one another.
 Throughout the following sections each chapter is described in detail.
 
@@ -19,29 +25,43 @@ Throughout the following sections each chapter is described in detail.
 \subsection{Objective 1 / Chapter 1: The Support layer}
 \label{sec:ch1}
 
-The \textbf{aim} is to produce a defensible, directional measure of parties' preferences over relevant topics through time, 
+\paragraph{Aim}
+To produce a defensible, directional measure of parties' preferences over relevant topics through time,
 using documents the parties submit themselves. For the ATCM case, Working Papers (WPs) are the input data because, of
 all submitted documents, these are the only ones submitted by parties or Observers (non-Secretariat) that require discussion and 
-action. This makes WPs the most likely text to contain parties' strategic intentions. The analysis uses English-language papers, since these
-represent the largest share of all WPs. It is also relevant that most of the available pre-trained embedding and NLI models were trained
-on English-language data. 
+action. This makes WPs the most likely text to contain parties' strategic intentions. They are also where
+outcomes originate: nothing happens without them, and Measures generally begin as WPs. The analysis uses the English-language WPs available in the Secretariat's public database. Since
+WPs are translated into the four treaty languages \parencite{ATS2023RoP}, the English corpus is
+not limited to papers originally drafted in English. It is also practical: most of the available
+pre-trained embedding and NLI models were trained on English-language data.
 
-The \textbf{approach} is a pipeline with multiple stages. The first set of stages applies BERTopic \parencite{Grootendorst_BERTopic}
- to the whole corpus, producing a set of topics $K$ with corresponding cluster centroids $\{\boldsymbol{\mu}_k\}_{k \in K}$, where 
- each $\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ in the $m$-dimensional embedding space. The second set of stages selects, for each 
+\paragraph{Approach}
+The approach is a pipeline with multiple stages. The first set of stages discovers what the corpus
+is about. Each document is embedded: mapped to a vector in $\mathbb{R}^{m}$, the embedding space
+introduced in Section~\ref{sec:computational-ir}. The assumption carried by this step is
+geometric: documents with similar meaning receive nearby vectors. BERTopic
+\parencite{Grootendorst_BERTopic} then reduces the dimension of these vectors and clusters them,
+and each cluster is a topic. The output is the set of topics $K$ with cluster centroids
+$\{\boldsymbol{\mu}_k\}_{k \in K}$, where each $\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ is the
+average embedding of the documents in topic $k$. The second set of stages selects, for each 
  document and topic, the passages relevant to that topic. Each document $d$ is split into passages $P_d = \{p_1, \dots, p_{n_d}\}$,
- and each passage $p$ is embedded as $\mathbf{e}_p \in \mathbb{R}^{m}$. Relevance acts as a gating mechanism that filters out 
- irrelevant passages: for each document $d$ and topic $k$, every passage $p \in P_d$ is scored by its cosine similarity to the topic
-centroid as follows,
+ and each passage $p$ is embedded as $\mathbf{e}_p \in \mathbb{R}^{m}$. Relevance is defined quantitatively: the relevance of passage $p$ to topic $k$ is the cosine
+similarity between the passage embedding and the topic centroid,
 \[
   \rho_{p,k} = \cos(\mathbf{e}_p, \boldsymbol{\mu}_k)
              = \frac{\mathbf{e}_p \cdot \boldsymbol{\mu}_k}
                     {\lVert \mathbf{e}_p \rVert \, \lVert \boldsymbol{\mu}_k \rVert}.
 \]
-
-$P_{d,k}$ is the set of top scoring passages above a threshold. Then, the relevant sentences out of each $P_{d,k}$ are extracted using
-a Large Language Model (LLM). These sentences are concatenated and scored as a set by the classifier. It produces one three-class
-distribution which is mapped to five ordinal classes that range from strong opposition to strong support. Formally, it is as follows
+Under the geometric assumption above, a passage that points in the same direction as the topic
+centroid discusses that topic. Relevance then acts as a gate: $P_{d,k}$ is the set of passages
+scoring above a threshold, and only these pass to the next stage. Then the topic-relevant sentences in each $P_{d,k}$ are extracted using a Large Language Model
+(LLM); $\mathrm{Extract}(P_{d,k})$ denotes this step. The extracted sentences are concatenated and
+scored as a set by the NLI classifier introduced in Section~\ref{sec:computational-ir}: given the
+text as premise and a hypothesis about topic $k$, it scores entailment, neutrality, and
+contradiction. Entailment means the premise gives support to the hypothesis. Contradiction means
+the premise contradicts it. The resulting scores are binned and combined into five ordinal
+classes, producing a distribution $\pi_{d,k}$ that ranges from strong opposition to strong
+support. Formally, it is as follows
 \begin{equation}
   \pi_{d,k} = \mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)
             \in \Delta_5, \qquad
@@ -49,6 +69,8 @@ distribution which is mapped to five ordinal classes that range from strong oppo
             \pi_\ell \ge 0,\ \textstyle\sum_{\ell=1}^{5}\pi_\ell = 1 \,\Big\},
 \label{eq:stance-dist}
 \end{equation}
+Here $\Delta_5$ is the probability simplex: $\pi_{d,k}$ assigns a non-negative probability to
+each of the five classes, and these probabilities sum to one.
 The signed stance of document $d$ on topic $k$ is the expected value of this distribution under an equal-spacing convention. This is: 
 
 \begin{equation}
@@ -57,11 +79,14 @@ The signed stance of document $d$ on topic $k$ is the expected value of this dis
   \label{eq:stance}
 \end{equation}
 
-Since $\pi_{d,k}$ is a probability distribution and every $v_\ell \in [-1,1]$, the stance $s_{d,k} \in [-1,1]$ is a convex
-combination of the class values and therefore well defined on topic $k$'s axis.
+Since $\pi_{d,k}$ is a probability distribution and the five fixed class values $v_\ell$ all lie
+in $[-1,1]$, the stance $s_{d,k}$ is a convex combination of those values. The stance is therefore
+a continuous quantity in $[-1,1]$ on topic $k$'s axis, while $v$ itself never varies.
 
-Finally, the previous result is aggregated to produce $country \times topic \times year$ stances over the
-Working Papers weighted by co-sponsorship credit:
+Finally, the previous result is aggregated to produce $\text{country} \times \text{topic} \times
+\text{year}$ stances over the Working Papers, weighted by co-sponsorship credit. This aggregation
+is a design choice of this thesis rather than a result from prior work: the weights below are
+conventions, each chosen to answer a different question.
 
 \begin{equation}
   S_{c,k,y} = \sum_{\substack{d \in D(c,y) \\ k \in K(d)}}
@@ -72,24 +97,54 @@ Working Papers weighted by co-sponsorship credit:
 where $D(c,y)$ is the set of Working Papers co-authored by country $c$ in year $y$, $K(d)$ is the set of topics assigned to document $d$,
 and $w_{d,c}$ is the attribution weight of that country in one document. Two attribution conventions are computed: 
 \begin{itemize}
-      \item full credit, $w_{d,c} = 1$, which means every co-sponsor receives the full position and which answers ``who is on this side?''.
-      \item fractional credit, $w_{d,c} = 1/|A_d|$ with $A_d$ the set of co-sponsors of $d$, which answers ``who is driving this?''.
+      \item Full credit, $w_{d,c} = 1$: every co-sponsor is counted as fully holding the
+      position. This is the coalition-membership reading, and it measures which states align on
+      a topic (``who is on this side?'').
+      \item Fractional credit, $w_{d,c} = 1/|A_d|$, with $A_d$ the set of co-sponsors of $d$: a
+      paper's positional mass is divided among its sponsors, so a state that authors alone
+      carries more weight than one of eight co-sponsors. This is the influence reading, and it
+      discounts states that merely sign on (``who is driving this?'').
 \end{itemize}
 
-For a fixed year, the slice $S_{\cdot,\cdot,y} \in \mathbb{R}^{C \times |K|}$ is a signed $country \times topic$ matrix, with $C$ countries
-and $|K|$ topics. See Appendix~C for full notation.
+For a fixed year $y$, the slice $S_{\cdot,\cdot,y} \in \mathbb{R}^{C \times |K|}$ is a signed
+$\text{country} \times \text{topic}$ matrix, with $C$ countries and $|K|$ topics. A dot in place
+of an index means that the index runs over all its values, so the slice collects every country's
+stance on every topic in year $y$. See Appendix~C for full notation.
 
-Measuring directional stance on diplomatic text using the distribution in \eqref{eq:stance-dist} is challenging, because hedging and similar prose obscure positioning.
-In other words, permissive and restrictive positions on a regulatory question share the same safeguard vocabulary; scoring a single hypothesis therefore collapses toward neutrality. Therefore, stance is recovered as a \emph{contrast} between entail and contradiction positions.
-Specifically, for each topic $k$, structured hypotheses anchor a for-pole $h_k^{+}$, a neutral one $h_k^{0}$, and an against one $h_k^{-}$ on the topic's
-contestable axis. These $(h_k,premise)$ pairs are input into $\mathrm{NLI}$ classifier \parencite{Laurer2024}. The resulting scores for \emph{entailment} 
-and \emph{contradiction} are subtracted. The classifier's results are cross-checked against a generative model used as a secondary instrument \parencite{LeMens2024}.
+Measuring directional stance in diplomatic text is challenging because diplomats hedge. Hedging
+here means cautious, non-committal phrasing: a party rarely writes ``we oppose this measure'', it
+writes ``further consideration may be warranted''. Positions on opposite sides also share the same
+vocabulary of safeguards: a phrase such as ``subject to appropriate environmental safeguards''
+appears in permissive and restrictive papers alike. If the classifier scores a single hypothesis,
+this hedged language pulls every score toward neutrality.
+
+Stance is therefore recovered as a contrast. For each topic $k$, three hypotheses are written: one
+at the supporting pole ($h_k^{+}$, e.g. ``tourism should be further regulated''), one neutral
+($h_k^{0}$), and one at the opposing pole ($h_k^{-}$, e.g. ``tourism regulation should be
+relaxed''). Each hypothesis is paired with the extracted text as premise and scored by the NLI
+classifier \parencite{Laurer2024}. Subtracting the against-pole score from the for-pole score
+gives a direction that survives the hedged phrasing. As a robustness check, the same texts are
+scored a second time by a generative LLM used as a secondary instrument \parencite{LeMens2024},
+and the two instruments are compared.
 
 \paragraph{Validation strategy}
-The construct will be validated using three independent checks, each targeting a different stage of the pipeline. A topic validation check compares
-the discovered topics against the Secretariat's categories and the WP in each category. A historical canary uses the minerals/CRAMRA negotiations of the late 1970s and
-1980s as documented ground truth. The test checks whether the pipeline recovers the known directional opposition in those papers. Finally, a network comparison
-check reconstructs the co-authorship structure reported by \textcite{Botelho_CoalitionDynamics} from the authorship layer. 
+The pipeline above is an assertion built on stated assumptions: that meaning is geometric, that
+relevance is cosine similarity to a topic centroid, that stance is a contrast of entailment
+scores, and that co-sponsors share a paper's position. None of these is guaranteed to hold on
+ATCM text. The construct is therefore validated with three independent checks, each targeting a
+different stage of the pipeline. A topic validation check compares
+the discovered topics against the Secretariat's categories. Every WP carries a category assigned
+by the Secretariat, so each paper has both an official category and a discovered topic. The two
+labellings are cross-tabulated, and their agreement is measured by majority-category overlap: the
+share of papers in each discovered topic that belong to that topic's most common official
+category. A historical canary uses the minerals/CRAMRA negotiations of the late 1970s and
+1980s as documented ground truth. The parties' positions in that episode are recorded in the
+historical literature \parencite{jackson2021antarctica}: most prominently, Australia and France
+abandoned the negotiated convention and pushed instead for a mining ban. The test checks whether
+the pipeline recovers those documented directions from the papers alone. Finally, a co-sponsorship check tests the assumption that countries co-sponsor a WP because they
+share its topic and stance: within the same year and topic, countries whose recovered stances are
+similar should be the ones that actually co-sponsor papers, with stance similarity computed
+excluding the paper being predicted.
 
 Figure~\ref{fig:ch1-workflow} below gives a summarised overview of the steps described above.
 \begin{figure}[p]
@@ -102,10 +157,20 @@ Figure~\ref{fig:ch1-workflow} below gives a summarised overview of the steps des
 \subsection{Objective 2 / Chapter 2: The Opposition layer and external validation}
 \label{sec:ch2}
 
-The \textbf{aim} of this part of the research project is to extract a directional opposition signal. This opposition signal
-has two sides. The first is opposition to the issue itself; it is not the inverse of the support-layer result,
-but rather the \textit{veto signal} against a given proposal. The second side is a secondary, exploratory result: a measure of a country's
-general propensity to reject proposals within a given ATCM. As with the support layer, this chapter builds a pipeline and, 
+\paragraph{Aim}
+To measure not only what parties support but what they would block. Consensus fails through
+objection, so anticipating failure requires knowing who opposes what. This is the opposition
+signal: a directional measure of a party's resistance to a proposal. It is not the inverse of the
+support layer, because the two capture different behaviours. The support layer already contains
+disagreement of one kind: a party proposes one direction while another proposes the contrary. The
+veto signal is different: it is the act of objecting to a proposal on the table. A party may hold
+the opposite stance on a topic yet never block, and blocking is rarer and more consequential. The
+signal has two sides. The first is opposition to a given proposal itself: the \textit{veto
+signal}. The second is a secondary, exploratory result: a country's general propensity to reject
+proposals within a given ATCM.
+
+\paragraph{Approach}
+As with the support layer, this chapter builds a pipeline and,
 for the specific case of the ATS, the ATCMs' final reports are used as text input. Given the scarcity of text in which countries 
 veto a proposal, the attribution is expected to be harder than for the support layer. 
 Each extracted statement yields a \emph{(country, target, polarity)} triple, with rationale and source quote. Taking the topics $K$
@@ -113,7 +178,7 @@ from Chapter~1 and mapping targets back to them yields an opposition tensor $\ma
 structure. At this point, there is a pair $(\mathbf{S}, \mathbf{O})$ of tensors that constitutes a signed preference network.
 These two tensors are the inputs to the third chapter.
 
-\paragraph{External validation.}
+\paragraph{External validation}
 The combined structure (the tensor pair $(\mathbf{S}, \mathbf{O})$) is tested for predictive content against observed outcomes (see Section~\ref{sec:ats}) and the compilation
 by \textcite{Gardiner2025}, for the case of the ATS. This gives Chapter~2 an independent research question, tests the results so far, and produces a 
 quantitative description. The novelty in this work is the directional signed signal derived from the institution's own input records and outcomes.
@@ -137,13 +202,15 @@ Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its ext
 \subsection{Objective 3 / Chapter 3: The Simulation layer}
 \label{sec:ch3}
 
-The \textbf{aim} of this chapter is to simulate consensus processes with country-agents whose state is
+\paragraph{Aim}
+To simulate consensus processes with country-agents whose state is
 parameterised by the empirically derived support and opposition from previous chapters. Its main measure of success is 
 to be able to reproduce historical trajectories, and examine institutional counterfactuals. In consensus-based systems
 every Party is a veto player \parencite{Tsebelis2002} and the representation is a strategic bargaining game over a status quo
 rather than an averaging dynamic.
 
-The \textbf{approach} to tackle this task is to specify a custom negotiation environment in which proposals are presented one
+\paragraph{Approach}
+To tackle this task, a custom negotiation environment is specified in which proposals are presented one
 at a time. Each proposal is an input text/Working Paper $d$ that is mostly about topic $k$ in year $y$. Then the agents (one per consultative party)
 decide whether or not to object to a proposal. Each agent's decision-making is supported by its support vector (Chapter~1),
 its opposition history (Chapter~2), and metadata such as consultative status, official language, and GDP, used as context features rather than
