@@ -89,3 +89,36 @@ scalar stance by the expected value of Equation~\ref{eq:stance}.
   \caption{Chapter~2 opposition layer sketch: from text data to opposition tensor~$O$, forming the signed preference network~$(S,O)$.}
   \label{fig:ch2-workflow}
 \end{figure}
+
+\section*{Appendix E: Extended literature notes}
+\addcontentsline{toc}{section}{Appendix E: Extended literature notes}
+
+\paragraph{Wordfish \parencite{Slapin2008}.}
+Its aim was to estimate party positions over time without hand-coded reference texts. The model
+treats each word count as a Poisson draw whose expected frequency depends on the party's position
+on a single latent dimension, and it recovered credible left--right trajectories for German
+parties from their election manifestos (1990--2005).
+
+\paragraph{Wordshoal \parencite{Lauderdale2016}.}
+Their model scales each debate separately with Wordfish and then combines the debate-level
+positions into a general dimension through a Bayesian factor analysis. Applied to speeches in the
+Irish D\'ail and the US Senate, it recovered within-party disagreement that voting records hide.
+Each debate scale is whatever axis dominates that debate's word frequencies, which need not be
+the substantive for-or-against axis of interest. Lauderdale and Herzog get away with this because
+legislative debates are adversarial, so the dominant axis is usually government versus
+opposition; ATCM Working Papers have no such structure.
+
+\paragraph{Hedging in diplomatic text.}
+Hedging means cautious, non-committal phrasing: a party rarely writes ``we oppose this measure'',
+it writes ``further consideration may be warranted''. Positions on opposite sides also share the
+same vocabulary of safeguards: a phrase such as ``subject to appropriate environmental
+safeguards'' appears in permissive and restrictive papers alike. Example pole hypotheses for a
+topic: $h_k^{+}$ ``tourism should be further regulated'', $h_k^{-}$ ``tourism regulation should
+be relaxed''.
+
+\paragraph{The UN General Debate corpus \parencite{Baturo2017}.}
+Their corpus collects over 7300 annual General Debate statements (1970--2014), one per country
+per year. They derive preferences in two ways, both from word frequencies: Wordscores, a
+supervised scaling in which the analyst defines the axis in advance through reference texts (US
+and Russian statements anchor a US--Russia dimension), and correspondence analysis, an
+unsupervised reduction whose dimensions are interpreted afterwards.

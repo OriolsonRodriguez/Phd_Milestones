@@ -9,11 +9,9 @@ proposal and effectively veto it. It becomes a consensus regime when consensus b
 the only means to reach decisions. Consensus is not the same as unanimity: a unanimity
 rule puts a proposal to a vote and records who votes in favour, against or abstain, whereas under
 consensus a decision proceeds whenever no party registers a formal objection \parencite{Rietig2023}. 
-Since in such regimes a single party can halt any
-proposal even when no other party objects, an outside observer might, at first sight,
-expect such regimes to decide very little. This is even more pronounced when there is
-a large and heterogeneous group: the larger the group, the smaller the set of proposals
-that change the status quo \parencite{Tsebelis2002}. In practice, consensus regimes can reach agreement even on contested,
+Since a single party can halt any proposal, an outside observer might expect such regimes to
+decide very little. The larger and more heterogeneous the group, the smaller the set of proposals that change the
+status quo \parencite{Tsebelis2002}. In practice, consensus regimes can reach agreement even on contested,
 transnational issues, often by relying on informal practices: trust, dialogue, and leadership. These practices fill the gaps left by
 their formal rules \parencite{Sykorabodie2019}. But success is never guaranteed: in bodies such as the United Nations Security Council
 a single veto routinely blocks collective action, and even historically productive regimes can stall \parencite{Gardiner2025}. 
@@ -23,8 +21,9 @@ how consensus is reached or broken is therefore needed, both to explain past beh
 regime approaches the limits of its capacity to act.
 
 Models of multi-actor decision-making already exist, but they were not built for this task. Classical
-opinion-dynamics and game-theoretic models represent each actor with a single, low-dimensional position and are
-rarely use the actual text those actors produce, such as their statements and negotiating documents. Capturing a consensus regime faithfully requires more: a
+opinion-dynamics and game-theoretic models represent each actor with a single, low-dimensional
+position and rarely use the actual text those actors produce, such as their statements and
+negotiating documents. Capturing a consensus regime faithfully requires more: a
 higher-dimensional description in which actors hold distinct positions across many issues, preferences read
 directly from the text the actors produce and organised by topic, and measures validated and calibrated against
 observed outputs rather than assumed. Recent advances in natural language processing and machine learning make
@@ -44,8 +43,9 @@ increased, the regime has become less responsive to challenges \parencite{Gardin
 \label{sec:consensus}
 There are two traditional groups of models for how groups reach consensus. The first group is responsive and interactive: each actor repeatedly reacts to
 the current positions of the others. These are the synchronization and opinion-dynamics models; examples are the Kuramoto and
-opinion-changing-rate models used by \textcite{Botelho_CoalitionDynamics}, which represent agreement as a coupled-oscillator convergence. These methods treat consensus as \textit{convergence}. \textcite{DeGroot1974} iteratively average agents' opinions using \(x(t+1)=Wx(t)\) until they converge. A bounded-confidence version was later developed by \textcite{Hegselmann2002}.
-A further model in this group is the stubborn-agents model \parencite{FriedkinJohnsen1990}, in which each agent only partially updates toward its neighbours and stays anchored to its initial opinion.
+opinion-changing-rate models used by \textcite{Botelho_CoalitionDynamics}, which represent agreement as a coupled-oscillator convergence. These methods treat consensus as \textit{convergence}: opinions are iteratively averaged until
+they meet \parencite{DeGroot1974}, with bounded-confidence \parencite{Hegselmann2002} and
+stubborn-agent \parencite{FriedkinJohnsen1990} variants.
 Opinion-dynamics models can nevertheless test for agreement: declare consensus when all final
 positions lie within a tolerance radius, as \textcite{Bernardo2021} do for the negotiation of the
 2015 Paris Agreement. That test, however, captures preference convergence, not the consensus rule
@@ -63,9 +63,8 @@ party $i$, which scores how much that party values each policy. The status quo i
 when $u_i(p) \geq u_i(q)$ for every party $i$: no party may be left worse off than it is now.
 Consequently, as the number of parties increases and their positions spread, the set of adoptable policies shrinks and the system
 becomes harder to change. Analysing the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and
-diversifying membership, increasingly divergent views, and a consensus rule, and view the
-regime's shift away from binding agreements as symptomatic of declining decision-making
-performance.
+diversifying membership, increasingly divergent views, and a consensus rule, and read the
+regime's shift away from binding agreements as declining decision-making performance.
 
 Each group has strengths and limits. Responsive models are simple, can be scaled to many agents,
 and are easy to calibrate against data. But their agents have no objective, no veto, and no
@@ -74,9 +73,9 @@ represent vetoes and strategic choice directly, and they explain \emph{why} a pr
 fails. But their equilibria become hard to compute as parties and issues multiply, and they are
 rarely confronted with data from real negotiations.
 
-Between these two groups lies a middle ground: models that retain the strategic, veto-bearing structure of the
-second group but, instead of solving for equilibrium in closed form, learn it from repeated interaction. This
-middle ground has grown into a field of its own and is treated separately in the next section.
+Between these two groups lies a middle ground: models that retain the strategic, veto-bearing
+structure of the second group but learn equilibrium from repeated interaction instead of solving
+for it. This field is treated in the next section.
 
 
 \section{Negotiation and coalition formation simulation using reinforcement learning}
@@ -96,10 +95,12 @@ learning procedures approximate equilibrium behaviour over many simulated rounds
 deriving it in closed form \parencite{Littman1994}. Neural networks (NN) enter only as function
 approximators, allowing this learning to scale to large state and action spaces.
 
-Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team formation \parencite{Bachrach2020},
-bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
-\parencite{Li2023}. Two reviews cover the field: \textcite{Gronauer2022} on MARL and \textcite{Sarkar2022} on coalition formation. Most recently, MARL agents based on Large Language Models (LLMs) have been used to 
-model political negotiation directly: for example, \textcite{Moghimifar2024} simulate coalition formation in parliament using text data
+Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team
+formation \parencite{Bachrach2020}, bargaining under risk and asymmetric information
+\parencite{Schmid2020}, and search-improved game-theoretic learning \parencite{Li2023}. Two
+reviews cover the field \parencite{Gronauer2022,Sarkar2022}. Most recently, MARL agents based on
+Large Language Models (LLMs) model political negotiation directly:
+\textcite{Moghimifar2024} simulate coalition formation in parliament using text data
 from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
 \textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy,
 a board game in which seven powers negotiate, form, and break alliances, widely used as a benchmark for this type of simulation. Finally, some other benchmarks for real negotiation data are starting to appear 
@@ -126,11 +127,9 @@ A Working Paper (WP), the document type through which parties bring proposals to
 (Section~\ref{sec:ats}), may be submitted by a single party or co-sponsored by several. The second
 methodology is structural: it uses this co-sponsorship to map who collaborates with whom,
 through co-authorship networks of ATCM documents \parencite{Botelho_CoalitionDynamics}, and how such networks form \parencite{Kumar_ConsistentPatterns}.
-This thesis uses both lines of work. The stances it reads from the text should explain the
-co-sponsorship behaviour these networks describe: parties with similar stances are likely to
-co-sponsor papers together, and Section~\ref{sec:ch2} turns this into a validation check against
-observed co-sponsorship. The same measures should also help predict the regime's output series
-reported by \textcite{Gardiner2025}, and Chapter 2 tests this.
+This thesis uses both lines of work as validation targets: parties with similar stances are
+likely to co-sponsor papers together, and the same measures should help predict the output series
+reported by \textcite{Gardiner2025} (Section~\ref{sec:ch2}).
 Neither analysis, however, considers what the papers are \emph{about}: both count documents or
 map their sponsors without reading the content. As a result, they cannot say which issues divide
 the parties, a limitation taken up in Section~\ref{sec:gap}.
@@ -176,66 +175,47 @@ texts is a well-developed field with two paradigms. They differ in how they turn
 numbers: the first paradigm uses word counts (i.e. frequencies), while the second uses embeddings.
 The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
 from the data itself: the axis is not chosen in advance, it emerges from patterns in the text, and
-its meaning (e.g. regulation versus access) is interpreted after estimation. Wordfish \parencite{Slapin2008} is a Poisson scaling model of party text. Its aim was to
-estimate party positions over time without hand-coded reference texts. The model treats each word
-count as a Poisson draw whose expected frequency depends on the party's position on a single latent
-dimension, and it recovered credible left--right trajectories for German parties from their
-election manifestos (1990--2005). Its limitation is that the recovered dimension is uninterpreted:
-the model finds the dominant axis of variation in word usage, which need not correspond to any
-policy dimension of interest. In a corpus as topically diverse as the ATCM Working Papers, that
-axis would likely reflect what parties talk about rather than what they support.
-\textcite{Lauderdale2016} addressed the problem that legislators talk about different things in
-different debates. Their model scales each debate separately with Wordfish and then combines the
-debate-level positions into a general dimension through a Bayesian factor analysis. Applied to
-speeches in the Irish D\'ail and the US Senate, it recovered within-party disagreement that voting
-records hide. The approach still inherits the uninterpreted-dimension problem: each debate scale is
-whatever axis dominates that debate's word frequencies, which need not be the substantive
-for-or-against axis of interest. Lauderdale and Herzog get away with this because legislative
-debates are adversarial, so the dominant axis is usually government versus opposition; ATCM Working
-Papers have no such structure. Two things are therefore missing for this thesis: the topics have to
-be discovered from the papers themselves rather than given in advance, and the output must be a
-stance per topic rather than one general dimension.
+its meaning (e.g. regulation versus access) is interpreted after estimation. Wordfish
+\parencite{Slapin2008} is a Poisson scaling model of party text (Appendix~E). Its limitation is
+that the recovered dimension is uninterpreted: the model finds the dominant axis of variation in
+word usage, which need not correspond to any policy dimension of interest. In a corpus as
+topically diverse as the ATCM Working Papers, that axis would likely reflect what parties talk
+about rather than what they support. \textcite{Lauderdale2016} addressed the problem that
+legislators talk about different things in different debates by scaling each debate separately,
+but the debate scales inherit the same uninterpreted-dimension problem, and the debates must be
+given in advance (Appendix~E). Two things are therefore missing for this thesis: the topics have
+to be discovered from the papers themselves, and the output must be a stance per topic rather
+than one general dimension.
 \textcite{Vafa2020} produced a probabilistic framework that jointly places ideal points and models actors' language. The closest dataset to the ATCM corpus is the one \textcite{Baturo2017} use to derive
-state-level preferences from United Nations (UN) debate speeches. Their corpus collects over 7300
-annual General Debate statements (1970--2014), one per country per year, in a setting that
-parallels the ATCM: formal, annual, state-level, and translated into official languages. They
-derive preferences in two ways, both from word frequencies: Wordscores, a supervised scaling in
-which the analyst defines the axis in advance through reference texts (US and Russian statements
-anchor a US--Russia dimension), and correspondence analysis, an unsupervised reduction whose
-dimensions are interpreted afterwards. Finally, \textcite{Parschan2025} review the text-based ideal-point estimation algorithms of this
-first paradigm, comparing their assumptions and variants in one place.
+state-level preferences from United Nations (UN) debate speeches, in a setting that parallels the
+ATCM: formal, annual, state-level, and translated into official languages (Appendix~E). Finally,
+\textcite{Parschan2025} review the text-based ideal-point estimation algorithms of this first
+paradigm, comparing their assumptions and variants in one place.
 The second paradigm uses embeddings as its main tool. An embedding maps a piece of text (a word,
-a sentence, or a whole document) to a vector in $\mathbb{R}^d$, with $d$ typically in the hundreds.
-The map is learned from large corpora so that texts appearing in similar contexts receive nearby
-vectors; comparisons of meaning then become geometric operations, such as distances and angles
-between vectors. Modern embeddings are produced by neural language models such as BERT
-\parencite{Devlin2019}, which make the vectors context-dependent: the same word receives different
-vectors in different sentences. \textcite{Rheault2019} show that word-embedding geometry recovers
-ideological placement using parliamentary data. \textcite{Rodriguez2021} provide a comprehensive analysis of
-what works and what does not when analysing political text using embedding techniques. They find embeddings useful for analysing political text, but caution that the choice of
-embeddings strongly affects applied inference, and that the results must be validated.
+a sentence, or a whole document) to a vector in $\mathbb{R}^d$, learned from large corpora so
+that texts appearing in similar contexts receive nearby vectors: comparisons of meaning then
+become geometric operations. Modern embeddings are produced by neural language models such as
+BERT \parencite{Devlin2019}, which make the vectors context-dependent: the same word receives
+different vectors in different sentences. \textcite{Rheault2019} show that word-embedding
+geometry recovers ideological placement using parliamentary data. \textcite{Rodriguez2021} find
+embeddings useful for analysing political text, but caution that the choice of embeddings
+strongly affects applied inference, and that the results must be validated.
 
 This thesis adopts the second paradigm and uses embeddings at several stages: to discover what
 topics the Working Papers discuss, to measure how relevant each paper is to each topic, and,
-through the same family of neural models, to read each paper's stance on a topic. It also differs from the ideal-point methods in an important way. Ideal-point models summarise
-each actor with one number: a single position on one latent axis, assumed stable across issues.
-That summary is too coarse for the ATCM, where a party can, for example, support stricter
-environmental protection yet oppose new tourism rules. This project therefore requires a
-topic-conditioned stance: for each party, a separate position on each topic, allowed to change
-through time.
+through the same family of neural models, to read each paper's stance on a topic. It also differs
+from the ideal-point methods in an important way. Ideal-point models summarise each actor with
+one number: a single position on one latent axis, assumed stable across issues. That summary is
+too coarse for the ATCM, where a party can support stricter environmental protection yet oppose
+new tourism rules. This project therefore requires a topic-conditioned stance: a separate
+position per party and topic, allowed to change through time.
 The topic structure is discovered using BERTopic \parencite{Grootendorst_BERTopic}, which clusters
 document embeddings and labels each cluster with its most distinctive words. The stance is read
 with natural language inference (NLI) models \parencite{Burnham2023,Abercrombie2022}: classifiers
 that take a text and a stated hypothesis (e.g. ``this paper supports stricter protection'') and
-judge whether the text entails, contradicts, or is neutral towards it. The results can be stress-tested in three ways. The discovered topics are compared against the
-categories that the Antarctic Treaty Secretariat assigns to each WP by hand. The stances are
-validated against the CRAMRA canary test: applied to the papers of the minerals negotiations, the
-pipeline should recover the documented positions, including the late reversal by Australia and
-France \parencite{jackson2021antarctica}. Both can also be tested against observed co-sponsorship. This thesis assumes that countries
-co-sponsor a WP because they share its topic and stance. That assumption is testable: within the
-same year and topic, countries whose recovered stances are similar should be the ones that
-actually co-sponsor papers, with stance similarity computed excluding the paper being predicted.
-Section~\ref{sec:ch2} sets out these validation checks.
+judge whether the text entails, contradicts, or is neutral towards it. Section~\ref{sec:ch2} sets
+out the validation checks for these results: against the Secretariat's hand-assigned topic
+categories, against the documented CRAMRA reversal, and against observed co-sponsorship.
 
 
 \section{Summary of literature gap}

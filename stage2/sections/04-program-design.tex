@@ -30,29 +30,24 @@ To produce a defensible, directional measure of parties' preferences over releva
 using documents the parties submit themselves. For the ATCM case, Working Papers (WPs) are the input data because, of
 all submitted documents, these are the only ones submitted by parties or Observers (non-Secretariat) that require discussion and 
 action. This makes WPs the most likely text to contain parties' strategic intentions. They are also where
-outcomes originate: nothing happens without them, and Measures generally begin as WPs. The analysis uses the English-language WPs available in the Secretariat's public database. Since
-WPs are translated into the four treaty languages \parencite{ATS2023RoP}, the English corpus is
-not limited to papers originally drafted in English. It is also practical: most of the available
-pre-trained embedding and NLI models were trained on English-language data.
+outcomes originate: nothing happens without them, and Measures generally begin as WPs. The analysis uses the English-language WPs in the Secretariat's public database. WPs are
+translated into the four treaty languages \parencite{ATS2023RoP}, so the English corpus is not
+limited to papers originally drafted in English, and most pre-trained embedding and NLI models
+are trained on English data.
 
 \paragraph{Approach}
-The approach is a pipeline with multiple stages. The first set of stages discovers what the corpus
-is about. Each document is embedded: mapped to a vector in $\mathbb{R}^{m}$, the embedding space
-introduced in Section~\ref{sec:computational-ir}. The assumption carried by this step is
-geometric: documents with similar meaning receive nearby vectors. BERTopic
-\parencite{Grootendorst_BERTopic} then reduces the dimension of these vectors and clusters them,
-and each cluster is a topic. The output is the set of topics $K$ with cluster centroids
-$\{\boldsymbol{\mu}_k\}_{k \in K}$, where each $\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ is the
-average embedding of the documents in topic $k$. The second set of stages selects, for each 
- document and topic, the passages relevant to that topic. Each document $d$ is split into passages $P_d = \{p_1, \dots, p_{n_d}\}$,
- and each passage $p$ is embedded as $\mathbf{e}_p \in \mathbb{R}^{m}$. Relevance is defined quantitatively: the relevance of passage $p$ to topic $k$ is the cosine
-similarity between the passage embedding and the topic centroid,
-\[
-  \rho_{p,k} = \cos(\mathbf{e}_p, \boldsymbol{\mu}_k)
-             = \frac{\mathbf{e}_p \cdot \boldsymbol{\mu}_k}
-                    {\lVert \mathbf{e}_p \rVert \, \lVert \boldsymbol{\mu}_k \rVert}.
-\]
-Under the geometric assumption above, a passage that points in the same direction as the topic
+The approach is a pipeline with multiple stages. The first set of stages discovers what the
+corpus is about. Each document is embedded into the space introduced in
+Section~\ref{sec:computational-ir}, under the geometric assumption that documents with similar
+meaning receive nearby vectors. BERTopic \parencite{Grootendorst_BERTopic} then reduces the
+dimension of these vectors and clusters them, and each cluster is a topic. The output is the set
+of topics $K$ with cluster centroids $\{\boldsymbol{\mu}_k\}_{k \in K}$, where each
+$\boldsymbol{\mu}_k \in \mathbb{R}^{m}$ is the average embedding of the documents in topic $k$.
+The second set of stages selects, for each document and topic, the passages relevant to that
+topic. Each document $d$ is split into passages $P_d = \{p_1, \dots, p_{n_d}\}$, and each passage
+$p$ is embedded as $\mathbf{e}_p \in \mathbb{R}^{m}$. Relevance is defined quantitatively:
+$\rho_{p,k} = \cos(\mathbf{e}_p, \boldsymbol{\mu}_k)$, the cosine similarity between passage
+embedding and topic centroid, so a passage that points in the same direction as the topic
 centroid discusses that topic. Relevance then acts as a gate: $P_{d,k}$ is the set of passages
 scoring above a threshold, and only these pass to the next stage. Then the topic-relevant sentences in each $P_{d,k}$ are extracted using a Large Language Model
 (LLM); $\mathrm{Extract}(P_{d,k})$ denotes this step. The extracted sentences are concatenated and
@@ -97,51 +92,39 @@ conventions, each chosen to answer a different question.
 where $D(c,y)$ is the set of Working Papers co-authored by country $c$ in year $y$, $K(d)$ is the set of topics assigned to document $d$,
 and $w_{d,c}$ is the attribution weight of that country in one document. Two attribution conventions are computed: 
 \begin{itemize}
-      \item Full credit, $w_{d,c} = 1$: every co-sponsor is counted as fully holding the
-      position. This is the coalition-membership reading, and it measures which states align on
-      a topic (``who is on this side?'').
-      \item Fractional credit, $w_{d,c} = 1/|A_d|$, with $A_d$ the set of co-sponsors of $d$: a
-      paper's positional mass is divided among its sponsors, so a state that authors alone
-      carries more weight than one of eight co-sponsors. This is the influence reading, and it
-      discounts states that merely sign on (``who is driving this?'').
+      \item Full credit, $w_{d,c} = 1$: every co-sponsor fully holds the position. This is the
+      coalition-membership reading (``who is on this side?'').
+      \item Fractional credit, $w_{d,c} = 1/|A_d|$, with $A_d$ the co-sponsors of $d$: the
+      paper's positional mass is divided among its sponsors, discounting states that merely sign
+      on. This is the influence reading (``who is driving this?'').
 \end{itemize}
 
 For a fixed year $y$, the slice $S_{\cdot,\cdot,y} \in \mathbb{R}^{C \times |K|}$ is a signed
-$\text{country} \times \text{topic}$ matrix, with $C$ countries and $|K|$ topics. A dot in place
-of an index means that the index runs over all its values, so the slice collects every country's
-stance on every topic in year $y$. See Appendix~C for full notation.
+$\text{country} \times \text{topic}$ matrix, with $C$ countries and $|K|$ topics; a dot means the
+index runs over all its values (full notation in Appendix~C).
 
-Measuring directional stance in diplomatic text is challenging because diplomats hedge. Hedging
-here means cautious, non-committal phrasing: a party rarely writes ``we oppose this measure'', it
-writes ``further consideration may be warranted''. Positions on opposite sides also share the same
-vocabulary of safeguards: a phrase such as ``subject to appropriate environmental safeguards''
-appears in permissive and restrictive papers alike. If the classifier scores a single hypothesis,
-this hedged language pulls every score toward neutrality.
-
-Stance is therefore recovered as a contrast. For each topic $k$, three hypotheses are written: one
-at the supporting pole ($h_k^{+}$, e.g. ``tourism should be further regulated''), one neutral
-($h_k^{0}$), and one at the opposing pole ($h_k^{-}$, e.g. ``tourism regulation should be
-relaxed''). Each hypothesis is paired with the extracted text as premise and scored by the NLI
-classifier \parencite{Laurer2024}. Subtracting the against-pole score from the for-pole score
-gives a direction that survives the hedged phrasing. As a robustness check, the same texts are
-scored a second time by a generative LLM used as a secondary instrument \parencite{LeMens2024},
-and the two instruments are compared.
+Measuring directional stance in diplomatic text is challenging because diplomats hedge: cautious,
+non-committal phrasing and a shared vocabulary of safeguards pull single-hypothesis scores toward
+neutrality (examples in Appendix~E). Stance is therefore recovered as a contrast. For each topic
+$k$, three hypotheses are written: a supporting pole $h_k^{+}$, a neutral one $h_k^{0}$, and an
+opposing pole $h_k^{-}$. Each is paired with the extracted text as premise and scored by the NLI
+classifier \parencite{Laurer2024}, and the against-pole score is subtracted from the for-pole
+score, giving a direction that survives the hedged phrasing. As a robustness check, the same
+texts are scored a second time by a generative LLM used as a secondary instrument
+\parencite{LeMens2024}.
 
 \paragraph{Validation strategy}
 The pipeline above is an assertion built on stated assumptions: that meaning is geometric, that
 relevance is cosine similarity to a topic centroid, that stance is a contrast of entailment
 scores, and that co-sponsors share a paper's position. None of these is guaranteed to hold on
 ATCM text. The construct is therefore validated with three independent checks, each targeting a
-different stage of the pipeline. A topic validation check compares
-the discovered topics against the Secretariat's categories. Every WP carries a category assigned
-by the Secretariat, so each paper has both an official category and a discovered topic. The two
-labellings are cross-tabulated, and their agreement is measured by majority-category overlap: the
-share of papers in each discovered topic that belong to that topic's most common official
-category. A historical canary uses the minerals/CRAMRA negotiations of the late 1970s and
-1980s as documented ground truth. The parties' positions in that episode are recorded in the
-historical literature \parencite{jackson2021antarctica}: most prominently, Australia and France
-abandoned the negotiated convention and pushed instead for a mining ban. The test checks whether
-the pipeline recovers those documented directions from the papers alone. Finally, a co-sponsorship check tests the assumption that countries co-sponsor a WP because they
+different stage of the pipeline. A topic validation check compares the discovered topics against the categories the Secretariat
+assigns to every WP. Agreement is measured by majority-category overlap: the share of papers in
+each discovered topic that belong to that topic's most common official category. A historical
+canary uses the minerals/CRAMRA negotiations of the late 1970s and 1980s as documented ground
+truth \parencite{jackson2021antarctica}: most prominently, Australia and France abandoned the
+negotiated convention and pushed instead for a mining ban. The test checks whether the pipeline
+recovers those documented directions from the papers alone. Finally, a co-sponsorship check tests the assumption that countries co-sponsor a WP because they
 share its topic and stance: within the same year and topic, countries whose recovered stances are
 similar should be the ones that actually co-sponsor papers, with stance similarity computed
 excluding the paper being predicted.
@@ -153,13 +136,12 @@ excluding the paper being predicted.
 To measure not only what parties support but what they would block. Consensus fails through
 objection, so anticipating failure requires knowing who opposes what. This is the opposition
 signal: a directional measure of a party's resistance to a proposal. It is not the inverse of the
-support layer, because the two capture different behaviours. The support layer already contains
-disagreement of one kind: a party proposes one direction while another proposes the contrary. The
-veto signal is different: it is the act of objecting to a proposal on the table. A party may hold
-the opposite stance on a topic yet never block, and blocking is rarer and more consequential. The
-signal has two sides. The first is opposition to a given proposal itself: the \textit{veto
-signal}. The second is a secondary, exploratory result: a country's general propensity to reject
-proposals within a given ATCM.
+support layer: the support layer captures programmatic disagreement (a party proposes one
+direction while another proposes the contrary), whereas the \textit{veto signal} is the act of
+objecting to a proposal on the table. Blocking is rarer and more consequential, and a party may
+hold the opposite stance on a topic yet never block. The signal has two sides: the veto signal
+against a given proposal, and a secondary, exploratory measure of a country's general propensity
+to reject proposals within a given ATCM.
 
 \paragraph{Approach}
 As with the support layer, this chapter builds a pipeline and,
@@ -213,11 +195,11 @@ therefore, a single objection vetoes adoption. The reward to agent $i$ is then
       - \gamma\, o_i,
   \label{eq:reward}
 \end{equation}
-where the first term rewards adoption of outcomes the Party supports. The second penalises adoption of outcomes it opposes. 
-The third subtracts a diplomatic cost for casting an objection. Finally, $\alpha, \beta, \gamma \ge 0$ are non-negative trade-off weights.
-$R_i$ is measured relative to the status quo and normalised to zero. For a non-zero $1_{\mathrm{adopt}}$ all parties need to agree (non-object),
-therefore, every agent holds a genuine veto. Furthermore, consensus emerges from the strategic trade-off between blocking a proposal
-and bearing the cost of objecting.
+where the first term rewards adoption of outcomes the Party supports, the second penalises
+adoption of outcomes it opposes, the third subtracts a diplomatic cost for casting an objection,
+and $\alpha, \beta, \gamma \ge 0$ are trade-off weights. $R_i$ is measured relative to the status
+quo and normalised to zero. Every agent holds a genuine veto, and consensus emerges from the
+trade-off between blocking a proposal and bearing the cost of objecting.
 
 The model is validated by the predicted consensus or failure and by an ablation that removes different layers to quantify its contribution.
 Then a counterfactual analysis examines alternative decision rules, for example, qualified majority in place of unanimity, which
