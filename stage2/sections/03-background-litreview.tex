@@ -39,6 +39,103 @@ the risk of losing the capacity to act increases. In 2022, for the first time, t
 ATCM parties failed to reach consensus on the final report; even as activity has
 increased, the regime has become less responsive to challenges \parencite{Gardiner2025}.
 
+
+\section{Modelling consensus: responsive and anticipatory approaches}
+\label{sec:consensus}
+There are two traditional groups of models for how groups reach consensus. The first group is responsive and interactive: each actor repeatedly reacts to
+the current positions of the others. These are the synchronization and opinion-dynamics models; examples are the Kuramoto and
+opinion-changing-rate models used by \textcite{Botelho_CoalitionDynamics}, which represent agreement as a coupled-oscillator convergence. These methods treat consensus as \textit{convergence}. \textcite{DeGroot1974} iteratively average agents' opinions using \(x(t+1)=Wx(t)\) until they converge. A bounded-confidence version was later developed by \textcite{Hegselmann2002}.
+A further model in this group is the stubborn-agents model \parencite{FriedkinJohnsen1990}, in which each agent only partially updates toward its neighbours and stays anchored to its initial opinion.
+Opinion-dynamics models can nevertheless test for agreement: declare consensus when all final
+positions lie within a tolerance radius, as \textcite{Bernardo2021} do for the negotiation of the
+2015 Paris Agreement. That test, however, captures preference convergence, not the consensus rule
+the ATS uses: a procedural right under which one party can block a decision no matter how close
+the remaining positions are. These opinion-dynamics models also contain no strategic preference,
+no veto, and no learning; the bargaining behaviour of consensus regimes is therefore outside
+their scope.
+
+The second group is anticipatory: each actor reasons about how the others will respond and
+chooses its actions to maximise an objective function. Responsive agents, by contrast, follow an
+update rule with no objective at all. Anticipatory models use social choice and game
+theory to treat consensus as a unanimity rule. \textcite{Tsebelis2002} develop a veto-players framework in which every party has
+veto power. Let $q$ denote the status quo, $p$ a proposal, and $u_i$ the utility function of
+party $i$, which scores how much that party values each policy. The status quo is replaced only
+when $u_i(p) \geq u_i(q)$ for every party $i$: no party may be left worse off than it is now.
+Consequently, as the number of parties increases and their positions spread, the set of adoptable policies shrinks and the system
+becomes harder to change. Analysing the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and
+diversifying membership, increasingly divergent views, and a consensus rule, and view the
+regime's shift away from binding agreements as symptomatic of declining decision-making
+performance.
+
+Each group has strengths and limits. Responsive models are simple, can be scaled to many agents,
+and are easy to calibrate against data. But their agents have no objective, no veto, and no
+strategy; therefore, they capture convergence rather than bargaining. Anticipatory models
+represent vetoes and strategic choice directly, and they explain \emph{why} a proposal passes or
+fails. But their equilibria become hard to compute as parties and issues multiply, and they are
+rarely confronted with data from real negotiations.
+
+Between these two groups lies a middle ground: models that retain the strategic, veto-bearing structure of the
+second group but, instead of solving for equilibrium in closed form, learn it from repeated interaction. This
+middle ground has grown into a field of its own and is treated separately in the next section.
+
+
+\section{Negotiation and coalition formation simulation using reinforcement learning}
+\label{sec:marl}
+
+Section~\ref{sec:consensus} left two requirements for a model of ATS behaviour. The model must
+represent many heterogeneous parties, each holding a veto and bargaining over a status quo. It
+must also remain computable at that scale, which the closed-form equilibria of analytic game
+theory are not. Multi-agent reinforcement learning (MARL) meets both requirements: it keeps the
+game-theoretic substance but learns equilibrium behaviour from repeated interaction instead of
+solving for it.
+
+Formally, MARL is defined over stochastic (Markov) games, a generalisation of repeated games in
+which the state of the negotiation changes as the agents act. Each agent observes the state,
+chooses an action, and receives a reward: the objective function it learns to maximise. The
+learning procedures approximate equilibrium behaviour over many simulated rounds rather than
+deriving it in closed form \parencite{Littman1994}. Neural networks (NN) enter only as function
+approximators, allowing this learning to scale to large state and action spaces.
+
+Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team formation \parencite{Bachrach2020},
+bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
+\parencite{Li2023}. Two reviews cover the field: \textcite{Gronauer2022} on MARL and \textcite{Sarkar2022} on coalition formation. Most recently, MARL agents based on Large Language Models (LLMs) have been used to 
+model political negotiation directly: for example, \textcite{Moghimifar2024} simulate coalition formation in parliament using text data
+from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
+\textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy,
+a board game in which seven powers negotiate, form, and break alliances, widely used as a benchmark for this type of simulation. Finally, some other benchmarks for real negotiation data are starting to appear 
+\parencite{Benac2026}. However, these simulations run on synthetic data or abstract benchmarks rather than the deliberative records of a real consensus regime.
+
+
+\section{Quantitative and text-based study of institutions and treaties}
+\label{sec:computational}
+
+The quantitative study of international institutions long predates its application to
+Antarctica. Substantial literature codes the design of treaties and organisations as structured
+variables: categorical or ordinal attributes such as their decision rules, dispute-settlement provisions, and enforcement mechanisms.
+Some studies link these variables to institutional performance, survival, and decline
+\parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data \parencite{Grimmer2013}.
+They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Together, these approaches
+show that the preferences and design features of treaty regimes can be measured usefully, not merely
+described: such measures track institutional outcomes and recover known positions.
+
+The ATS's health has been assessed qualitatively \parencite{Mancilla2022} and quantitatively. Quantitatively, it
+has been analysed in two ways. \textcite{Gardiner2025} provides performance accounts that measure the
+regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
+concludes that responsiveness to challenges in the Antarctic region is declining.
+A Working Paper (WP), the document type through which parties bring proposals to the ATCM
+(Section~\ref{sec:ats}), may be submitted by a single party or co-sponsored by several. The second
+methodology is structural: it uses this co-sponsorship to map who collaborates with whom,
+through co-authorship networks of ATCM documents \parencite{Botelho_CoalitionDynamics}, and how such networks form \parencite{Kumar_ConsistentPatterns}.
+This thesis uses both lines of work. The stances it reads from the text should explain the
+co-sponsorship behaviour these networks describe: parties with similar stances are likely to
+co-sponsor papers together, and Section~\ref{sec:ch2} turns this into a validation check against
+observed co-sponsorship. The same measures should also help predict the regime's output series
+reported by \textcite{Gardiner2025}, and Chapter 2 tests this.
+Neither analysis, however, considers what the papers are \emph{about}: both count documents or
+map their sponsors without reading the content. As a result, they cannot say which issues divide
+the parties, a limitation taken up in Section~\ref{sec:gap}.
+
+
 \section{The Antarctic Treaty System as a consensus regime}
 \label{sec:ats}
 At the ATCM, Consultative Parties (CPs) reach decisions exclusively by consensus; non-consultative parties (NCPs), observers, and experts attend but take no part. These outputs take three forms \parencite[Rule~24]{ATS2023RoP}. \textbf{Measures} set out
@@ -69,34 +166,6 @@ Antarctic mineral resources in which the parties' positions are recorded and the
 documented reversal makes it a valuable canary test, a known case against which any quantitative
 stance measure can be validated.
 
-
-\section{Quantitative and text-based study of institutions and treaties}
-\label{sec:computational}
-
-The quantitative study of international institutions long predates its application to
-Antarctica. Substantial literature codes the design of treaties and organisations as structured
-variables: categorical or ordinal attributes such as their decision rules, dispute-settlement provisions, and enforcement mechanisms.
-Some studies link these variables to institutional performance, survival, and decline
-\parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data \parencite{Grimmer2013}.
-They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Together, these approaches
-show that the preferences and design features of treaty regimes can be measured usefully, not merely
-described: such measures track institutional outcomes and recover known positions.
-
-The ATS's health has been assessed qualitatively \parencite{Mancilla2022} and quantitatively. Quantitatively, it
-has been analysed in two ways. \textcite{Gardiner2025} provides performance accounts that measure the
-regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
-concludes that responsiveness to challenges in the Antarctic region is declining.
-A Working Paper may be submitted by a single party or co-sponsored by several. The second
-methodology is structural: it uses this co-sponsorship to map who collaborates with whom,
-through co-authorship networks of ATCM documents \parencite{Botelho_CoalitionDynamics}, and how such networks form \parencite{Kumar_ConsistentPatterns}.
-This thesis uses both lines of work. The stances it reads from the text should explain the
-co-sponsorship behaviour these networks describe: parties with similar stances are likely to
-co-sponsor papers together, and Section~\ref{sec:ch2} turns this into a validation check against
-observed co-sponsorship. The same measures should also help predict the regime's output series
-reported by \textcite{Gardiner2025}, and Chapter 2 tests this.
-Neither analysis, however, considers what the papers are \emph{about}: both count documents or
-map their sponsors without reading the content. As a result, they cannot say which issues divide
-the parties, a limitation taken up in Section~\ref{sec:gap}.
 
 \section{Measuring policy preference from political text}
 \label{sec:computational-ir}
@@ -167,74 +236,6 @@ co-sponsor a WP because they share its topic and stance. That assumption is test
 same year and topic, countries whose recovered stances are similar should be the ones that
 actually co-sponsor papers, with stance similarity computed excluding the paper being predicted.
 Section~\ref{sec:ch2} sets out these validation checks.
-
-
-
-
-\section{Modelling consensus: responsive and anticipatory approaches}
-\label{sec:consensus}
-There are two traditional groups of models for how groups reach consensus. The first group is responsive and interactive: each actor repeatedly reacts to
-the current positions of the others. These are the synchronization and opinion-dynamics models; examples are the Kuramoto and
-opinion-changing-rate models used by \textcite{Botelho_CoalitionDynamics}, which represent agreement as a coupled-oscillator convergence. These methods treat consensus as \textit{convergence}. \textcite{DeGroot1974} iteratively average agents' opinions using \(x(t+1)=Wx(t)\) until they converge. A bounded-confidence version was later developed by \textcite{Hegselmann2002}.
-A further model in this group is the stubborn-agents model \parencite{FriedkinJohnsen1990}, in which each agent only partially updates toward its neighbours and stays anchored to its initial opinion.
-Opinion-dynamics models can nevertheless test for agreement: declare consensus when all final
-positions lie within a tolerance radius, as \textcite{Bernardo2021} do for the negotiation of the
-2015 Paris Agreement. That test, however, captures preference convergence, not the consensus rule
-the ATS uses: a procedural right under which one party can block a decision no matter how close
-the remaining positions are. These opinion-dynamics models also contain no strategic preference,
-no veto, and no learning; the bargaining behaviour of consensus regimes is therefore outside
-their scope.
-
-The second group is anticipatory: each actor reasons about how the others will respond and
-chooses its actions to maximise an objective function. Responsive agents, by contrast, follow an
-update rule with no objective at all. Anticipatory models use social choice and game
-theory to treat consensus as a unanimity rule. \textcite{Tsebelis2002} develop a veto-players framework in which every party has
-veto power. Let $q$ denote the status quo, $p$ a proposal, and $u_i$ the utility function of
-party $i$, which scores how much that party values each policy. The status quo is replaced only
-when $u_i(p) \geq u_i(q)$ for every party $i$: no party may be left worse off than it is now.
-Consequently, as the number of parties increases and their positions spread, the set of adoptable policies shrinks and the system
-becomes harder to change. Analysing the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and
-diversifying membership, increasingly divergent views, and a consensus rule, and view the
-regime's shift away from binding agreements as symptomatic of declining decision-making
-performance.
-
-Each group has strengths and limits. Responsive models are simple, can be scaled to many agents,
-and are easy to calibrate against data. But their agents have no objective, no veto, and no
-strategy; therefore, they capture convergence rather than bargaining. Anticipatory models
-represent vetoes and strategic choice directly, and they explain \emph{why} a proposal passes or
-fails. But their equilibria become hard to compute as parties and issues multiply, and they are
-rarely confronted with data from real negotiations.
-
-Between these two groups lies a middle ground: models that retain the strategic, veto-bearing structure of the
-second group but, instead of solving for equilibrium in closed form, learn it from repeated interaction. This
-middle ground has grown into a field of its own and is treated separately in the next section.
-
-
-\section{Negotiation and coalition formation simulation using reinforcement learning}
-\label{sec:marl}
-
-Section~\ref{sec:consensus} left two requirements for a model of ATS behaviour. The model must
-represent many heterogeneous parties, each holding a veto and bargaining over a status quo. It
-must also remain computable at that scale, which the closed-form equilibria of analytic game
-theory are not. Multi-agent reinforcement learning (MARL) meets both requirements: it keeps the
-game-theoretic substance but learns equilibrium behaviour from repeated interaction instead of
-solving for it.
-
-Formally, MARL is defined over stochastic (Markov) games, a generalisation of repeated games in
-which the state of the negotiation changes as the agents act. Each agent observes the state,
-chooses an action, and receives a reward: the objective function it learns to maximise. The
-learning procedures approximate equilibrium behaviour over many simulated rounds rather than
-deriving it in closed form \parencite{Littman1994}. Neural networks (NN) enter only as function
-approximators, allowing this learning to scale to large state and action spaces.
-
-Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team formation \parencite{Bachrach2020},
-bargaining under risk and asymmetric information \parencite{Schmid2020}, and search-improved game-theoretic learning
-\parencite{Li2023}. Two reviews cover the field: \textcite{Gronauer2022} on MARL and \textcite{Sarkar2022} on coalition formation. Most recently, MARL agents based on Large Language Models (LLMs) have been used to 
-model political negotiation directly: for example, \textcite{Moghimifar2024} simulate coalition formation in parliament using text data
-from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
-\textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy,
-a board game in which seven powers negotiate, form, and break alliances, widely used as a benchmark for this type of simulation. Finally, some other benchmarks for real negotiation data are starting to appear 
-\parencite{Benac2026}. However, these simulations run on synthetic data or abstract benchmarks rather than the deliberative records of a real consensus regime.
 
 
 \section{Summary of literature gap}

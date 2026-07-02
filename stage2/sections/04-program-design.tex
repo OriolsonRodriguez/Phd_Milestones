@@ -146,14 +146,6 @@ share its topic and stance: within the same year and topic, countries whose reco
 similar should be the ones that actually co-sponsor papers, with stance similarity computed
 excluding the paper being predicted.
 
-Figure~\ref{fig:ch1-workflow} below gives a summarised overview of the steps described above.
-\begin{figure}[p]
-  \centering
-  \resizebox{!}{0.88\textheight}{\input{figures/ch1_workflow.tex}}
-  \caption{Chapter~1 support-layer pipeline, from text records to the country$\times$topic$\times$year support tensor~$S$.}
-  \label{fig:ch1-workflow}
-\end{figure}
-
 \subsection{Objective 2 / Chapter 2: The Opposition layer and external validation}
 \label{sec:ch2}
 
@@ -190,13 +182,7 @@ proposal. A further limitation is the influence of external geopolitics, as in t
 \parencite{Gardiner2025}. The cause of this type of exogenous influence is unlikely to be reflected in the text data of an institution not
 directly related to such issues.
 
-Figure~\ref{fig:ch2-workflow} sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
-\begin{figure}[htbp]
-  \centering
-  \resizebox{\textwidth}{!}{\input{figures/ch2_workflow.tex}}
-  \caption{Chapter~2 opposition layer sketch: from text data to opposition tensor~$O$, forming the signed preference network~$(S,O)$.}
-  \label{fig:ch2-workflow}
-\end{figure}
+Appendix~D sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
 
 
 \subsection{Objective 3 / Chapter 3: The Simulation layer}
