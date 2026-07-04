@@ -5,7 +5,7 @@
 \section{Introduction}
 \label{sec:lr-intro}
 Consensus is a collective decision-making process where every party can object to any
-proposal and effectively veto it. It becomes a consensus regime when consensus becomes
+proposal and effectively veto it. A body becomes a consensus regime when consensus is
 the only means to reach decisions. Consensus is not the same as unanimity: a unanimity
 rule puts a proposal to a vote and records who votes in favour, against or abstain, whereas under
 consensus a decision proceeds whenever no party registers a formal objection \parencite{Rietig2023}. 
@@ -20,58 +20,54 @@ no longer reach them is not captured by existing models of consensus dynamics \p
 how consensus is reached or broken is therefore needed, both to explain past behaviour and to anticipate when a
 regime approaches the limits of its capacity to act.
 
-Models of multi-actor decision-making already exist, but they were not built for this task. Classical
-opinion-dynamics and game-theoretic models represent each actor with a single, low-dimensional
-position and rarely use the actual text those actors produce, such as their statements and
-negotiating documents. Capturing a consensus regime faithfully requires more: a
-higher-dimensional description in which actors hold distinct positions across many issues, preferences read
-directly from the text the actors produce and organised by topic, and measures validated and calibrated against
-observed outputs rather than assumed. Recent advances in natural language processing and machine learning make
-each of these upgrades feasible.
+Models of multi-actor decision-making already exist, but they were not built for this task: they
+represent each actor with a single, low-dimensional position and rarely use the actual text those
+actors produce. Capturing a consensus regime faithfully requires positions across many issues,
+read directly from the text the actors produce, and validated against observed outputs rather
+than assumed. Recent advances in natural language processing and machine learning make each of
+these upgrades feasible.
 
-The Antarctic Treaty System (ATS) is one of those
-consensus-driven regimes. At its centre is the Antarctic Treaty (AT), whose
-decision-making parties are called consultative parties \parencite{ATS2023RoP}. These parties meet yearly at the Antarctic
-Treaty Consultative Meeting (ATCM), where outputs are adopted only by consensus.
-As international relations strain and Antarctic environmental pressures intensify,
-the risk of losing the capacity to act increases. In 2022, for the first time, the
-ATCM parties failed to reach consensus on the final report; even as activity has
-increased, the regime has become less responsive to challenges \parencite{Gardiner2025}.
+The Antarctic Treaty System (ATS) is one of those consensus-driven regimes. At its centre is the
+Antarctic Treaty (AT), whose consultative parties meet yearly at the Antarctic Treaty
+Consultative Meeting (ATCM), where outputs are adopted only by consensus \parencite{ATS2023RoP}.
+In 2022, for the first time, the ATCM parties failed to reach consensus on the final report; even
+as activity has increased, the regime has become less responsive to challenges \parencite{Gardiner2025}.
 
 
 \section{Modelling consensus: responsive and anticipatory approaches}
 \label{sec:consensus}
 There are two traditional groups of models for how groups reach consensus. The first group is responsive and interactive: each actor repeatedly reacts to
-the current positions of the others. These are the synchronization and opinion-dynamics models; examples are the Kuramoto and
-opinion-changing-rate models used by \textcite{Botelho_CoalitionDynamics}, which represent agreement as a coupled-oscillator convergence. These methods treat consensus as \textit{convergence}: opinions are iteratively averaged until
-they meet \parencite{DeGroot1974}, with bounded-confidence \parencite{Hegselmann2002} and
-stubborn-agent \parencite{FriedkinJohnsen1990} variants.
+the current positions of the others. These are the opinion-dynamics models. They treat consensus as \textit{convergence}: opinions are iteratively averaged until
+they meet \parencite{DeGroot1974}, with several variants (Appendix~E).
 Opinion-dynamics models can nevertheless test for agreement: declare consensus when all final
 positions lie within a tolerance radius, as \textcite{Bernardo2021} do for the negotiation of the
 2015 Paris Agreement. That test, however, captures preference convergence, not the consensus rule
 the ATS uses: a procedural right under which one party can block a decision no matter how close
-the remaining positions are. These opinion-dynamics models also contain no strategic preference,
-no veto, and no learning; the bargaining behaviour of consensus regimes is therefore outside
-their scope.
+the remaining positions are.
 
 The second group is anticipatory: each actor reasons about how the others will respond and
 chooses its actions to maximise an objective function. Responsive agents, by contrast, follow an
-update rule with no objective at all. Anticipatory models use social choice and game
-theory to treat consensus as a unanimity rule. \textcite{Tsebelis2002} develop a veto-players framework in which every party has
-veto power. Let $q$ denote the status quo, $p$ a proposal, and $u_i$ the utility function of
-party $i$, which scores how much that party values each policy. The status quo is replaced only
-when $u_i(p) \geq u_i(q)$ for every party $i$: no party may be left worse off than it is now.
-Consequently, as the number of parties increases and their positions spread, the set of adoptable policies shrinks and the system
-becomes harder to change. Analysing the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and
-diversifying membership, increasingly divergent views, and a consensus rule, and read the
-regime's shift away from binding agreements as declining decision-making performance.
+update rule with no objective at all. These models use game theory to treat consensus as a
+unanimity rule: in the veto-players framework of \textcite{Tsebelis2002}, the status quo is
+replaced only when no party is left worse off (formal condition in Appendix~E). As parties
+multiply and their positions spread, the set of adoptable policies therefore shrinks. Analysing
+the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and diversifying
+membership, divergent views, and a consensus rule, and read the regime's shift away from binding
+agreements as declining performance.
 
 Each group has strengths and limits. Responsive models are simple, can be scaled to many agents,
 and are easy to calibrate against data. But their agents have no objective, no veto, and no
-strategy; therefore, they capture convergence rather than bargaining. Anticipatory models
+strategy. Anticipatory models
 represent vetoes and strategic choice directly, and they explain \emph{why} a proposal passes or
 fails. But their equilibria become hard to compute as parties and issues multiply, and they are
 rarely confronted with data from real negotiations.
+
+The ATS is this thesis's case study of such a regime: its Consultative Parties (CPs) decide
+exclusively by consensus at the ATCM, and its best-documented episode of contested consensus is
+CRAMRA, a minerals convention agreed in 1988 and then abandoned in favour of the Madrid
+Protocol's mining ban \parencite{jackson2021antarctica}. That documented reversal provides a
+canary test for any preference measure this thesis builds. The regime's mechanics, outputs, and the
+full CRAMRA episode are described in Appendix~F \parencite{Gardiner2025}.
 
 Between these two groups lies a middle ground: models that retain the strategic, veto-bearing
 structure of the second group but learn equilibrium from repeated interaction instead of solving
@@ -92,153 +88,78 @@ Formally, MARL is defined over stochastic (Markov) games, a generalisation of re
 which the state of the negotiation changes as the agents act. Each agent observes the state,
 chooses an action, and receives a reward: the objective function it learns to maximise. The
 learning procedures approximate equilibrium behaviour over many simulated rounds rather than
-deriving it in closed form \parencite{Littman1994}. Neural networks (NN) enter only as function
-approximators, allowing this learning to scale to large state and action spaces.
+deriving it in closed form \parencite{Littman1994}.
 
-Foundational MARL work covers multi-issue bargaining \parencite{Chang2021}, negotiating-team
-formation \parencite{Bachrach2020}, bargaining under risk and asymmetric information
-\parencite{Schmid2020}, and search-improved game-theoretic learning \parencite{Li2023}. Two
-reviews cover the field \parencite{Gronauer2022,Sarkar2022}. Most recently, MARL agents based on
-Large Language Models (LLMs) model political negotiation directly:
-\textcite{Moghimifar2024} simulate coalition formation in parliament using text data
-from party manifestos. \textcite{Bolleddu2025} present a MARL system for consensus building and negotiation based on synthetic data.
-\textcite{Kulkarni2025} use negotiated agreements with game-theoretic reasoning to predict dynamic coalition formation in Diplomacy,
-a board game in which seven powers negotiate, form, and break alliances, widely used as a benchmark for this type of simulation. Finally, some other benchmarks for real negotiation data are starting to appear 
-\parencite{Benac2026}. However, these simulations run on synthetic data or abstract benchmarks rather than the deliberative records of a real consensus regime.
+The field spans foundational bargaining and coalition-formation work
+\parencite{Gronauer2022,Sarkar2022} and, most recently, agents based on Large Language Models
+(LLMs) that model political negotiation directly (Appendix~E). However, these simulations run on
+synthetic data or abstract benchmarks rather than the deliberative records of a real consensus
+regime.
 
 
 \section{Quantitative and text-based study of institutions and treaties}
 \label{sec:computational}
 
 The quantitative study of international institutions long predates its application to
-Antarctica. Substantial literature codes the design of treaties and organisations as structured
-variables: categorical or ordinal attributes such as their decision rules, dispute-settlement provisions, and enforcement mechanisms.
-Some studies link these variables to institutional performance, survival, and decline
-\parencite{Gray2018}. A more recent trend treats the \emph{text} of international agreements and debates as data \parencite{Grimmer2013}.
-They recover state positions from voting records and speeches \parencite{Baturo2017,Slapin2008}. Together, these approaches
-show that the preferences and design features of treaty regimes can be measured usefully, not merely
-described: such measures track institutional outcomes and recover known positions.
+Antarctica. One line of work codes the design of treaties and organisations as structured
+variables, such as their decision rules, and links these variables to institutional performance,
+survival, and decline \parencite{Gray2018}. A more recent trend treats the \emph{text} of
+international agreements and debates as data \parencite{Grimmer2013}, recovering state positions
+from voting records and speeches \parencite{Baturo2017,Slapin2008}. Both show that the
+preferences and design features of treaty regimes can be measured, not merely described.
 
-The ATS's health has been assessed qualitatively \parencite{Mancilla2022} and quantitatively. Quantitatively, it
-has been analysed in two ways. \textcite{Gardiner2025} provides performance accounts that measure the
-regime in aggregate, counting inputs and outputs, and the time legally binding measures take to enter into force. It
-concludes that responsiveness to challenges in the Antarctic region is declining.
-A Working Paper (WP), the document type through which parties bring proposals to the ATCM
-(Section~\ref{sec:ats}), may be submitted by a single party or co-sponsored by several. The second
-methodology is structural: it uses this co-sponsorship to map who collaborates with whom,
-through co-authorship networks of ATCM documents \parencite{Botelho_CoalitionDynamics}, and how such networks form \parencite{Kumar_ConsistentPatterns}.
-This thesis uses both lines of work as validation targets: parties with similar stances are
-likely to co-sponsor papers together, and the same measures should help predict the output series
+The ATS's health has been assessed qualitatively \parencite{Mancilla2023} and quantitatively, in
+two ways. \textcite{Gardiner2025} measures the regime in aggregate, counting inputs, outputs, and
+the time legally binding measures take to enter into force, and concludes that responsiveness to
+challenges in the Antarctic region is declining. The second way is structural. A Working Paper
+(WP), the document type through which parties bring proposals to the ATCM (Appendix~F), may be
+submitted by a single party or co-sponsored by several, and this co-sponsorship has been used to
+map who collaborates with whom through co-authorship networks of ATCM documents
+\parencite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns}.
+This thesis uses both lines of work as validation targets: parties with similar stances
+(directional positions on a topic) are likely to co-sponsor papers together, and the same measures should help predict the output series
 reported by \textcite{Gardiner2025} (Section~\ref{sec:ch2}).
-Neither analysis, however, considers what the papers are \emph{about}: both count documents or
-map their sponsors without reading the content. As a result, they cannot say which issues divide
-the parties, a limitation taken up in Section~\ref{sec:gap}.
+Neither analysis, however, reads the content of the papers, so neither can say which issues
+divide the parties, a limitation taken up in Section~\ref{sec:gap}.
 
-
-\section{The Antarctic Treaty System as a consensus regime}
-\label{sec:ats}
-At the ATCM, Consultative Parties (CPs) reach decisions exclusively by consensus; non-consultative parties (NCPs), observers, and experts attend but take no part. These outputs take three forms \parencite[Rule~24]{ATS2023RoP}. \textbf{Measures} set out
-substantive provisions that the parties intend to be legally binding in their domestic law; they
-require each party's government to formally approve them. \textbf{Decisions} settle the ATCM's own
-internal and organisational matters. \textbf{Resolutions} are non-binding: they record
-recommendations or expressions of intent, with no legal force.
-
-There are four types of input:
-\begin{itemize}
-\item \textbf{Working Papers (WP)} \parencite[Rule~48]{ATS2023RoP}: submitted by CPs and Observers, these require
- discussion at the ATCM and are the main source of outputs. They are the only input from CPs that can produce an outcome.
-\item \textbf{Secretariat Papers} \parencite[Rule~49]{ATS2023RoP}: organisational matters such as the budget.
-\item \textbf{Information Papers} \parencite[Rule~50]{ATS2023RoP}: supporting information, also from NCPs and experts.
-\item \textbf{Background Papers} \parencite[Rule~51]{ATS2023RoP}: documents submitted for the record only.
-\end{itemize}
-
-The consensus system makes the ATS a notable example of international cooperation \parencite{jackson2021antarctica}; however, the same mechanism
-has become a major challenge as the number of CPs grows \parencite{Tsebelis2002,Gardiner2025}.
-
-A notable case of contested consensus occurred in the late 1970s and 1980s, during the negotiations over mineral
-resources in Antarctica. The Convention on the Regulation of Antarctic Mineral Resource Activities (CRAMRA) was
-a framework, agreed in 1988, that would have permitted and regulated mining in Antarctica. It was
-abandoned before entering into force and replaced by the Madrid Protocol (1991), which instead
-prohibited all mineral resource extraction and designated Antarctica a natural reserve devoted to
-peace and science \parencite{jackson2021antarctica}. Although it unfolded in two stages, it forms a single documented episode: one negotiation over
-Antarctic mineral resources in which the parties' positions are recorded and then reversed. That
-documented reversal makes it a valuable canary test, a known case against which any quantitative
-stance measure can be validated.
-
-
-\section{Measuring policy preference from political text}
-\label{sec:computational-ir}
-
-Positional measures place each actor on a policy scale, for example from favouring regulation
-to favouring access, using only the text the actor produces. Extracting them from political
-texts is a well-developed field with two paradigms. They differ in how they turn text into
-numbers: the first paradigm uses word counts (i.e. frequencies), while the second uses embeddings.
-The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
-from the data itself: the axis is not chosen in advance, it emerges from patterns in the text, and
-its meaning (e.g. regulation versus access) is interpreted after estimation. Wordfish
-\parencite{Slapin2008} is a Poisson scaling model of party text (Appendix~E). Its limitation is
-that the recovered dimension is uninterpreted: the model finds the dominant axis of variation in
-word usage, which need not correspond to any policy dimension of interest. In a corpus as
-topically diverse as the ATCM Working Papers, that axis would likely reflect what parties talk
-about rather than what they support. \textcite{Lauderdale2016} addressed the problem that
-legislators talk about different things in different debates by scaling each debate separately,
-but the debate scales inherit the same uninterpreted-dimension problem, and the debates must be
-given in advance (Appendix~E). Two things are therefore missing for this thesis: the topics have
-to be discovered from the papers themselves, and the output must be a stance per topic rather
-than one general dimension.
-\textcite{Vafa2020} produced a probabilistic framework that jointly places ideal points and models actors' language. The closest dataset to the ATCM corpus is the one \textcite{Baturo2017} use to derive
-state-level preferences from United Nations (UN) debate speeches, in a setting that parallels the
-ATCM: formal, annual, state-level, and translated into official languages (Appendix~E). Finally,
-\textcite{Parschan2025} review the text-based ideal-point estimation algorithms of this first
-paradigm, comparing their assumptions and variants in one place.
-The second paradigm uses embeddings as its main tool. An embedding maps a piece of text (a word,
-a sentence, or a whole document) to a vector in $\mathbb{R}^d$, learned from large corpora so
-that texts appearing in similar contexts receive nearby vectors: comparisons of meaning then
-become geometric operations. Modern embeddings are produced by neural language models such as
-BERT \parencite{Devlin2019}, which make the vectors context-dependent: the same word receives
-different vectors in different sentences. \textcite{Rheault2019} show that word-embedding
-geometry recovers ideological placement using parliamentary data. \textcite{Rodriguez2021} find
-embeddings useful for analysing political text, but caution that the choice of embeddings
-strongly affects applied inference, and that the results must be validated.
-
-This thesis adopts the second paradigm and uses embeddings at several stages: to discover what
-topics the Working Papers discuss, to measure how relevant each paper is to each topic, and,
-through the same family of neural models, to read each paper's stance on a topic. It also differs
-from the ideal-point methods in an important way. Ideal-point models summarise each actor with
-one number: a single position on one latent axis, assumed stable across issues. That summary is
-too coarse for the ATCM, where a party can support stricter environmental protection yet oppose
-new tourism rules. This project therefore requires a topic-conditioned stance: a separate
-position per party and topic, allowed to change through time.
-The topic structure is discovered using BERTopic \parencite{Grootendorst_BERTopic}, which clusters
-document embeddings and labels each cluster with its most distinctive words. The stance is read
-with natural language inference (NLI) models \parencite{Burnham2023,Abercrombie2022}: classifiers
-that take a text and a stated hypothesis (e.g. ``this paper supports stricter protection'') and
-judge whether the text entails, contradicts, or is neutral towards it. Section~\ref{sec:ch2} sets
-out the validation checks for these results: against the Secretariat's hand-assigned topic
-categories, against the documented CRAMRA reversal, and against observed co-sponsorship.
+A separate field does read the content: positional measures place each actor on a policy scale
+using only the text the actor produces. It has two paradigms, which differ in how they turn text
+into numbers: word counts (i.e. frequencies) or embeddings, vectors in which texts with similar
+meaning end up close together. The word-count paradigm recovers a single, uninterpreted
+dimension, which in a corpus as topically diverse as the ATCM Working Papers would likely
+reflect what parties talk about rather than what they support. This thesis therefore adopts the
+embedding paradigm: topics are discovered with BERTopic \parencite{Grootendorst_BERTopic}, and
+stances are read with natural language inference (NLI) classifiers, which judge whether a text
+supports or contradicts a stated hypothesis \parencite{Burnham2023,Abercrombie2022}. The result
+is a topic-conditioned stance: a separate position per party and topic through time. The
+supporting literature and definitions are reviewed in Appendix~G, and Section~\ref{sec:ch2} sets
+out the validation checks.
 
 
 \section{Summary of literature gap}
 \label{sec:gap}
 
-The descriptive work, the aggregate performance accounts and qualitative health assessments of
-Section~\ref{sec:computational} \parencite{Gardiner2025,Mancilla2022}, shows what the regime
-outputs but not who produces what. The structural analyses of co-authorship networks
+The descriptive work of Section~\ref{sec:computational} \parencite{Gardiner2025,Mancilla2023}
+shows what the regime outputs but not who produces what. The structural analyses of co-authorship networks
 \parencite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns} are undirected and unattributed.
-The text-based methods of Section~\ref{sec:computational-ir} recover latent positions rather than
-topic-specific stances over time. Finally, consensus has been simulated either as convergence
-(Section~\ref{sec:consensus}) or, where learning-based methods were used, on synthetic data rather
-than the institution's own deliberative records (Section~\ref{sec:marl}). These literatures differ
+The text-based positional methods of Section~\ref{sec:computational} recover latent positions
+rather than topic-specific stances over time (Appendix~G). Finally, consensus has been simulated as convergence
+(Section~\ref{sec:consensus}) or on synthetic data (Section~\ref{sec:marl}). These literatures differ
 in method but none recovers a directional preference: who is for or against what, extracted from
 the regime's own words.
 
 This gap has two parts. The knowledge gap is the question raised in Section~\ref{sec:lr-intro}:
-whether the regime's outputs, including failures such as the 2022 ATCM's inability to agree its
-final report, can be anticipated from the parties' positions at all. The methodological gap is
+whether the regime's outputs, including its failures, can be anticipated from the parties'
+positions at all. The methodological gap is
 the missing instrument: no existing method measures each party's directional stance, per topic
 and over time, from the regime's own records. Without that instrument the question cannot be
-answered. Section~\ref{sec:rqs} turns this gap into three research questions.
+answered. Section~\ref{sec:rqs} turns this gap into three research goals.
 
+The closest prior work shares parts of this design but not its object. Stance detection recovers
+for-or-against positions from parliamentary debates \parencite{Abercrombie2022}, but not a
+per-party, per-topic measure through time. \textcite{Moghimifar2024} drive a negotiation
+simulation with preferences derived from party manifestos, but in a parliamentary coalition
+setting, not a consensus regime where every party holds a veto.
 No prior work extracts a directional preference for each party over time from a consensus
 regime's own textual records, nor uses such preferences to drive a strategic simulation in which agents have veto
 power. This thesis supplies both halves and joins them: the preferences recovered from the record become the
@@ -247,10 +168,10 @@ power. This thesis supplies both halves and joins them: the preferences recovere
 
 \section{Research problem}
 \label{sec:rqs}
-The first goal of this thesis is to reconstruct parties' preferences from the written records 
-into a directional measure (stance) across topics and time. The second goal is to extract
+The first goal of this thesis is to reconstruct parties' preferences from the written records
+as a directional measure (stance) across topics and time. The second goal is to extract
 a directional opposition (veto) signal from the same records, and to test whether the combined 
-preferences recover known history and predict decisions. Finally, this thesis aim to use these preferences
+preferences recover known history and predict decisions. Finally, this thesis aims to use these preferences
 to parameterise a multi-agent model that simulates consensus and its failures.
 
 
