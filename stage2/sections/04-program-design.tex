@@ -11,7 +11,7 @@ The second is to test whether the recovered preferences are credible: they must 
 historical positions and align with the ATCM decision record (Chapter 2). The third is to use the
 validated preferences to simulate the regime's collective decision-making, so that its outputs,
 including consensus failures, can be anticipated (Chapter 3).
-Figure~\ref{fig:workflow} shows the overall flow of the research project, the output of each stage, and how the objectives relate to one another.
+Figure~\ref{fig:workflow} shows the overall flow of the research project.
 
 \begin{figure}[htbp]
   \centering
@@ -35,30 +35,30 @@ limited to papers originally drafted in English, and most pre-trained embedding 
 are trained on English data.
 
 \paragraph{Approach}
-The approach is a pipeline with multiple stages (full details and notation in Appendix~E). The
+The approach is a pipeline with multiple stages (full details and notation in \hyperref[app:e]{Appendix~E}). The
 first stages discover what the corpus is about: each document is embedded into the vector space
-introduced in Section~\ref{sec:computational} (detailed in Appendix~G), and BERTopic
+introduced in Section~\ref{sec:computational} (detailed in \hyperref[app:g]{Appendix~G}), and BERTopic
 \parencite{Grootendorst_BERTopic} clusters the embedded corpus into a set of topics, each with a
 centroid: the average embedding of its documents. The next stages select, for each document and
 topic, the relevant passages, gated by cosine relevance to the topic centroid. The topic-relevant
 sentences are extracted and scored by the NLI classifier against topic hypotheses (e.g. country C supports stricter tourism rules),
  producing a five-class distribution that ranges from strong opposition to strong support. The signed stance
 of a document on a topic is the expected value of this distribution under an equal-spacing
-convention (Appendix~E). It is a convex combination of five fixed class values, and therefore a
+convention (\hyperref[app:e]{Appendix~E}). It is a convex combination of five fixed class values, and therefore a
 continuous quantity between $-1$ and $1$ on the topic's axis.
 
 Finally, the previous result is aggregated into the support tensor $\mathbf{S}$: for each
 country, topic, and year, the weighted sum of the stances of the WPs the country co-sponsored
-that year (Equation~\ref{eq:aggregate}, Appendix~E). This aggregation is a design choice of this
+that year (Equation~\ref{eq:aggregate}, \hyperref[app:e]{Appendix~E}). This aggregation is a design choice of this
 thesis rather than a result from prior work: the attribution weights follow two conventions,
-full credit and fractional credit, each answering a different question (Appendix~E). For a fixed
-year, the result is a signed country-by-topic matrix (full notation in Appendix~C).
+full credit and fractional credit, each answering a different question (\hyperref[app:e]{Appendix~E}). For a fixed
+year, the result is a signed country-by-topic matrix (full notation in \hyperref[app:c]{Appendix~C}).
 
 Measuring directional stance in diplomatic text is challenging because diplomats hedge: cautious,
 non-committal phrasing and a shared vocabulary of safeguards pull single-hypothesis scores toward
-neutrality (examples in Appendix~E). Stance is therefore recovered as a contrast. For each topic,
+neutrality (examples in \hyperref[app:e]{Appendix~E}). Stance is therefore recovered as a contrast. For each topic,
 three hypotheses are written: a supporting pole, a neutral one, and an opposing pole (notation in
-Appendix~E). Each is paired with the extracted text as premise and scored by the NLI
+\hyperref[app:e]{Appendix~E}). Each is paired with the extracted text as premise and scored by the NLI
 classifier \parencite{Laurer2024}, and the against-pole score is subtracted from the for-pole
 score, giving a direction that survives the hedged phrasing. As a robustness check, the same
 texts are scored a second time by a generative LLM used as a secondary instrument
@@ -74,10 +74,9 @@ ATCM text. The construct is therefore validated with three independent checks, e
 different stage of the pipeline. A topic validation check compares the discovered topics against the categories the Secretariat
 assigns to every WP. Agreement is measured by majority-category overlap: the share of papers in
 each discovered topic that belong to that topic's most common official category. A historical
-canary uses the minerals/CRAMRA negotiations of the late 1970s and 1980s as documented ground
-truth \parencite{jackson2021antarctica}: most prominently, Australia and France abandoned the
-negotiated convention and pushed instead for a mining ban. The test checks whether the pipeline
-recovers those documented directions from the papers alone. Finally, a co-sponsorship check tests the assumption that countries co-sponsor a WP because they
+canary uses the minerals negotiations of the late 1970s and 1980s as documented ground
+truth \parencite{jackson2021antarctica} and compares them to recovered countries preferences extracted from the text.
+ Finally, a co-sponsorship check tests the assumption that countries co-sponsor a WP because they
 share its topic and stance: within the same year and topic, countries whose recovered stances are
 similar should be the ones that actually co-sponsor papers, with stance similarity computed
 excluding the paper being predicted.
@@ -92,9 +91,7 @@ signal: a directional measure of a party's resistance to a proposal. It is not t
 support layer: the support layer captures programmatic disagreement (a party proposes one
 direction while another proposes the contrary), whereas the \textit{veto signal} is the act of
 objecting to a proposal on the table. Blocking is rarer and more consequential, and a party may
-hold the opposite stance on a topic yet never block. The signal has two sides: the veto signal
-against a given proposal, and a secondary, exploratory measure of a country's general propensity
-to reject proposals within a given ATCM.
+hold the opposite stance on a topic yet never block.
 
 \paragraph{Approach}
 As with the support layer, this chapter builds a pipeline. For the ATS case, the ATCMs' final
@@ -107,7 +104,7 @@ pair $(\mathbf{S}, \mathbf{O})$ constitutes a signed preference network: the inp
 chapter.
 
 \paragraph{External validation}
-The combined structure (the tensor pair $(\mathbf{S}, \mathbf{O})$) is tested for predictive content against observed outcomes (see Appendix~F) and the compilation
+The tensor pair $(\mathbf{S}, \mathbf{O})$ is tested for predictive content against observed outcomes (see \hyperref[app:f]{Appendix~F}) and the compilation
 by \textcite{Gardiner2025}, for the case of the ATS. This gives Chapter~2 an independent research question, tests the results so far, and produces a
 quantitative description.
 Although this thesis focuses on the ATS, the pipeline is institution-agnostic: the same $(\mathbf{S},\mathbf{O})$ construction
@@ -118,7 +115,7 @@ proposal. A further limitation is the influence of external geopolitics, as in t
 \parencite{Gardiner2025}. The cause of this type of exogenous influence is unlikely to be reflected in the text data of an institution not
 directly related to such issues.
 
-Appendix~D sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
+\hyperref[app:d]{Appendix~D} sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
 
 
 \subsection{Objective 3 / Chapter 3: The Simulation layer}
@@ -132,7 +129,7 @@ every Party is a veto player \parencite{Tsebelis2002} and the representation is 
 rather than an averaging dynamic.
 
 \paragraph{Approach}
-A custom negotiation environment is specified in which proposals are presented one at a time. Each proposal is an input text/Working Paper $d$ that is mostly about topic $k$ in year $y$. Then the agents (one per consultative party)
+A custom negotiation environment is specified in which proposals are presented one at a time. Each proposal is an input text that is mostly about topic. Then the agents (one per consultative party)
 decide whether to object. Each agent's decision-making is supported by its support profile (its slice of $\mathbf{S}$,
 Chapter~1), its opposition history (Chapter~2), and metadata such as consultative status,
 official language, and GDP. The metadata informs the agents' decisions, but the thesis's claims
@@ -140,23 +137,19 @@ do not rest on it. An agent's action on a presented proposal is binary: to objec
 the consensus rule the proposal is adopted only if no Party objects, so a single objection vetoes
 adoption. Each agent's reward combines three terms: it rewards adoption of outcomes the Party
 supports, penalises adoption of outcomes it opposes, and subtracts a diplomatic cost for casting
-an objection (equations in Appendix~E). Every agent holds a genuine veto, and consensus emerges from the trade-off
+an objection (equations in \hyperref[app:e]{Appendix~E}). Every agent holds a veto, and consensus emerges from the trade-off
 between blocking a proposal and bearing the cost of objecting.
 
 The model is validated by the predicted consensus or failure and by an ablation that removes different layers to quantify each layer's contribution.
 Then a counterfactual analysis examines alternative decision rules, for example, qualified majority in place of unanimity, which
-relaxes the adoption rule (Equation~\ref{eq:adopt}, Appendix~E). This counterfactual is intended to predict the behaviour of the system given a change in the
-institutional rules, e.g. the ATCM framework \parencite{ATS2023RoP}. This is compared against the effectiveness metrics of \textcite{Gardiner2025}. 
-Training agents on positions extracted from the institution's own record makes this the
-highest-risk chapter; it is framed as a proof of concept, contingent on Chapters~1 and~2 passing
-validation.
+relaxes the adoption rule (Equation~\ref{eq:adopt}, \hyperref[app:e]{Appendix~E}). This counterfactual is intended to predict the behaviour of the system given a change in the
+institutional rules, e.g. the ATCM framework \parencite{ATS2023RoP}. This is compared against the effectiveness metrics of \textcite{Gardiner2025}.
 
 
 \section{Resources and funding required}
 \label{sec:resources}
 
-The project uses openly published data from the Antarctic Treaty Secretariat's document database
-and may use public data from other international institutions. The project uses open-source software and/or QUT-licensed software. 
+The project uses openly published data from the ATS document database. The project uses open-source software and/or QUT-licensed software. 
 Computation is served by the QUT high-performance computing cluster. No additional funding is required.
 
 \section{Individual contribution to the research team}
@@ -182,8 +175,7 @@ All research questions, project design, ideas, interpretation of results, and se
 \section{Timeline for completion}
 \label{sec:timeline}
 
-The candidature is full-time and commenced on the 31st of March, 2026. All milestones are placed
-against the QUT full-time schedule (Table~\ref{tab:timeline}).
+The candidature is full-time and commenced on the 31st of March, 2026. see Table~\ref{tab:timeline}.
 
 % ── Timeline page 1: Milestones and chapter objectives ───────────
 \begin{landscape}
@@ -307,4 +299,4 @@ AIRS / IFN006
 \end{landscape}
 
 Coursework (IFN006 Advanced Information Research Skills) is currently underway and will be completed by
-July 2026 following Stage~2 submission. The Research Integrity Online quiz is completed (see Appendix~A).
+July 2026 following Stage~2 submission. The Research Integrity Online quiz is completed (see \hyperref[app:a]{Appendix~A}).

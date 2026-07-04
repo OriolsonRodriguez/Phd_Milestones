@@ -1,9 +1,12 @@
 %% Section 06 — Appendices
+\phantomsection
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
 
+\phantomsection
 \section*{Appendix A: Research Integrity Online}
 \addcontentsline{toc}{section}{Appendix A: Research Integrity Online}
+\label{app:a}
 
 \begin{figure}[htbp]
   \centering
@@ -19,13 +22,17 @@
   \label{fig:rio-quiz}
 \end{figure}
 
+\phantomsection
 \section*{Appendix B: Coursework}
 \addcontentsline{toc}{section}{Appendix B: Coursework}
+\label{app:b}
 
 AIRS / IFN006 is currently underway. The course ends in July 2026.
 
+\phantomsection
 \section*{Appendix C: Notation}
 \addcontentsline{toc}{section}{Appendix C: Notation}
+\label{app:c}
 
 \paragraph{Indices and sets.}
 \begin{tabular}{@{}ll@{}}
@@ -72,8 +79,10 @@ $O_{c,k,y}$         & opposition of country $c$ on topic $k$ in year $y$, $O_{c,
 
 For these tensors, high sparsity is expected because absence of evidence is recorded as missing, not as zero.
 
+\phantomsection
 \section*{Appendix D: Opposition-layer workflow}
 \addcontentsline{toc}{section}{Appendix D: Opposition-layer workflow}
+\label{app:d}
 
 \begin{figure}[htbp]
   \centering
@@ -82,12 +91,23 @@ For these tensors, high sparsity is expected because absence of evidence is reco
   \label{fig:ch2-workflow}
 \end{figure}
 
+\phantomsection
 \section*{Appendix E: Extended literature and method notes}
 \addcontentsline{toc}{section}{Appendix E: Extended literature and method notes}
+\label{app:e}
+
+\paragraph{The gap, literature by literature.}
+The descriptive work of Section~\ref{sec:computational} \parencite{Gardiner2025,Mancilla2023}
+shows what the regime outputs but not who produces what. The structural analyses of co-authorship
+networks \parencite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns} are undirected and
+unattributed. The text-based positional methods of Section~\ref{sec:computational} recover latent
+positions rather than topic-specific stances over time (\hyperref[app:g]{Appendix~G}). Finally,
+consensus has been simulated as convergence (Section~\ref{sec:consensus}) or on synthetic data
+(Section~\ref{sec:marl}).
 
 \paragraph{ATCM document and output types.}
 The ATCM's inputs and outputs, including the paper types beyond Working Papers, are described in
-Appendix~F.
+\hyperref[app:f]{Appendix~F}.
 
 \paragraph{Responsive (opinion-dynamics) model variants.}
 Examples are the Kuramoto and opinion-changing-rate models used by
@@ -273,8 +293,10 @@ where the first term rewards adoption of outcomes the Party supports, the second
 adoption of outcomes it opposes, the third subtracts a diplomatic cost for casting an objection,
 and $\alpha, \beta, \gamma \ge 0$ are trade-off weights, learned during training to fit the historical consensus record.
 
+\phantomsection
 \section*{Appendix F: The ATS as a consensus regime}
 \addcontentsline{toc}{section}{Appendix F: The ATS as a consensus regime}
+\label{app:f}
 
 At the ATCM, Consultative Parties (CPs) reach decisions exclusively by consensus; non-consultative
 parties (NCPs), observers, and experts attend but take no part. These outputs take three forms
@@ -307,8 +329,10 @@ documented episode: one negotiation over Antarctic mineral resources in which th
 positions are recorded and then reversed. That documented reversal makes it a valuable canary
 test, a known case against which any quantitative stance measure can be validated.
 
+\phantomsection
 \section*{Appendix G: Measuring policy preference from political text}
 \addcontentsline{toc}{section}{Appendix G: Measuring policy preference from political text}
+\label{app:g}
 
 Positional measures place each actor on a policy scale, for example from favouring regulation
 to favouring access, using only the text the actor produces. Extracting them from political
@@ -317,23 +341,23 @@ numbers: the first paradigm uses word counts (i.e. frequencies), while the secon
 The first paradigm is scaling and ideal-point methods, which recover a latent positional dimension
 from the data itself: the axis is not chosen in advance, it emerges from patterns in the text,
 and its meaning is interpreted after estimation. Wordfish \parencite{Slapin2008} is a Poisson
-scaling model of party text (Appendix~E). Its limitation is that the recovered dimension is
+scaling model of party text (\hyperref[app:e]{Appendix~E}). Its limitation is that the recovered dimension is
 uninterpreted: it is the dominant axis of variation in word usage, and in a corpus as topically
 diverse as the ATCM Working Papers it would likely reflect what parties talk about rather than
 what they support. \textcite{Lauderdale2016} addressed the problem that
 legislators talk about different things in different debates by scaling each debate separately,
 but the debate scales inherit the same uninterpreted-dimension problem, and the debates must be
-given in advance (Appendix~E). Two things are therefore missing for this thesis: the topics have
+given in advance (\hyperref[app:e]{Appendix~E}). Two things are therefore missing for this thesis: the topics have
 to be discovered from the papers themselves, and the output must be a stance per topic rather
 than one general dimension.
 The closest dataset to the ATCM corpus is the UN debate corpus \textcite{Baturo2017} use to
-derive state-level preferences, in a setting that parallels the ATCM (Appendix~E). Finally,
+derive state-level preferences, in a setting that parallels the ATCM (\hyperref[app:e]{Appendix~E}). Finally,
 \textcite{Parschan2025} review the text-based ideal-point estimation algorithms of this first
 paradigm, comparing their assumptions and variants in one place.
 The second paradigm uses embeddings as its main tool. An embedding maps a piece of text to a
 vector in $\mathbb{R}^d$ so that texts with similar meaning receive nearby vectors: comparisons
 of meaning become geometric operations. Modern embeddings are produced by neural language models
-such as BERT \parencite{Devlin2019} (details in Appendix~E). Word-embedding geometry recovers
+such as BERT \parencite{Devlin2019} (details in \hyperref[app:e]{Appendix~E}). Word-embedding geometry recovers
 ideological placement in parliamentary data \parencite{Rheault2019}, but the choice of embeddings
 strongly affects applied inference and the results must be validated \parencite{Rodriguez2021}.
 
@@ -343,7 +367,7 @@ through the same family of neural models, to read each paper's stance on a topic
 the topic-conditioned stance that the first paradigm cannot supply: a separate position per
 party and topic, allowed to change through time. The topic structure is discovered
 using BERTopic \parencite{Grootendorst_BERTopic} and the stance is read with natural language
-inference (NLI) models \parencite{Burnham2023,Abercrombie2022}, both described in Appendix~E.
+inference (NLI) models \parencite{Burnham2023,Abercrombie2022}, both described in \hyperref[app:e]{Appendix~E}.
 Section~\ref{sec:ch2} sets out the validation checks for these results: against the
 Secretariat's hand-assigned topic categories, against the documented CRAMRA reversal, and
 against observed co-sponsorship.

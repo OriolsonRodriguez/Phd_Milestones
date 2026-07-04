@@ -6,14 +6,13 @@
 \label{sec:lr-intro}
 Consensus is a collective decision-making process where every party can object to any
 proposal and effectively veto it. A body becomes a consensus regime when consensus is
-the only means to reach decisions. Consensus is not the same as unanimity: a unanimity
+the only means to reach decisions. Importantly, consensus is not the same as unanimity: a unanimity
 rule puts a proposal to a vote and records who votes in favour, against or abstain, whereas under
 consensus a decision proceeds whenever no party registers a formal objection \parencite{Rietig2023}. 
 Since a single party can halt any proposal, an outside observer might expect such regimes to
-decide very little. The larger and more heterogeneous the group, the smaller the set of proposals that change the
-status quo \parencite{Tsebelis2002}. In practice, consensus regimes can reach agreement even on contested,
+decide very little. In practice, \textcite{Sykorabodie2019} show that consensus regimes can reach agreement even on contested,
 transnational issues, often by relying on informal practices: trust, dialogue, and leadership. These practices fill the gaps left by
-their formal rules \parencite{Sykorabodie2019}. But success is never guaranteed: in bodies such as the United Nations Security Council
+their formal rules. But success is never guaranteed: in bodies such as the United Nations Security Council
 a single veto routinely blocks collective action, and even historically productive regimes can stall \parencite{Gardiner2025}. 
 Quantitatively, the picture is no different: what separates a consensus regime that keeps reaching decisions from one that can
 no longer reach them is not captured by existing models of consensus dynamics \parencite{Perez2018,Tran2024}. A model that better reproduces
@@ -38,7 +37,7 @@ as activity has increased, the regime has become less responsive to challenges \
 \label{sec:consensus}
 There are two traditional groups of models for how groups reach consensus. The first group is responsive and interactive: each actor repeatedly reacts to
 the current positions of the others. These are the opinion-dynamics models. They treat consensus as \textit{convergence}: opinions are iteratively averaged until
-they meet \parencite{DeGroot1974}, with several variants (Appendix~E).
+they meet \parencite{DeGroot1974}, with several variants (\hyperref[app:e]{Appendix~E}).
 Opinion-dynamics models can nevertheless test for agreement: declare consensus when all final
 positions lie within a tolerance radius, as \textcite{Bernardo2021} do for the negotiation of the
 2015 Paris Agreement. That test, however, captures preference convergence, not the consensus rule
@@ -49,7 +48,7 @@ The second group is anticipatory: each actor reasons about how the others will r
 chooses its actions to maximise an objective function. Responsive agents, by contrast, follow an
 update rule with no objective at all. These models use game theory to treat consensus as a
 unanimity rule: in the veto-players framework of \textcite{Tsebelis2002}, the status quo is
-replaced only when no party is left worse off (formal condition in Appendix~E). As parties
+replaced only when no party is left worse off (formal condition in \hyperref[app:e]{Appendix~E}). As parties
 multiply and their positions spread, the set of adoptable policies therefore shrinks. Analysing
 the ATS, \textcite{Gardiner2025} point to the same ingredients: a growing and diversifying
 membership, divergent views, and a consensus rule, and read the regime's shift away from binding
@@ -64,10 +63,9 @@ rarely confronted with data from real negotiations.
 
 The ATS is this thesis's case study of such a regime: its Consultative Parties (CPs) decide
 exclusively by consensus at the ATCM, and its best-documented episode of contested consensus is
-CRAMRA, a minerals convention agreed in 1988 and then abandoned in favour of the Madrid
-Protocol's mining ban \parencite{jackson2021antarctica}. That documented reversal provides a
+a minerals convention agreed in 1988 and then abandoned in favour of a mining ban \parencite{jackson2021antarctica}. That documented reversal provides a
 canary test for any preference measure this thesis builds. The regime's mechanics, outputs, and the
-full CRAMRA episode are described in Appendix~F \parencite{Gardiner2025}.
+full CRAMRA episode are described in \hyperref[app:f]{Appendix~F} \parencite{Gardiner2025}.
 
 Between these two groups lies a middle ground: models that retain the strategic, veto-bearing
 structure of the second group but learn equilibrium from repeated interaction instead of solving
@@ -92,7 +90,7 @@ deriving it in closed form \parencite{Littman1994}.
 
 The field spans foundational bargaining and coalition-formation work
 \parencite{Gronauer2022,Sarkar2022} and, most recently, agents based on Large Language Models
-(LLMs) that model political negotiation directly (Appendix~E). However, these simulations run on
+(LLMs) that model political negotiation directly (\hyperref[app:e]{Appendix~E}). However, these simulations run on
 synthetic data or abstract benchmarks rather than the deliberative records of a real consensus
 regime.
 
@@ -112,7 +110,7 @@ The ATS's health has been assessed qualitatively \parencite{Mancilla2023} and qu
 two ways. \textcite{Gardiner2025} measures the regime in aggregate, counting inputs, outputs, and
 the time legally binding measures take to enter into force, and concludes that responsiveness to
 challenges in the Antarctic region is declining. The second way is structural. A Working Paper
-(WP), the document type through which parties bring proposals to the ATCM (Appendix~F), may be
+(WP), the document type through which parties bring proposals to the ATCM (\hyperref[app:f]{Appendix~F}), may be
 submitted by a single party or co-sponsored by several, and this co-sponsorship has been used to
 map who collaborates with whom through co-authorship networks of ATCM documents
 \parencite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns}.
@@ -132,21 +130,16 @@ embedding paradigm: topics are discovered with BERTopic \parencite{Grootendorst_
 stances are read with natural language inference (NLI) classifiers, which judge whether a text
 supports or contradicts a stated hypothesis \parencite{Burnham2023,Abercrombie2022}. The result
 is a topic-conditioned stance: a separate position per party and topic through time. The
-supporting literature and definitions are reviewed in Appendix~G, and Section~\ref{sec:ch2} sets
+supporting literature and definitions are reviewed in \hyperref[app:g]{Appendix~G}, and Section~\ref{sec:ch2} sets
 out the validation checks.
 
 
 \section{Summary of literature gap}
 \label{sec:gap}
 
-The descriptive work of Section~\ref{sec:computational} \parencite{Gardiner2025,Mancilla2023}
-shows what the regime outputs but not who produces what. The structural analyses of co-authorship networks
-\parencite{Botelho_CoalitionDynamics,Kumar_ConsistentPatterns} are undirected and unattributed.
-The text-based positional methods of Section~\ref{sec:computational} recover latent positions
-rather than topic-specific stances over time (Appendix~G). Finally, consensus has been simulated as convergence
-(Section~\ref{sec:consensus}) or on synthetic data (Section~\ref{sec:marl}). These literatures differ
-in method but none recovers a directional preference: who is for or against what, extracted from
-the regime's own words.
+The literatures reviewed above differ in method, but none recovers a directional preference: who
+is for or against what, extracted from the regime's own words (their limitations are collected,
+ in \hyperref[app:e]{Appendix~E}).
 
 This gap has two parts. The knowledge gap is the question raised in Section~\ref{sec:lr-intro}:
 whether the regime's outputs, including its failures, can be anticipated from the parties'
