@@ -20,12 +20,12 @@
 
   % ── main spine ───────────────────────────────────────────────
   \node[term]                       (start)   {ATCM Final Reports (text input)};
-  \node[proc, below=of start]       (extract) {Extract veto statements\\ $\to$ (country, target, polarity) triples\\ + rationale \& source quote};
-  \node[proc, below=of extract]     (map)     {Map targets to Chapter~1 topics $K$};
+  \node[proc, below=of start]       (extract) {Extract veto statements\\ $\to$ (country, target) tuples\\ + rationale \& source quote};
+  \node[proc, below=of extract]     (map)     {Map targets to Chapter~1 issues $K$};
 
   % ── parallel split (primary / secondary) ─────────────────────
   \coordinate (fork) at ($(map.south)+(0,-7mm)$);
-  \node[proc] (primary)   at ($(map.south)+(-32mm,-20mm)$) {\textbf{Primary:} opposition tensor $O$\\ (country $\times$ topic $\times$ year)};
+  \node[proc] (primary)   at ($(map.south)+(-32mm,-20mm)$) {\textbf{Primary:} opposition tensor $O$\\ (country $\times$ issue $\times$ year)};
   \node[proc] (secondary) at ($(map.south)+( 32mm,-20mm)$) {\textbf{Secondary (exploratory):} country propensity to reject proposals per ATCM};
 
   \node[proc, below=42mm of map]    (net)     {Signed preference network\\ = tensor pair $(S,O)$};
@@ -39,7 +39,7 @@
   \node[note, right=of extract] (n1) {Attribution harder than the support layer (sparse text).};
   \node[note, left=of primary]  (n2) {Veto signal \emph{against} a proposal --- not the inverse of support $S$.};
   \node[note, right=of net]     (n3) {$S$ from Chapter~1.};
-  \node[note, right=of val]     (n4) {Independent research question; risk: exogenous geopolitics (e.g.\ 2022 Ukraine breakdown) not captured in institutional text.};
+  \node[note, right=of val]     (n4) {Independent research question; risk: exogenous geopolitics not captured in institutional text.};
 
   % ── forward edges ────────────────────────────────────────────
   \draw[arr] (start)   -- (extract);

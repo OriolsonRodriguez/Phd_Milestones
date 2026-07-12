@@ -34,6 +34,9 @@ AIRS / IFN006 is currently underway. The course ends in July 2026.
 \addcontentsline{toc}{section}{Appendix C: Notation}
 \label{app:c}
 
+In the appendices, \emph{topic} and \emph{issue} are used interchangeably; the index $k$ ranges
+over them.
+
 \paragraph{Indices and sets.}
 \begin{tabular}{@{}ll@{}}
 $c, i$        & countries (Consultative Parties), $c \in \{1,\dots,C\}$ \\
@@ -42,11 +45,11 @@ $y$           & year \\
 $d$           & document (Working Paper) \\
 $p$           & passage (chunk) of a document \\
 $\ell$        & ordinal stance class, $\ell \in \{1,\dots,5\}$ \\
-$D(c,y)$      & Working Papers co-sponsored by country $c$ in year $y$ \\
+$D(c,y)$      & Working Papers co-authored by country $c$ in year $y$ \\
 $K(d)$        & topics assigned to document $d$ \\
 $P_d$         & passages of document $d$, $P_d=\{p_1,\dots,p_{n_d}\}$ \\
 $P_{d,k}$     & passages of $d$ selected as relevant to topic $k$ \\
-$A_d$         & co-sponsors of document $d$ \\
+$A_d$         & co-authors of document $d$ \\
 \end{tabular}
 
 \paragraph{Embedding space.}
@@ -195,6 +198,20 @@ Since $\pi_{d,k}$ is a probability distribution and the five fixed class values 
 in $[-1,1]$, the stance $s_{d,k}$ is a convex combination of those values. The stance is
 therefore a continuous quantity in $[-1,1]$ on topic $k$'s axis, while $v$ itself never varies.
 
+\paragraph{Recovering stance as a contrast (Chapter~1).}
+Measuring directional stance in diplomatic text is challenging because diplomats hedge: cautious,
+non-committal phrasing and a shared vocabulary of safeguards pull single-hypothesis scores toward
+neutrality. A party rarely writes ``we oppose this measure'', it writes ``further consideration
+may be warranted'', and a phrase such as ``subject to appropriate environmental safeguards''
+appears in permissive and restrictive papers alike. Stance is therefore recovered as a contrast.
+For each issue, three hypotheses are written: a supporting pole, a neutral one, and an opposing
+pole (e.g. $h_k^{+}$ ``tourism should be further regulated'', $h_k^{-}$ ``tourism regulation
+should be relaxed''). Each is paired with the extracted
+text as premise and scored by the NLI classifier \parencite{Laurer2024}, and the against-pole
+score is subtracted from the for-pole score, giving a direction that survives the non-committal
+phrasing. As a robustness check, the same texts are scored a second time by a generative LLM used
+as a secondary instrument \parencite{LeMens2024}.
+
 \paragraph{Stance classifier (Chapter~1).}
 For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
 against-pole hypotheses. For passage set $d$ and hypothesis $h$, the debiased evidence is the null-premise-corrected log-ratio,
@@ -220,7 +237,7 @@ $[0.75,1]$ strongly in favour. The scalar stance is then the expected value of
 Equation~\ref{eq:stance}.
 
 \paragraph{Aggregation (Chapter~1).}
-The document stances are aggregated over the Working Papers, weighted by co-sponsorship credit,
+The document stances are aggregated over the Working Papers, weighted by co-authorship credit,
 \begin{equation}
   S_{c,k,y} = \sum_{\substack{d \in D(c,y) \\ k \in K(d)}}
               w_{d,c}\, s_{d,k},
@@ -236,20 +253,12 @@ the index runs over all its values.
 \paragraph{Attribution weights (Chapter~1).}
 Two attribution conventions are computed:
 \begin{itemize}
-      \item Full credit, $w_{d,c} = 1$: every co-sponsor fully holds the position. This is the
+      \item Full credit, $w_{d,c} = 1$: every co-author fully holds the position. This is the
       coalition-membership reading (``who is on this side?'').
-      \item Fractional credit, $w_{d,c} = 1/|A_d|$, with $A_d$ the co-sponsors of $d$: the
-      paper's positional mass is divided among its sponsors, discounting states that merely sign
+      \item Fractional credit, $w_{d,c} = 1/|A_d|$, with $A_d$ the co-authors of $d$: the
+      paper's positional mass is divided among its authors, discounting states that merely sign
       on. This is the influence reading (``who is driving this?'').
 \end{itemize}
-
-\paragraph{Hedging in diplomatic text.}
-Hedging means cautious, non-committal phrasing: a party rarely writes ``we oppose this measure'',
-it writes ``further consideration may be warranted''. Positions on opposite sides also share the
-same vocabulary of safeguards: a phrase such as ``subject to appropriate environmental
-safeguards'' appears in permissive and restrictive papers alike. Example pole hypotheses for a
-topic: $h_k^{+}$ ``tourism should be further regulated'', $h_k^{-}$ ``tourism regulation should
-be relaxed''.
 
 \paragraph{Other ideal-point precedents.}
 \textcite{Vafa2020} produced a probabilistic framework that jointly places ideal points and
@@ -271,7 +280,7 @@ unsupervised reduction whose dimensions are interpreted afterwards.
 
 \paragraph{Opposition tensor (Chapter~2).}
 $O_{c,k,y} \in [0,1]$ is the opposition of country $c$ on topic $k$ in year $y$, built from the
-extracted \emph{(country, target, polarity)} triples: $0$ means the country is not likely at all
+extracted \emph{(country, target)} pairs: $0$ means the country is not likely at all
 to veto, and $1$ means a certain veto.
 
 \paragraph{Simulation-layer equations (Chapter~3).}
@@ -294,8 +303,8 @@ adoption of outcomes it opposes, the third subtracts a diplomatic cost for casti
 and $\alpha, \beta, \gamma \ge 0$ are trade-off weights, learned during training to fit the historical consensus record.
 
 \phantomsection
-\section*{Appendix F: The ATS as a consensus regime}
-\addcontentsline{toc}{section}{Appendix F: The ATS as a consensus regime}
+\section*{Appendix F: The ATs as a consensus regime}
+\addcontentsline{toc}{section}{Appendix F: The ATs as a consensus regime}
 \label{app:f}
 
 At the ATCM, Consultative Parties (CPs) reach decisions exclusively by consensus; non-consultative
@@ -314,7 +323,7 @@ such as the budget. \textbf{Information Papers} \parencite[Rule~50]{ATS2023RoP} 
 supporting information, also from NCPs and experts. \textbf{Background Papers}
 \parencite[Rule~51]{ATS2023RoP} are documents submitted for the record only.
 
-The consensus system makes the ATS a notable example of international cooperation
+The consensus system makes the ATs a notable example of international cooperation
 \parencite{jackson2021antarctica}; however, the same mechanism has become a major challenge as
 the number of CPs grows \parencite{Tsebelis2002,Gardiner2025}.
 
@@ -370,4 +379,10 @@ using BERTopic \parencite{Grootendorst_BERTopic} and the stance is read with nat
 inference (NLI) models \parencite{Burnham2023,Abercrombie2022}, both described in \hyperref[app:e]{Appendix~E}.
 Section~\ref{sec:ch2} sets out the validation checks for these results: against the
 Secretariat's hand-assigned topic categories, against the documented CRAMRA reversal, and
-against observed co-sponsorship.
+against observed co-authorship.
+
+\phantomsection
+\section*{Appendix H: Preliminary results of Chapter 1}
+\addcontentsline{toc}{section}{Appendix H: Preliminary results of Chapter 1}
+\label{app:h}
+
