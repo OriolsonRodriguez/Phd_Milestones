@@ -385,4 +385,38 @@ against observed co-authorship.
 \section*{Appendix H: Preliminary results of Chapter 1}
 \addcontentsline{toc}{section}{Appendix H: Preliminary results of Chapter 1}
 \label{app:h}
+During these months of work, some progress has been made in implementing the BERTopic
+\parencite{Grootendorst_BERTopic} pipeline and two extra stages for relevance selection and
+stance. These are preliminary results that could change. The following figures show that BERTopic
+is effectively capturing some of the known issues that have been discussed at the ATCM, for
+example the mineral dispute. It also shows clear clusters, for example historic hut heritage and disease in
+native species. There is still some noise that needs more refinement. The stance stage is already
+capturing some of the countries' positions over the years, though it still shows too many neutral
+stances in the oldest years.
 
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth,keepaspectratio]{08_topic_landscape.png}
+  \caption{Topic landscape of the Working Papers. Each point is a document; colours are the
+  BERTopic clusters and grey points are unclustered (HDBSCAN noise). Recognisable clusters include
+  the mineral dispute, historic hut heritage, and disease in native species.}
+  \label{fig:h-landscape}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth,keepaspectratio]{fig5_linechart_3yr.png}
+  \caption{Topic prevalence over time (three-year bins). The pipeline captures the mineral
+  episode, which peaks in the 1970s--80s and declines after the 1991 Madrid Protocol, as well as
+  recent trends such as Antarctic Specially Protected Areas (ASPA) and climate change.}
+  \label{fig:h-agenda}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth,keepaspectratio]{17_stance_over_time.jpg}
+  \caption{Recovered stance over time across the scored (paper, topic) rows. The neutral band
+  shrinks from the 1960s--80s to the 2010s--20s; the oldest years still show many neutral stances
+  and rest on few papers.}
+  \label{fig:h-stance}
+\end{figure}
