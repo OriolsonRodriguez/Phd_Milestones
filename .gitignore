@@ -37,3 +37,12 @@ _build/
 Thumbs.db
 .vscode/settings.json
 stage2/figures/plantuml.jar
+AIRS/IFN006 report Oriolson Rodriguez Ramirez.docx
+AIRS/EXP_IFN006 AIRS_Example Student Assignment 2.docx
+AIRS/EXP_IFN006 AIRS_Example Student Assignment 1.pdf
+AIRS/ASS-TS_IFN006 AIRS_26FPA_Single assessment_Task sheet and rubric_FINAL.pdf
+
+
+#ignoring all docx
+*.docx
+CLAUDE.md
