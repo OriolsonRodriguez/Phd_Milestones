@@ -5,129 +5,195 @@
 \section{Objectives, methodology and research plan}
 \label{sec:objectives}
 
-This thesis has three interconnected goals. The first is to reconstruct each party's preferences
-from the regime's written records, as a directional quantification across topics and time (Chapter 1).
-The second is to test whether the recovered preferences are credible: that is, whether they match known
-historical positions and align with the ATCM decision record (Chapter 2). The third is to use the
-validated preferences to simulate the regime's collective decision-making, so that its collective outputs,
-including consensus failures, can be anticipated (Chapter 3).
-Figure~\ref{fig:workflow} shows the overall flow of the research project.
-For this project we define:
+The countries that participate in the Antarctic Treaty Consultative Meetings (ATCMs), and that
+may submit Working Papers (WPs) for discussion at these meetings, are known as Consultative
+Parties (CPs). A WP is, in principle, a proposal in textual form. Only the CPs can block a
+proposal from reaching consensus, by objecting to it, and a single objection is enough to prevent
+adoption. For further details on how the ATCMs' consensus-based system operates, see \hyperref[app:f]{Appendix~F}.
+
+Consensus regimes can stall, as the ATCM does. For example, the designation of the emperor
+penguin as a protected species has been debated since 2022, and WPs have been submitted since
+then, but no consensus has been reached
+\parencite{ATCM46WP34,ATCM46FinalReport,ATCM47FinalReport}. Over a comparable period, the
+emperor penguin population in Antarctica declined by an estimated 9.6\% between 2009 and 2018
+\parencite{LaRue2024}. A stalled regime is therefore a problem on substantive matters.
+
+A party seeking to get a proposal adopted must anticipate every CP's response to the WP. This
+makes it important to propose text that is likely to be acceptable to all CPs. In these consensus
+regimes there are no voting records from which to derive the countries' positions
+\parencite{ATS2023RoP}. Moreover, a Working Paper serves to open a discussion, but who leads that
+discussion, and what is said within the ATCM's working groups, is not recorded. What is available
+is the paper trail: the Working Paper, the final report, and the Measures, Resolutions and
+Decisions that follow \parencite{ATCM1995dec1}, all publicly available through the ATS website.
+
+However, this database contains thousands of documents \parencite{Gardiner2024}, so reading them
+manually is a real challenge. Manual reading also does not support a systematic analysis of the
+past decades of ATCM deliberation. It is therefore difficult for external observers and for CPs
+to establish who sets the agenda at the ATCM, how discussions are typically settled, and how
+parties bargain with one another. Admittedly, countries hold their own internal records, but
+these can be missing or biased, and recently accepted CPs do not hold the full record that
+longstanding CPs do. A new approach that processes the text and is reproducible is therefore
+needed.
+
+This research project develops a decision-support tool for parties proposing changes to the
+current settlement of particular matters in consensus-based international forums. The tool is constructed
+from, and evaluated against, the documentary record of the ATCMs, which serves as the main case
+study.
+
+For this project I define:
 \begin{itemize}[nosep]
-  \item \textbf{Topic} is a matter of collective attention among CPs. It is a noun: `mineral', `tourism'.
-  \item \textbf{Axis} is the action on a matter. For example, `extraction' or `regulation'.
-  \item \textbf{Issue} is a topic joined to an axis: a matter of attention that has become a question of contention. For example, `mineral extraction' or `tourism regulation'.
-  \item \textbf{Stance} is a scalar that reflects the directional attitude (i.e. preference) towards an issue: a number on a line running from `for' to `against'.
+  \item \textbf{Topic:} a matter of collective attention among Consultative Parties. It is a
+  noun, e.g. `mineral'.
+  \item \textbf{Axis:} the action on a \textit{topic}. For example, `extraction' or `regulation'.
+  \item \textbf{Issue:} a \textit{topic} joined to an \textit{axis}: a matter of attention that
+  has become a question of contention. For example, `mineral extraction'.
+  \item \textbf{Stance:} a scalar value representing the directional attitude towards an
+  \textit{issue}: a number on a line running from `for' (+1) to `against'(-1). For example, the USSR's
+  \textit{stance} on mineral extraction is $+0.5$, that is, for.
+  \item \textbf{Status quo:} the current institutional settlement of an \textit{issue}. For
+  example, at the time a Party proposed to regulate mineral extraction, any company or country
+  wishing to extract minerals in Antarctica had no framework or law to operate under. The
+  \textit{status quo} for that \textit{issue}, at that time, was therefore that extraction was
+  unregulated.
+  \item \textbf{Proposal:} a text that puts forward a change to the \textit{status quo}. For
+  example, a Working Paper proposing the regulation of mineral extraction.
+  \item \textbf{Blocking statement:} a passage in a final report recording an objection by a CP,
+  or a group of CPs, named or unnamed, that prevented a \textit{proposal} from being adopted at
+  that meeting. For example: ``Many Consultative Parties stated that they did not consider
+  Belarus to have fulfilled the requirements outlined in Article IX (2) of the Antarctic Treaty
+  and in Decision 2 (2017)'' (ATCM Final Report 47, 2025).
 \end{itemize}
 
-\begin{figure}[htbp]
-  \centering
-  \resizebox{\textwidth}{!}{\input{figures/workflow.tex}}
-  \caption{Thesis workflow: from text records to a validated consensus simulation.}
-  \label{fig:workflow}
-\end{figure}
 
-
-\subsection{Objective 1 / Chapter 1: The Support layer}
+\subsection{Chapter 1: Estimating Parties' Stance}
 \label{sec:ch1}
 
-\paragraph{Aim}
-This thesis defines \textbf{support} as the CP stance aggregated over a year on a specific issue. This is computed by analysing the proposed WPs,
-which are the inputs to the ATCM discussions. Support is positive when the WP argues that the community should act on the axis, and it is
-negative when the WP argues against such action. The aim of this objective is to produce a defensible Support measure for all CPs over relevant issues through time.
-For the ATCM case, this project uses WPs as the input data because, of all submitted documents, these are the only ones submitted by Parties or
- Observers (non-Secretariat) that require discussion and action. This makes WPs the most likely text to contain Parties' strategic intentions.
+\paragraph{Motivation}
+Under the ATCM Rules of Procedure, the principal formal mechanism for changing the
+\textit{status quo} is the submission of a Working Paper. These \textit{proposals} are likely to
+contain their authors' views on how an \textit{issue} should be settled. Identifying the
+\textit{issues} a party is concerned with, and its \textit{stance} on each of them, would help to
+characterise that party's intentions. This may reveal patterns in parties' strategic behaviour,
+in the consistency of their policies, and in what they treat as relevant and to what extent.
+Such data would allow a proposing party to identify possible allies in its efforts to change the
+\textit{status quo}, and would be of use to external observers as well. It would also provide the
+quantitative basis on which more sophisticated tools can be built.
 
-\paragraph{Approach}
-The approach to objective one is a pipeline with multiple stages (full details and notation in \hyperref[app:e]{Appendix~E}). The
-first stages of the pipeline discover what the corpus is about: each document is embedded into the vector space
-introduced in Section~\ref{sec:computational} (detailed in \hyperref[app:g]{Appendix~G}), and BERTopic
-\parencite{Grootendorst_BERTopic} clusters the embedded corpus into a set of topics, each with a
-centroid: the average embedding of its documents. The next stages derive the issues from the topics, then select the passages
-relevant to each issue, gated by cosine relevance to the issue centroid. The issue-relevant
-sentences are extracted and scored by the NLI classifier against hypotheses (e.g. country C supports stricter tourism rules),
-producing a five-class distribution that ranges from strong opposition to strong support, i.e. the stance (see \hyperref[app:e]{Appendix~E} for more details).
+\paragraph{Substantive aim}
+To describe the ATCM parties' positions on particular \textit{issues}, and to compare how these
+change over time and relative to other parties.
 
-Finally, the previous result is aggregated into the support tensor $\mathbf{S}$, a three-way array indexed by country,
- issue, and year: the weighted sum of the stances of the WPs the country co-authored
-that year (Equation~\ref{eq:aggregate}, \hyperref[app:e]{Appendix~E}). This aggregation is a design choice of this
-thesis rather than a result from prior work: the attribution weights follow two conventions,
-full credit and fractional credit, each answering a different question (\hyperref[app:e]{Appendix~E}).
+\paragraph{Methodological objective}
+To extract the authors' \textit{stances} from the Working Papers submitted by the parties, using
+Natural Language Processing (NLP) techniques.
 
-\paragraph{Validation strategy}
-The approach is validated with three independent checks, each targeting a
-different stage of the pipeline. A topic validation check compares the discovered topics against the categories the Secretariat
-assigns to every WP. Agreement is measured by majority-category overlap: the share of papers in
-each discovered topic that belong to that topic's most common official category. A historical
-validation uses the minerals negotiations of the late 1970s and 1980s as documented ground
-truth \parencite{jackson2021antarctica} and compares them to the recovered countries' stances extracted from the text.
- Finally, a co-authorship check tests the assumption that countries co-author a WP because they
-share its topic and stance: within the same year and topic, countries whose recovered stances are
-similar should be the ones that actually co-author papers, with stance similarity computed
-excluding the paper being predicted.
+\paragraph{Assumption}
+The CPs set out their positions on particular \textit{issues} in the papers they submit.
 
-So far, preliminary work on this chapter has been completed; the results are shown in \hyperref[app:h]{Appendix~H}.
+\paragraph{Research questions}
+\begin{enumerate}[label=\alph*.]
+  \item Can an NLP pipeline recover the parties' \textit{stances} on particular \textit{issues}?
+  \begin{enumerate}[label=\roman*.]
+    \item Which \textit{issues} can be extracted from the CPs' Working Papers across six decades
+    of ATCM deliberation?
+    \item Can a \textit{stance} on each \textit{issue} be recovered as a unidimensional measure?
+  \end{enumerate}
+  \item Are the parties' \textit{stances} on a given \textit{issue} comparable with one another?
+\end{enumerate}
 
-\subsection{Objective 2 / Chapter 2: The Opposition layer and external validation}
+
+\subsection{Chapter 2: Estimating Parties' Blocking Behaviour and Validating Against Documented Episodes}
 \label{sec:ch2}
 
-\paragraph{Aim}
-Consensus fails through objection, so anticipating failure requires knowing who opposes what. Accordingly, the aim of this
-objective is to measure the opposition signal (veto signal): a directional measure of a party's resistance to a proposal. It is not the inverse of the
-support layer: the support layer captures programmatic disagreement (a party proposes one
-direction while another proposes the contrary), whereas the \textit{veto signal} is the act of
-objecting to a proposal on the table. Blocking is rarer and more consequential, and a party may
-hold the opposite stance on a topic yet never block.
+\paragraph{Motivation}
+When submitting a \textit{proposal}, a CP has no clear view of the objections other parties are
+likely to raise, or of which parties will raise them. Experts and national delegations may hold
+institutional memory and internal records that offer some indication, but these can be mistaken,
+partial or lost. On the basis of the textual record alone, the only way to form such a view at
+present is to read through thousands of Working Papers and final reports. Beyond being
+impractical, this supports no quantitative analysis of how positions have shifted over time, and
+offers no basis for anticipating how a new \textit{proposal} will be received.
 
-\paragraph{Approach}
-As with the support layer, this chapter builds a pipeline. For the ATs case, the ATCMs' final
-reports are the text input. Because consensus operates by the absence of objection, explicit vetoes are rarely recorded
-(contentious proposals are usually withdrawn or softened before a formal block), so the relevant text is scarcer.
-An LLM extracts the statements in which a country objects to a proposal. Each extracted statement yields a (\emph{country}, \emph{target}) pair, where the target is the set of issues being
-blocked, with rationale and source quote. Taking the issues
-from Chapter~1 and mapping targets back to them yields an opposition tensor $\mathbf{O}$ with the same $\text{Country} \times \text{Topic} \times \text{Year}$
-structure, whose entries range from $0$ (not likely at all to veto) to $1$ (a certain veto). The
-pair $(\mathbf{S}, \mathbf{O})$ constitutes the input to the third chapter.
+At various points in the history of the ATCMs, contested \textit{issues} have been proposed and
+subsequently adopted or blocked. Several of these episodes have attracted the attention of
+external observers and scholars, who have documented them in detail. Here, ``episode'' borrows
+its sense from computer science: a single sequence of events, where interactions between agents
+and their environment occur, that takes the system from an initial state to a final one. Some
+ATCM episodes have unfolded across several successive meetings. Such episodes show the
+consensus-based system at its most characteristic: a \textit{proposal} is put forward, discussed,
+rejected, and resubmitted at a later ATCM, and the cycle repeats until the \textit{issue} is
+settled. Because these episodes are documented independently of the ATCM record itself, they
+provide a point of validation for analyses derived from that record.
 
-\paragraph{Validation strategy}
-This thesis uses the results from Chapters 1 and 2 to compute how likely an output is to be produced, as follows: issues with high absolute support and low veto signal
- are most likely to produce a Measure; those with low absolute support and low veto signal are likely to produce a Decision; and those with high veto signal, regardless
- of support, most likely produce no output or a Resolution. This thesis uses these likelihoods to match the outputs counted by \textcite{Gardiner2025} and 
-\textcite{Carter_LimitsAntarctic} (see \hyperref[app:f]{Appendix~F}), validating the results so far.
+\paragraph{Substantive aim}
+To establish how likely a proposed change to the \textit{status quo} is to be blocked by specific
+parties.
 
-The main risks in this chapter are the sparsity of text that can be directly attributed to an input, and the identification of the country that vetoes any 
-proposal. A further limitation is the influence of external geopolitics, as in the case of the consensus breakdown in 2022 due to the war in Ukraine 
-\parencite{Gardiner2025}. The cause of this type of exogenous influence is unlikely to be reflected in the Support and Opposition signals.
+\paragraph{Methodological objective}
+First, to identify \textit{blocking statements} in the ATCM final reports, together with the
+parties that made them. Second, to estimate the probability that a party $c$ will block a
+\textit{proposal} $d$ on \textit{issue} $k$. Third, to validate the \textit{stance} and blocking
+probability measures against documented episodes.
 
-\hyperref[app:d]{Appendix~D} sketches the opposition layer pipeline and its external-validation step for the ATCM case study.
+\paragraph{Assumption}
+The final reports record \textit{blocking statements} in sufficient number and attributability
+to build a predictive model with non-trivial accuracy.
+
+\paragraph{Research questions}
+\begin{enumerate}[label=\alph*.]
+  \item How can \textit{blocking statements}, and the parties that made them, be identified in
+  ATCM final reports?
+  \begin{enumerate}[label=\roman*.]
+    \item How reliably can \textit{blocking statements} be traced back to the \textit{proposals}
+    that prompted them?
+    \item What proportion of \textit{blocking statements} in final reports can be attributed to
+    an identifiable party?
+  \end{enumerate}
+  \item Can a blocking probability per party and \textit{issue} be estimated from the
+  \textit{blocking statements}?
+  \item How well do the \textit{stance} and blocking probability measures reproduce the direction
+  of party positions and the composition of blocs across meetings, when compared against a
+  pre-specified set of documented episodes?
+\end{enumerate}
 
 
-\subsection{Objective 3 / Chapter 3: The Simulation layer}
+\subsection{Chapter 3: Simulating Consensus: Coalition Formation and Decision Support}
 \label{sec:ch3}
 
-\paragraph{Aim}
-This thesis refers to the \textbf{status quo} as the current institutional settlement of an issue; every
-status quo change made by the CPs re-polarises the axis (e.g. a change from `tourism regulation' to `tourism ban').
-The aim of this objective is to simulate consensus processes with country-agents whose state is
-parameterised by the empirically derived support and opposition from previous chapters. Success is measured by its ability
-to reproduce historical trajectories, examine institutional counterfactuals, and predict future status quo changes.
+\paragraph{Motivation}
+A decision-maker in a consensus-based international forum constantly faces the challenge of
+proposing changes that are minimally acceptable to every other party. Meeting it requires knowing
+what other parties have proposed and rejected in the past. A simulation that indicates to a
+proposing party the likely supporting bloc and the likely opposing one would improve the chances
+of a \textit{proposal} being adopted. A means of testing alternative wordings of the same
+\textit{proposal} before submission would do the same.
 
-\paragraph{Approach}
-A MARL simulation is implemented to create a custom virtual negotiation environment where proposals are presented one at a time.
-Each proposal is an input text that is about one issue. Then the agents (one per consultative party)
-decide whether to object. Each agent's decision-making is based on its corresponding value contained in the $\mathbf{S}$ tensor,
-its opposition history ($\mathbf{O}$), and metadata such as consultative status,
-official language, and GDP. An agent's action on a presented proposal is binary: to object or not. Under
-the consensus rule the proposal is adopted only if no Party objects, so a single objection vetoes
-adoption. Each agent's reward combines three terms: it rewards adoption of outcomes the Party
-supports, penalises adoption of outcomes it opposes, and subtracts a diplomatic cost for casting
-an objection (equations in \hyperref[app:e]{Appendix~E}). Every agent holds a veto, and consensus emerges from the trade-off
-between blocking a proposal and bearing the cost of objecting.
+\paragraph{Substantive aim}
+To identify non-trivial patterns of interaction between the parties, and to predict the success
+of a \textit{proposal} from an input text proposing a change to the \textit{status quo}.
 
-\paragraph{Validation strategy}
-By the time this part of the project is implemented, at least one ATCM will already have occurred (the ATCM takes place every year). That ATCM's data
-will not be contained in the support or opposition tensors. Running the simulation forward therefore predicts unseen data, and this
-prediction can be validated directly against the AT Secretariat's database. This thesis aims to predict those ATCMs' outputs.
+\paragraph{Methodological objective}
+To use \textit{stance} and blocking probability to build an agent-based simulation, and to
+construct a decision-support tool aggregating both measures.
+
+\paragraph{Assumption}
+The written record of the ATCMs is sufficient to model the consensus dynamics of interest.
+Geopolitical context is treated as constant within each meeting.
+
+\paragraph{Research questions}
+\begin{enumerate}[label=\alph*.]
+  \item Can \textit{stance} and blocking probability serve as inputs to an agent-based simulation
+  that produces, for each \textit{issue}, a ranking of potential coalition partners for a
+  proposing party?
+  \begin{enumerate}[label=\roman*.]
+    \item Which type of agent-based simulation is most suitable given the available input
+    parameters?
+    \item Which outputs are useful to a proposing party and derivable from the available
+    measures?
+    \item How accurately do the resulting rankings predict blocs of parties for out-of-sample
+    \textit{proposals} from recent ATCMs?
+  \end{enumerate}
+\end{enumerate}
 
 
 
