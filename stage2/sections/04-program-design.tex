@@ -35,6 +35,12 @@ these can be missing or biased, and recently accepted CPs do not hold the full r
 longstanding CPs do. A new approach that processes the text and is reproducible is therefore
 needed.
 
+Natural language processing (NLP) has emerged as a possible solution to this problem. The
+approach has gained momentum in several international relations applications, where text is
+analysed to extract parties' positions \parencite{Grimmer2013,Slapin2008,Baturo2017,Rheault2019}.
+It allows a quantitative measure that is reproducible and feasible for other corpora in
+political science and international relations.
+
 This research project develops a decision-support tool for parties proposing changes to the
 current settlement of particular matters in consensus-based international forums. The tool is constructed
 from, and evaluated against, the documentary record of the ATCMs, which serves as the main case
@@ -69,26 +75,28 @@ For this project I define:
 \label{sec:ch1}
 
 \paragraph{Motivation}
-Under the ATCM Rules of Procedure, the principal formal mechanism for changing the
-\textit{status quo} is the submission of a Working Paper. These \textit{proposals} are likely to
-contain their authors' views on how an \textit{issue} should be settled. Identifying the
-\textit{issues} a party is concerned with, and its \textit{stance} on each of them, would help to
-characterise that party's intentions. This may reveal patterns in parties' strategic behaviour,
-in the consistency of their policies, and in what they treat as relevant and to what extent.
-Such data would allow a proposing party to identify possible allies in its efforts to change the
-\textit{status quo}, and would be of use to external observers as well. It would also provide the
-quantitative basis on which more sophisticated tools can be built.
+Under the ATCM Rules of Procedure \parencite{ATS2023RoP}, the principal formal mechanism for
+changing the \textit{status quo} is the submission of a Working Paper. These \textit{proposals}
+are likely to contain their authors' views on how an \textit{issue} should be settled: a WP names
+the \textit{issue} and expresses its authors' \textit{stance} on it. Recovering those
+\textit{stances} offers one way to reveal patterns in the parties' positions, and in what they
+treat as relevant and to what extent.
+
+The recovered \textit{issues} and \textit{stances} would allow a proposing party to identify
+possible allies in its efforts to change the \textit{status quo}. They would also provide the
+quantitative basis on which more sophisticated tools can be built
+(see \hyperref[sec:ch2]{Chapter~2} and \hyperref[sec:ch3]{Chapter~3}).
 
 \paragraph{Substantive aim}
-To describe the ATCM parties' positions on particular \textit{issues}, and to compare how these
-change over time and relative to other parties.
+To describe each ATCM party's \textit{stances} on particular \textit{issues} relative to the
+other parties, and to compare how these change over time.
 
 \paragraph{Methodological objective}
 To extract the authors' \textit{stances} from the Working Papers submitted by the parties, using
 Natural Language Processing (NLP) techniques.
 
 \paragraph{Assumption}
-The CPs set out their positions on particular \textit{issues} in the papers they submit.
+The CPs express their \textit{stances} on particular \textit{issues} in the papers they submit.
 
 \paragraph{Research questions}
 \begin{enumerate}[label=\alph*.]
@@ -96,11 +104,34 @@ The CPs set out their positions on particular \textit{issues} in the papers they
   \begin{enumerate}[label=\roman*.]
     \item Which \textit{issues} can be extracted from the CPs' Working Papers across six decades
     of ATCM deliberation?
-    \item Can a \textit{stance} on each \textit{issue} be recovered as a unidimensional measure?
+    \item Can a \textit{stance} per CP on each \textit{issue} be recovered from the WPs?
   \end{enumerate}
-  \item Are the parties' \textit{stances} on a given \textit{issue} comparable with one another?
+  \item Can parties be grouped by the similarity of their \textit{stances} on a given
+  \textit{issue}?
 \end{enumerate}
 
+\paragraph{Approach}
+The approach to answering RQ~(a) is to build a pipeline with multiple stages (full details and
+notation in \hyperref[app:e]{Appendix~E}). The first stages of the pipeline discover what the
+corpus is about: each document is embedded into the vector space introduced in
+Section~\ref{sec:computational} (detailed in \hyperref[app:g]{Appendix~G}). Then BERTopic
+\parencite{Grootendorst_BERTopic} clusters the embedded corpus into a set of \textit{topics}.
+Each \textit{topic} has a centroid: the average embedding of its documents.
+
+The next stages derive the \textit{issues} from the \textit{topics}, then select the passages
+relevant to each \textit{issue}, gated by cosine relevance to the \textit{issue} centroid. The
+\textit{issue}-relevant sentences of each paper are scored in one pass by a Natural Language
+Inference (NLI) classifier against two author-anchored hypotheses per \textit{issue} (that the
+author supports it, and that the author opposes it). It outputs a distribution over three ordinal
+classes: ``For'', ``Neutral'' or ``Against'', whose expected value is the \textit{stance} (see
+\hyperref[app:e]{Appendix~E} for more details).
+
+RQ~(b) is answered by grouping similar \textit{stances} per \textit{issue}. Grouping by
+\textit{stance} value provides a set of CPs that held a similar \textit{stance} at a given ATCM.
+The grouping is checked against observed co-authorship: parties with similar \textit{stances} on
+an \textit{issue} should be the ones that co-author papers on it.
+
+Preliminary work on this chapter is complete. \hyperref[app:h]{Appendix~H} shows the results.
 
 \subsection{Chapter 2: Estimating Parties' Blocking Behaviour and Validating Against Documented Episodes}
 \label{sec:ch2}

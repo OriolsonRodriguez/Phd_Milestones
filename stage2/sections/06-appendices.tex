@@ -44,7 +44,7 @@ $k$           & topic, $k \in K$; $|K|$ is the number of topics \\
 $y$           & year \\
 $d$           & document (Working Paper) \\
 $p$           & passage (chunk) of a document \\
-$\ell$        & ordinal stance class, $\ell \in \{1,\dots,5\}$ \\
+$\ell$        & ordinal stance class, $\ell \in \{1,2,3\}$ \\
 $D(c,y)$      & Working Papers co-authored by country $c$ in year $y$ \\
 $K(d)$        & topics assigned to document $d$ \\
 $P_d$         & passages of document $d$, $P_d=\{p_1,\dots,p_{n_d}\}$ \\
@@ -63,12 +63,11 @@ $\tau$               & relevance selection threshold \\
 
 \paragraph{Stance and hypotheses.}
 \begin{tabular}{@{}ll@{}}
-$h_k^{+}, h_k^{0}, h_k^{-}$ & for-, neutral-, against-pole hypotheses for topic $k$ \\
+$h_k^{+}, h_k^{-}$ & for- and against-pole hypotheses for topic $k$ \\
 $\lambda(d,h)$  & null-premise-debiased entailment log-ratio \\
-$\tilde\pi_{d,k}$ & three-pole distribution (stance classifier) \\
-$\pi_{d,k}$     & five-class ordinal distribution, $\pi_{d,k}\in\Delta_5$ \\
-$\Delta_5$      & probability simplex, $\{\pi\in\mathbb{R}^5 : \pi_\ell\ge 0,\ \sum_\ell \pi_\ell = 1\}$ \\
-$v$             & class values, $v=(-1,-\tfrac12,0,\tfrac12,1)$ \\
+$\pi_{d,k}$     & three-class ordinal distribution, $\pi_{d,k}\in\Delta_3$ \\
+$\Delta_3$      & probability simplex, $\{\pi\in\mathbb{R}^3 : \pi_\ell\ge 0,\ \sum_\ell \pi_\ell = 1\}$ \\
+$v$             & class values, $v=(-1,0,1)$ \\
 $s_{d,k}$       & signed stance of $d$ on topic $k$, $s_{d,k}\in[-1,1]$ \\
 \end{tabular}
 
@@ -177,24 +176,23 @@ $P_{d,k}$ are extracted using a Large Language Model (LLM); $\mathrm{Extract}(P_
 this step. The extracted sentences are concatenated and scored as a set by the NLI classifier:
 given the text as premise and a hypothesis about topic $k$, it scores entailment, neutrality, and
 contradiction. Entailment means the premise gives support to the hypothesis. Contradiction means
-the premise contradicts it. The resulting scores are binned and combined into five ordinal
-classes,
+the premise contradicts it. The resulting scores are combined into three ordinal classes,
 \begin{equation}
   \pi_{d,k} = \mathrm{NLI}\big(\mathrm{Extract}(P_{d,k})\big)
-            \in \Delta_5, \qquad
-  \Delta_5 = \Big\{\, \pi \in \mathbb{R}^{5} \;\big|\;
-            \pi_\ell \ge 0,\ \textstyle\sum_{\ell=1}^{5}\pi_\ell = 1 \,\Big\},
+            \in \Delta_3, \qquad
+  \Delta_3 = \Big\{\, \pi \in \mathbb{R}^{3} \;\big|\;
+            \pi_\ell \ge 0,\ \textstyle\sum_{\ell=1}^{3}\pi_\ell = 1 \,\Big\},
 \label{eq:stance-dist}
 \end{equation}
-where $\Delta_5$ is the probability simplex: $\pi_{d,k}$ assigns a non-negative probability to
-each of the five classes, and these probabilities sum to one. The signed stance is the expected
-value of this distribution under an equal-spacing convention,
+where $\Delta_3$ is the probability simplex: $\pi_{d,k}$ assigns a non-negative probability to
+each of the three classes, against, neutral and for, and these probabilities sum to one. The
+signed stance is the expected value of this distribution under an equal-spacing convention,
 \begin{equation}
-  s_{d,k} = \sum_{\ell=1}^{5} v_\ell\,\pi_{d,k}(\ell),
-  \qquad v = \big(-1,\,-\tfrac{1}{2},\,0,\,\tfrac{1}{2},\,1\big).
+  s_{d,k} = \sum_{\ell=1}^{3} v_\ell\,\pi_{d,k}(\ell),
+  \qquad v = \big(-1,\,0,\,1\big).
   \label{eq:stance}
 \end{equation}
-Since $\pi_{d,k}$ is a probability distribution and the five fixed class values $v_\ell$ all lie
+Since $\pi_{d,k}$ is a probability distribution and the three fixed class values $v_\ell$ all lie
 in $[-1,1]$, the stance $s_{d,k}$ is a convex combination of those values. The stance is
 therefore a continuous quantity in $[-1,1]$ on topic $k$'s axis, while $v$ itself never varies.
 
@@ -204,37 +202,35 @@ non-committal phrasing and a shared vocabulary of safeguards pull single-hypothe
 neutrality. A party rarely writes ``we oppose this measure'', it writes ``further consideration
 may be warranted'', and a phrase such as ``subject to appropriate environmental safeguards''
 appears in permissive and restrictive papers alike. Stance is therefore recovered as a contrast.
-For each issue, three hypotheses are written: a supporting pole, a neutral one, and an opposing
-pole (e.g. $h_k^{+}$ ``tourism should be further regulated'', $h_k^{-}$ ``tourism regulation
-should be relaxed''). Each is paired with the extracted
+For each issue, two author-anchored hypotheses are written: a supporting pole and an opposing
+pole (e.g. $h_k^{+}$ ``the author of this paper supports further regulation of tourism'',
+$h_k^{-}$ ``the author of this paper supports relaxing tourism regulation''). Each is paired with the extracted
 text as premise and scored by the NLI classifier \parencite{Laurer2024}, and the against-pole
 score is subtracted from the for-pole score, giving a direction that survives the non-committal
 phrasing. As a robustness check, the same texts are scored a second time by a generative LLM used
 as a secondary instrument \parencite{LeMens2024}.
 
 \paragraph{Stance classifier (Chapter~1).}
-For topic $k$, let $h_k^{+}, h_k^{0}, h_k^{-}$ be the for-, neutral-, and
-against-pole hypotheses. For passage set $d$ and hypothesis $h$, the debiased evidence is the null-premise-corrected log-ratio,
+For topic $k$, let $h_k^{+}$ and $h_k^{-}$ be the for- and against-pole hypotheses. For passage
+set $d$ and hypothesis $h$, the debiased evidence is the null-premise-corrected log-ratio,
 \[
   \lambda(d,h) = \operatorname{clip}\!\Big(
      \log P(\text{entail}\mid d,h) - \log P(\text{entail}\mid \varnothing,h),
      \ \pm 5 \Big),
 \]
-this removes each hypothesis's marginal acceptability. The three-pole distribution
-combines entailment of each pole with contradiction of its opposite,
+this removes each hypothesis's marginal acceptability. The three-class distribution combines
+entailment of each pole with contradiction of its opposite, and takes the neutral class from the
+classifier's own neutrality scores,
 \[
-  \tilde\pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
+  \pi_{d,k} = \operatorname{softmax}\!\begin{pmatrix}
      \lambda_{\mathrm{ent}}(h_k^{+}) + \lambda_{\mathrm{con}}(h_k^{-}) \\[2pt]
-     \lambda_{\mathrm{ent}}(h_k^{0}) \\[2pt]
+     \lambda_{\mathrm{neu}}(h_k^{+}) + \lambda_{\mathrm{neu}}(h_k^{-}) \\[2pt]
      \lambda_{\mathrm{ent}}(h_k^{-}) + \lambda_{\mathrm{con}}(h_k^{+})
   \end{pmatrix},
 \]
-these values are reduced to a continuous score in $[-1,1]$: the against-pole probability
-subtracted from the for-pole probability. The score is binned into the five ordinal classes of
-$\pi_{d,k}$ at the midpoints of the class values $v$: scores in $[-1,-0.75)$ are strongly
-against, $[-0.75,-0.25)$ against, $[-0.25,0.25)$ neutral, $[0.25,0.75)$ in favour, and
-$[0.75,1]$ strongly in favour. The scalar stance is then the expected value of
-Equation~\ref{eq:stance}.
+where the rows are the for, neutral and against classes. A paper that hedges scores neutral
+against both poles, so it falls in the middle class rather than at either end. The scalar stance
+is then the expected value of Equation~\ref{eq:stance}.
 
 \paragraph{Aggregation (Chapter~1).}
 The document stances are aggregated over the Working Papers, weighted by co-authorship credit,
