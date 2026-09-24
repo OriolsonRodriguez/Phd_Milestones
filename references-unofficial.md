@@ -77,20 +77,19 @@ Primary, all verified reachable without authentication:
 Useful for naming parties the official record leaves anonymous, and for dating episodes.
 Not citable: secondary reporting, no method, and the underlying facts are in the Final Reports.
 
-- **China and Russia have again blocked moves to protect the endangered emperor penguin** — ABC
-  News, 22 May 2026. <https://www.abc.net.au/news/2026-05-22/china-and-russia-block-moves-to-protect-emperor-penguin/106710542>
-  Names China and Russia as the objectors at ATCM 48, where the Final Report says only "some
-  Parties". Best single source for the attribution gap.
-- **China, Russia again block moves to protect endangered emperor penguin** — RNZ, 2026.
+(Polar Journal (Kubny 2022) and Oceanographic Magazine (Cahill 2026) moved to `references.bib`
+on 2026-09-23: they are cited in Chapter 2 as documented episodes. The two general-news reports
+below stay here, as general news rather than specialist outlets.)
+
+- **China and Russia have again blocked moves to protect the endangered emperor penguin** — Jano
+  Gibson, ABC News, 22 May 2026.
+  <https://www.abc.net.au/news/2026-05-22/china-and-russia-block-moves-to-protect-emperor-penguin/106710542>
+  Names China and Russia as the objectors at ATCM 48 (Hiroshima, 11--21 May 2026), where the
+  Final Report says only "some Parties". Best single source for the attribution gap.
+- **China, Russia again block moves to protect endangered emperor penguin** — RNZ, 22 May 2026.
   <https://www.rnz.co.nz/news/world/596053/china-russia-again-block-moves-to-protect-endangered-emperor-penguin>
-  Same episode, independent wording. Useful for cross-checking the ABC account.
-- **China blocks protection for emperor penguins** — Polar Journal.
-  <https://polarjournal.net/china-blocks-protection-for-emperor-penguins/>
-  Covers the 2022 origin of the proposal at ATCM 44 in Berlin and China's "more time to
-  consider" objection. Specialist outlet, better Antarctic detail than general media.
-- **Emperor penguins caught in Antarctic geopolitical crossfire** — Oceanographic Magazine.
-  <https://oceanographicmagazine.com/news/emperor-penguins-caught-in-antarctic-geopolitical-crossfire/>
-  Frames the designation fight as geopolitics rather than science. Useful framing, no new facts.
+  Not independent: the same article by the same ABC reporter, republished. Use the ABC original.
+
 - **Emperor penguin population decline may be "worse than the worst-case projections"** — CBS
   News. <https://www.cbsnews.com/news/emperor-penguin-population-decline-worst-case-projections/>
   Reports the 2025 regional-decline finding. Cite the Communications Earth & Environment paper

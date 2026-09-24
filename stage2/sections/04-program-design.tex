@@ -67,7 +67,7 @@ For this project I define:
   or a group of CPs, named or unnamed, that prevented a \textit{proposal} from being adopted at
   that meeting. For example: ``Many Consultative Parties stated that they did not consider
   Belarus to have fulfilled the requirements outlined in Article IX (2) of the Antarctic Treaty
-  and in Decision 2 (2017)'' (ATCM Final Report 47, 2025).
+  and in Decision 2 (2017)'' \parencite[para.~186]{ATCM47FinalReport}.
 \end{itemize}
 
 
@@ -133,28 +133,29 @@ an \textit{issue} should be the ones that co-author papers on it.
 
 Preliminary work on this chapter is complete. \hyperref[app:h]{Appendix~H} shows the results.
 
-\subsection{Chapter 2: Estimating Parties' Blocking Behaviour and Validating Against Documented Episodes}
+\subsection{Chapter 2: Estimating Parties' Blocking Behaviour and Validating}
 \label{sec:ch2}
 
 \paragraph{Motivation}
-When submitting a \textit{proposal}, a CP has no clear view of the objections other parties are
+An ``episode'', in the computer science sense, is a single sequence of events in which agents
+interact with their environment, taking the system from an initial state to a final one
+\parencite[Section~3.3]{Sutton2018}. Under
+this definition, the ATCM's deliberation over its history is a sequence of episodes. Some of
+these have attracted the attention of external observers and scholars, who have documented them
+in detail, such as the CRAMRA negotiations \parencite{jackson2021antarctica} and the designation
+of the emperor penguin as a protected species
+\parencite{Kubny2022,Cahill2026}. Because these episodes are
+documented in the literature, independently of the ATCM record itself, they provide a point of
+validation for analyses derived from that record.
+
+Some ATCM episodes show the consensus-based system at its most characteristic: a
+\textit{proposal} is put forward, discussed, rejected, and perhaps resubmitted at a later ATCM,
+with the cycle repeating until the \textit{issue} is settled.
+
+Before submitting a \textit{proposal}, a CP has no clear view of the objections other parties are
 likely to raise, or of which parties will raise them. Experts and national delegations may hold
 institutional memory and internal records that offer some indication, but these can be mistaken,
-partial or lost. On the basis of the textual record alone, the only way to form such a view at
-present is to read through thousands of Working Papers and final reports. Beyond being
-impractical, this supports no quantitative analysis of how positions have shifted over time, and
-offers no basis for anticipating how a new \textit{proposal} will be received.
-
-At various points in the history of the ATCMs, contested \textit{issues} have been proposed and
-subsequently adopted or blocked. Several of these episodes have attracted the attention of
-external observers and scholars, who have documented them in detail. Here, ``episode'' borrows
-its sense from computer science: a single sequence of events, where interactions between agents
-and their environment occur, that takes the system from an initial state to a final one. Some
-ATCM episodes have unfolded across several successive meetings. Such episodes show the
-consensus-based system at its most characteristic: a \textit{proposal} is put forward, discussed,
-rejected, and resubmitted at a later ATCM, and the cycle repeats until the \textit{issue} is
-settled. Because these episodes are documented independently of the ATCM record itself, they
-provide a point of validation for analyses derived from that record.
+partial or lost. One way to form such a view is to estimate from the text how likely each party is to object.
 
 \paragraph{Substantive aim}
 To establish how likely a proposed change to the \textit{status quo} is to be blocked by specific
@@ -166,9 +167,10 @@ parties that made them. Second, to estimate the probability that a party $c$ wil
 \textit{proposal} $d$ on \textit{issue} $k$. Third, to validate the \textit{stance} and blocking
 probability measures against documented episodes.
 
-\paragraph{Assumption}
+\paragraph{Assumptions}
 The final reports record \textit{blocking statements} in sufficient number and attributability
-to build a predictive model with non-trivial accuracy.
+to build a predictive model with non-trivial accuracy. 
+
 
 \paragraph{Research questions}
 \begin{enumerate}[label=\alph*.]
@@ -182,17 +184,45 @@ to build a predictive model with non-trivial accuracy.
   \end{enumerate}
   \item Can a blocking probability per party and \textit{issue} be estimated from the
   \textit{blocking statements}?
-  \item How well do the \textit{stance} and blocking probability measures reproduce the direction
-  of party positions and the composition of blocs across meetings, when compared against a
-  pre-specified set of documented episodes?
 \end{enumerate}
+
+\paragraph{Approach}
+The text used for this part of the project is the final reports (FRs) produced by the ATCM plenary
+at every meeting, which record the decisions reached and the objections raised
+\parencite{ATCM46FinalReport,ATCM47FinalReport}. Some passages state that a Party, or a group of
+Parties, objects to a \textit{proposal}, and these \textit{blocking statements} also carry
+information about what is being objected to.
+
+RQ~(a) is answered in three steps. First, an LLM locates all \textit{blocking statements} in each
+FR, an annotation task on which LLMs perform comparably to human coders
+\parencite{Gilardi2023}. Second, the author of the objection is identified where the \textit{blocking statement} names
+it explicitly, and marked as ``unknown'' otherwise. Third, the text is converted to a vector by
+the same embedding model used in Chapter~1, and that vector is mapped to its nearest centroid from
+Chapter~1.
+
+The third step maps the text to the \textit{issues} it concerns. Where the \textit{issue} is not
+explicitly mentioned, an auxiliary step maps the \textit{blocking statement} to the WP that
+prompted it, and that WP gives the \textit{issue} (the WP-to-\textit{issue} mapping comes from
+Chapter~1). This yields a set of (\textit{blocking statement}, vector, blocker names,
+\textit{issue}) tuples, which answers RQ~(a).
+
+RQ~(b) is answered from the same tuples. Where the blockers are unknown, the objection is
+attributed to the plenary. From these tuples, a blocking probability per party is estimated using
+density estimation techniques \parencite{Parzen1962}: the probability that party $c$ objects to a
+\textit{proposal} on
+\textit{issue} $k$, estimated from its objection frequency conditional on the \textit{issue} at a
+given point in time.
+
+Finally, the \textit{stances} from Chapter~1 and the blocking probability from Chapter~2 are
+validated together by comparison with known episodes. The criteria are the grouping of countries
+for and against the \textit{issue}, and the outcome at the end of the episode.
 
 
 \subsection{Chapter 3: Simulating Consensus: Coalition Formation and Decision Support}
 \label{sec:ch3}
 
 \paragraph{Motivation}
-A decision-maker in a consensus-based international forum constantly faces the challenge of
+A CP in ATCM forums constantly faces the challenge of
 proposing changes that are minimally acceptable to every other party. Meeting it requires knowing
 what other parties have proposed and rejected in the past. A simulation that indicates to a
 proposing party the likely supporting bloc and the likely opposing one would improve the chances
