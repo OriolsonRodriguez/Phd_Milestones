@@ -24,10 +24,14 @@
 
 \phantomsection
 \section*{Appendix B: Coursework}
-\addcontentsline{toc}{section}{Appendix B: Coursework}
+\addcontentsline{toc}{section}{Appendix B: Coursework - AIRS}
 \label{app:b}
 
-AIRS / IFN006 is currently underway. The course ends in July 2026.
+\begin{center}
+  \includegraphics[width=0.9\textwidth]{{AIRS certificate}.pdf}
+  \captionof{figure}{AIRS / IFN006 grade record.}
+  \label{fig:airs}
+\end{center}
 
 \phantomsection
 \section*{Appendix C: Notation}
@@ -287,16 +291,21 @@ objects,
   1_{\mathrm{adopt}} = \prod_{j} \big(1 - o_j\big),
   \label{eq:adopt}
 \end{equation}
-therefore, a single objection vetoes adoption. The reward to agent $i$ is then
+therefore, a single objection vetoes adoption. The reward to agent $i$ turns on the sign of its
+stance rather than its magnitude,
 \begin{equation}
-  R_i = \alpha\, S_{i,k,y}\, 1_{\mathrm{adopt}}
-      - \beta\, O_{i,k,y}\, 1_{\mathrm{adopt}}
+  R_i = \alpha\, \mathbf{1}[S_{i,k,y} > 0]\, 1_{\mathrm{adopt}}
+      - \beta\, \mathbf{1}[S_{i,k,y} < 0]\, 1_{\mathrm{adopt}}
       - \gamma\, o_i,
   \label{eq:reward}
 \end{equation}
-where the first term rewards adoption of outcomes the Party supports, the second penalises
-adoption of outcomes it opposes, the third subtracts a diplomatic cost for casting an objection,
-and $\alpha, \beta, \gamma \ge 0$ are trade-off weights, learned during training to fit the historical consensus record.
+where $\mathbf{1}[\cdot]$ is the indicator function, equal to one when its condition holds and
+zero otherwise. The first term rewards adoption of outcomes the Party supports
+($S_{i,k,y} > 0$), the second penalises adoption of outcomes it opposes ($S_{i,k,y} < 0$), the
+third subtracts a diplomatic cost for casting an objection, and $\alpha, \beta, \gamma \ge 0$ are
+trade-off weights, learned during training to fit the historical consensus record. A stance of
+exactly zero contributes to neither of the first two terms. The blocking probability $O_{i,k,y}$
+enters the agent's observation rather than its reward.
 
 \phantomsection
 \section*{Appendix F: The ATs as a consensus regime}

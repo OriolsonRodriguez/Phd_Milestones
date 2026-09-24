@@ -222,24 +222,24 @@ for and against the \textit{issue}, and the outcome at the end of the episode.
 \label{sec:ch3}
 
 \paragraph{Motivation}
-A CP in ATCM forums constantly faces the challenge of
-proposing changes that are minimally acceptable to every other party. Meeting it requires knowing
-what other parties have proposed and rejected in the past. A simulation that indicates to a
-proposing party the likely supporting bloc and the likely opposing one would improve the chances
-of a \textit{proposal} being adopted. A means of testing alternative wordings of the same
+A CP at the ATCM constantly faces the challenge of proposing changes that are minimally
+acceptable to every other party. Meeting that challenge requires knowing what other parties have
+proposed and rejected in the past. A simulation that indicates to a proposing party the likely
+supporting group of parties and the likely opposing one would improve the chances of a
+\textit{proposal} being adopted. A means of testing alternative wordings of the same
 \textit{proposal} before submission would do the same.
 
 \paragraph{Substantive aim}
 To identify non-trivial patterns of interaction between the parties, and to predict the success
-of a \textit{proposal} from an input text proposing a change to the \textit{status quo}.
+of a \textit{proposal} from its text.
 
 \paragraph{Methodological objective}
 To use \textit{stance} and blocking probability to build an agent-based simulation, and to
 construct a decision-support tool aggregating both measures.
 
-\paragraph{Assumption}
+\paragraph{Assumptions}
 The written record of the ATCMs is sufficient to model the consensus dynamics of interest.
-Geopolitical context is treated as constant within each meeting.
+Wider international politics enters the model only where it appears in the WPs and FRs.
 
 \paragraph{Research questions}
 \begin{enumerate}[label=\alph*.]
@@ -251,12 +251,29 @@ Geopolitical context is treated as constant within each meeting.
     parameters?
     \item Which outputs are useful to a proposing party and derivable from the available
     measures?
-    \item How accurately do the resulting rankings predict blocs of parties for out-of-sample
-    \textit{proposals} from recent ATCMs?
+    \item How accurately do the resulting rankings predict the groups of parties for and against
+    out-of-sample \textit{proposals} from recent ATCMs?
   \end{enumerate}
 \end{enumerate}
 
+\paragraph{Approach}
+A simulation provides a custom virtual negotiation environment in which \textit{proposals} are
+presented one at a time. Each \textit{proposal} is an input text concerning a single
+\textit{issue}. The agents, one per Consultative Party, then decide whether to object. Each agent
+decides from its \textit{stance} on that \textit{issue}, its blocking probability, and metadata
+such as consultative status, time as a CP, official language, and GDP.
 
+Each agent's reward combines three terms: it rewards adoption of outcomes on which the party's
+\textit{stance} is positive (for), penalises adoption of outcomes on which it is negative
+(against), and subtracts a diplomatic cost for casting an objection (equations in
+\hyperref[app:e]{Appendix~E}). Every agent holds a veto, and consensus emerges from the trade-off
+between blocking a \textit{proposal} and bearing the cost of objecting.
+
+By the time this part of the project is implemented, at least one ATCM will already have occurred
+(the ATCM takes place every year). That ATCM's data will not be contained in the \textit{stances}
+or the blocking probabilities. Running the simulation forward therefore predicts unseen data. This
+thesis aims to predict those episodes: which groups of parties are for and against a given
+\textit{proposal}. This answers RQ~(a).
 
 \section{Resources and funding required}
 \label{sec:resources}
@@ -277,13 +294,17 @@ work by \textcite{Botelho_CoalitionDynamics}, \textcite{Kumar_ConsistentPatterns
 \section{Acknowledging use of Artificial Intelligence (AI) and AI-assisted technologies}
 \label{sec:ai}
 
-I have used Claude Code for boilerplate and scaffolding code in the implementation of the pipelines and scripts.
-All architectural decisions, methodological choices, and algorithm design were specified by me in the input prompts. I also
-reviewed and edited generated code.
-I have also used Consensus AI and the Claude app to fetch the most relevant scientific papers from the available literature, based on my own
-ideas, keywords, and criteria. Afterwards, I read the papers and drew conclusions myself.
-Finally, I used Claude Code as a writing assistant for this document: rewording and help with grammar, readability, clarity and LaTeX document formatting.
-All research questions, project design, ideas, interpretation of results, and selection of literature are my own.
+I have used Claude Code for boilerplate and scaffolding code in the implementation of the
+pipelines and scripts. All architectural decisions, methodological choices, and algorithm design
+were specified by me in the input prompts. I have also reviewed and edited the generated code, and
+I have reviewed its results manually.
+Alongside conventional database searches (for example
+Scopus) using search strings, with no AI feature enabled, I have used Consensus AI and the Claude
+app to find relevant scientific papers in the available literature. These AI searches are based on
+my own ideas, keywords, and criteria. Afterwards, I read the papers and drew the conclusions
+myself. Finally, I have used Claude Code as a writing assistant for this document, for rewording
+and for help with grammar, readability, clarity and LaTeX formatting. All research questions,
+project design, ideas, interpretation of results, and selection of literature are my own.
 
 \section{Timeline for completion}
 \label{sec:timeline}
@@ -411,5 +432,4 @@ AIRS / IFN006
 \end{table}
 \end{landscape}
 
-Coursework (IFN006 Advanced Information Research Skills) is currently underway and will be completed by
-July 2026 following Stage~2 submission. The Research Integrity Online quiz is completed (see \hyperref[app:a]{Appendix~A}).
+The IFN006 Advanced Information Research Skills and the Research Integrity Online quiz are completed (see \hyperref[app:a]{Appendix~A}).
